@@ -1,0 +1,15 @@
+{
+  "name": "requirements_designer",
+  "version": "1.0.0",
+  "description": "対話式Q&Aで要件定義を行う Claude Code スキル。 プロジェクト憲章・機能要件・非機能要件・ユーザーストーリーを段階的に生成し、品質スコアで改善点を提示する。 さらにFigma MCP連携でデザインシステム・ワイヤーフレーム・モックアップまで生成可能。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
