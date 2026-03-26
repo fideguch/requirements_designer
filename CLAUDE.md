@@ -20,11 +20,11 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 - `designs/` — generated requirements documents (output of the skill)
 
 ### Skill source (`~/.claude/skills/requirements_designer/`)
-- `SKILL.md` — main skill definition (~34KB)
+- `SKILL.md` — main skill definition (~24KB)
 - `templates/` — 7 document templates
-- `references/` — 7 reference files
-- `scripts/scaffold-requirements.sh` — designs/ scaffolding (`--with-ul`, `--with-ui`)
-- `tests/skill-structure.spec.ts` — full regression suite (~200 tests)
+- `references/` — 8 reference files
+- `scripts/scaffold-requirements.sh` — designs/ scaffolding (`--with-ul`, `--with-ui`, `--light`)
+- `tests/skill-structure.spec.ts` — full regression suite (222 tests)
 
 ## Tech Stack
 - Skill definition: Markdown
@@ -55,16 +55,17 @@ When adding phases or files to the skill, always update simultaneously:
 
 Verify before commit:
 ```bash
-cd ~/.agents/skills/requirements_designer && npx playwright test
+cd ~/.claude/skills/requirements_designer && npx playwright test
 ```
 
 ## Key Commands
 ```bash
 /requirements_designer                    # Launch the skill
 cd ~/.claude/skills/requirements_designer
-npm test                                  # Run regression tests (~200)
+npm test                                  # Run regression tests (222)
 npm run quality                           # lint + typecheck + format:check
 scripts/scaffold-requirements.sh . --with-ui  # Scaffold designs/ with UI phase
+scripts/scaffold-requirements.sh . --light    # Scaffold designs/ in Light Mode
 ```
 
 ## GitHub
