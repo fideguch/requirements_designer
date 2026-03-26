@@ -88,12 +88,34 @@ designs/
 
 ## Installation
 
+### 1. スキルの配置
+
 `~/.claude/skills/` 配下にこのリポジトリを配置する。
 
 ```bash
 cd ~/.claude/skills
-git clone <repository-url> requirements_designer
+git clone git@github.com:fideguch/requirements_designer.git
 ```
+
+### 2. 依存パッケージのインストール
+
+```bash
+cd ~/.claude/skills/requirements_designer
+npm install
+```
+
+### 3. テストの実行確認
+
+```bash
+npm test
+```
+
+200件のテストが全パスすればセットアップ完了。
+
+### 動作要件
+
+- Node.js 20+
+- Claude Code CLI
 
 ## Usage
 

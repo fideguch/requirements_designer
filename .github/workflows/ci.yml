@@ -32,14 +32,5 @@ jobs:
       - name: Format Check
         run: npm run format:check --if-present
 
-      - name: Unit Tests
-        run: |
-          TEST_SCRIPT=$(node -e "try{const p=require('./package.json');console.log(p.scripts?.test||'')}catch{console.log('')}")
-          if [ -z "$TEST_SCRIPT" ] || echo "$TEST_SCRIPT" | grep -q "no test specified"; then
-            echo "No tests configured yet, skipping"
-          else
-            npm test
-          fi
-
-      - name: Build
-        run: npm run build --if-present
+      - name: Test
+        run: npm test

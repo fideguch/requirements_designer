@@ -43,13 +43,21 @@ git checkout -b refine/<issue番号>-<概要>
 - `closes #XX` で関連 Issue を紐付け
 - PR 作成時、関連 Issue のステータスが自動的に「コードレビュー」に遷移します
 
-### 5. コードレビュー
+### 5. PR 作成前のローカル検証
+
+```bash
+npm run quality    # lint + typecheck + format:check
+npm test           # Playwright リグレッションテスト (200件)
+```
+
+両方パスしてから PR を作成してください。
+
+### 6. コードレビュー
 
 - 最低 1 名のレビュー承認が必要
-- レビュー承認時、関連 Issue は「テスト中」に自動遷移
-- CI チェック（lint, typecheck, test, build）が全て通過している必要があります
+- CI チェック（lint, typecheck, format:check, test）が全て通過している必要があります
 
-### 6. マージ
+### 7. マージ
 
 - Squash merge を推奨
 - マージ後、関連 Issue は自動的に「Done」に遷移
