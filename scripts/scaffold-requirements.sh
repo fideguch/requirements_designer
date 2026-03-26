@@ -1,19 +1,28 @@
 #!/usr/bin/env bash
 # scaffold-requirements.sh — Create designs/ directory with template files
-# Usage: ./scaffold-requirements.sh [project_dir] [--with-ul] [--with-ui]
+# Usage: ./scaffold-requirements.sh [project_dir] [--with-ul] [--with-ui] [--light]
 set -euo pipefail
 
 PROJECT_DIR="${1:-.}"
 WITH_UL=false
 WITH_UI=false
+WITH_LIGHT=false
 
 # Parse flags
 for arg in "$@"; do
     case "$arg" in
         --with-ul) WITH_UL=true ;;
         --with-ui) WITH_UI=true; WITH_UL=true ;;
+        --light) WITH_LIGHT=true ;;
     esac
 done
+
+# --light and --with-ui are mutually exclusive
+if [ "$WITH_LIGHT" = true ] && [ "$WITH_UI" = true ]; then
+    echo "Warning: --light and --with-ui are mutually exclusive. Using --light (skips Phase 5)."
+    WITH_UI=false
+    WITH_UL=false
+fi
 
 DESIGNS_DIR="$PROJECT_DIR/designs"
 
@@ -57,6 +66,16 @@ fi
 if [ "$WITH_UI" = true ]; then
     cp "$TEMPLATES_DIR/ui_design_brief.md" "$DESIGNS_DIR/ui_design_brief.md"
     echo "  designs/ui_design_brief.md             - UI Design Brief"
+fi
+
+# Apply light mode configuration
+if [ "$WITH_LIGHT" = true ]; then
+    sed -i '' 's/- \*\*Mode\*\*: Full \/ Light/- **Mode**: Light/' "$DESIGNS_DIR/workflow_config.md"
+    sed -i '' 's/| Phase 3  | 非機能要件の抽出       | 実行     |/| Phase 3  | 非機能要件の抽出       | スキップ |/' "$DESIGNS_DIR/workflow_config.md"
+    sed -i '' 's/| Phase 4C | ユビキタス言語定義     | 実行     |/| Phase 4C | ユビキタス言語定義     | スキップ |/' "$DESIGNS_DIR/workflow_config.md"
+    sed -i '' 's/| Phase 5  | UIデザイン             | 実行     |/| Phase 5  | UIデザイン             | スキップ |/' "$DESIGNS_DIR/workflow_config.md"
+    echo ""
+    echo "Light mode enabled: Phase 3, 4C, 5 set to skip."
 fi
 
 echo ""

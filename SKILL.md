@@ -11,32 +11,32 @@ intent: >-
   and optionally generates Figma UI designs from the validated requirements.
 type: interactive
 best_for:
-  - "Starting a new project and defining requirements from scratch"
-  - "Generating structured requirement documents (FR/NFR/US)"
-  - "Scoring and improving requirements quality (5-dimension rubric)"
-  - "Creating Figma UI designs from validated requirements"
-  - "Defining ubiquitous language for DDD projects"
+  - 'Starting a new project and defining requirements from scratch'
+  - 'Generating structured requirement documents (FR/NFR/US)'
+  - 'Scoring and improving requirements quality (5-dimension rubric)'
+  - 'Creating Figma UI designs from validated requirements'
+  - 'Defining ubiquitous language for DDD projects'
 triggers:
-  - "要件定義"
-  - "requirements definition"
-  - "機能要件"
-  - "非機能要件"
-  - "要件を整理"
-  - "要件をまとめて"
-  - "user stories"
-  - "ユーザーストーリー"
-  - "プロジェクト憲章"
-  - "project charter"
-  - "要件定義したい"
-  - "UIデザイン"
-  - "UI design"
-  - "Figmaデザイン"
-  - "ワイヤーフレーム"
-  - "wireframe"
-  - "モックアップ"
-  - "mockup"
-  - "デザインシステム"
-  - "design system"
+  - '要件定義'
+  - 'requirements definition'
+  - '機能要件'
+  - '非機能要件'
+  - '要件を整理'
+  - '要件をまとめて'
+  - 'user stories'
+  - 'ユーザーストーリー'
+  - 'プロジェクト憲章'
+  - 'project charter'
+  - '要件定義したい'
+  - 'UIデザイン'
+  - 'UI design'
+  - 'Figmaデザイン'
+  - 'ワイヤーフレーム'
+  - 'wireframe'
+  - 'モックアップ'
+  - 'mockup'
+  - 'デザインシステム'
+  - 'design system'
 ---
 
 # Requirements Designer
@@ -82,6 +82,9 @@ triggers:
   網羅性 / 具体性 / テスト可能性 / 一貫性 / 追跡可能性
   → 70点以上で実装計画へ、80点以上でPRD化を推奨
 
+💡 ライトモード (MVP/PoC向け)
+  Phase 0で選択 → 15-20分で完了。3次元60点満点。
+
 🔗 連携スキル
   /brainstorming        → アイデアが固まらない時に
   /doc-coauthoring      → 要件をPRDに仕上げる時に
@@ -115,8 +118,8 @@ triggers:
 表示例:
 
 ```
-📊 現在の進捗: Phase 2 完了（機能要件 12件定義済み）
-   → 次は Phase 3: 非機能要件の抽出 です
+📊 現在の進捗: Phase 2 完了（機能要件 12件定義済み）[ライトモード]
+   → 次は Phase 4A: 品質スコアリング です
 ```
 
 ---
@@ -142,30 +145,50 @@ triggers:
 ```
 ⚙️ ワークフロー設定
 
-このプロジェクトで実行するフェーズを選んでください:
+実行モードを選んでください:
 
-✅ Phase 1: プロジェクト理解（必須）
-✅ Phase 2: 機能要件の抽出（必須）
-⬜ Phase 3: 非機能要件の抽出 — スキップ可能（MVP/PoCの場合等）
-✅ Phase 4A: 品質スコアリング（必須）
-✅ Phase 4B: ユーザーストーリー（必須）
-⬜ Phase 4C: ユビキタス言語定義 — スキップ可能（技術者向けツール等）
-⬜ Phase 5: UIデザイン — スキップ可能（API/バックエンドのみ等）
+1️⃣ **フルモード** (デフォルト / 40-60分)
+   全フェーズ実行。本番プロジェクト・正式な要件定義向け。
 
-デフォルトは全フェーズ実行です。
-スキップしたいフェーズがあれば教えてください。
+2️⃣ **ライトモード** (MVP/PoC向け / 15-20分)
+   コア要件に絞って素早く定義。Phase 3, 4C, 5を自動スキップ。
+   質問ラウンド・FR項目・品質次元も削減。
+
+→ フルモードで良ければそのまま、ライトモードなら「2」と答えてください。
 ```
 
+- **フルモード選択時**: 続けて個別スキップ選択UIを表示
+
+```
+フルモードを選択しました。さらにスキップしたいフェーズはありますか？
+
+⬜ Phase 3: 非機能要件の抽出
+⬜ Phase 4C: ユビキタス言語定義
+⬜ Phase 5: UIデザイン
+
+全て実行する場合はそのまま進めてください。
+```
+
+- **ライトモード選択時**: 個別選択をスキップし、Phase 3/4C/5 を自動でスキップ設定
+
 2. ユーザーの回答に基づき `templates/workflow_config.md` をベースに `designs/workflow_config.md` を生成
-3. スキップするフェーズのStatus列を「スキップ」に変更し、Reason列に理由を記録
+3. Mode フィールドに選択したモードを記録。スキップフェーズのStatus列を「スキップ」に変更
 
-### スキップ可能フェーズ
+> スキップ可能フェーズの詳細は `templates/workflow_config.md` の Skippable Phases Guide を参照。
 
-| Phase                      | スキップが適切なケース                                     |
-| -------------------------- | ---------------------------------------------------------- |
-| Phase 3（非機能要件）      | MVP/PoC段階、NFRが別ドキュメントで定義済み                 |
-| Phase 4C（ユビキタス言語） | 技術者のみが使う内部ツール、既存プロジェクトで用語確立済み |
-| Phase 5（UIデザイン）      | APIのみ、CLIツール、UIが別チームで実施                     |
+### ライトモード設定値
+
+> 詳細は `templates/workflow_config.md` の Mode セクションを参照。
+
+| パラメータ       | Full        | Light       |
+| ---------------- | ----------- | ----------- |
+| Phase 1 ラウンド | 1-2         | 1           |
+| Phase 2 ラウンド | 3-5         | 2           |
+| FR項目           | 全10項目    | 必須5項目   |
+| 品質             | 5次元 100pt | 3次元 60pt  |
+| 合格ライン       | 70/100      | 42/60 (70%) |
+
+ライトモードFR必須5項目: 説明・アクター・主フロー・例外フロー・優先度
 
 ### 必須フェーズ（スキップ不可）
 
@@ -175,9 +198,9 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 `designs/workflow_config.md` が既に存在する場合:
 
-1. 設定内容を表示
+1. 設定内容（モード含む）を表示
 2. 「この設定で続けますか？変更がある場合は教えてください。」と確認
-3. 変更があれば `workflow_config.md` を更新
+3. 変更があれば `workflow_config.md` を更新（モード変更: ライト↔フルも可能）
 4. 変更がなければ進捗判定に基づき該当フェーズから再開
 
 ### 各フェーズでのスキップ判定
@@ -237,21 +260,10 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 ### 要件の記録形式
 
-各FRは以下の構造で記録する:
+各FRは `templates/functional_requirements.md` の FR-001 形式で記録する。
 
-```
-#### FR-001: [要件タイトル]
-- **説明**: ...
-- **アクター**: ...
-- **事前条件**: ...
-- **トリガー**: ...
-- **主フロー**: 1. ... 2. ...
-- **代替フロー**: ...
-- **例外フロー**: ...
-- **事後条件**: ...
-- **ビジネスルール**: ...
-- **優先度**: Must / Should / Could / Won't
-```
+- **フルモード**: 全10項目（説明・アクター・事前条件・トリガー・主フロー・代替フロー・例外フロー・事後条件・ビジネスルール・優先度）
+- **ライトモード**: 必須5項目（説明・アクター・主フロー・例外フロー・優先度）
 
 ### ラウンド間の動作
 
@@ -275,16 +287,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 ### NFRの記録形式
 
-```
-#### NFR-001: [要件タイトル]
-- **説明**: ...
-- **カテゴリ**: パフォーマンス / 可用性 / セキュリティ 等
-- **指標**: ...
-- **目標値**: ...
-- **測定方法**: ...
-- **優先度**: Must / Should / Could
-- **関連FR**: FR-XXX
-```
+各NFRは `templates/non_functional_requirements.md` の NFR-001 形式で記録する。
 
 ### ベストプラクティス提案
 
@@ -301,6 +304,9 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 ### 4A: 品質スコアリング
 
 `references/quality_rubric.md` に基づき、5次元 x 20点 = 100点満点で評価。
+
+> **ライトモード**: 網羅性・具体性・テスト可能性の3次元 x 20pt = 60点満点。
+> 合格ライン: 42/60。詳細は `references/quality_rubric.md` ライトモード評価セクション参照。
 
 | 次元                       | 配点 | 評価内容                               |
 | -------------------------- | ---- | -------------------------------------- |
@@ -481,13 +487,13 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 ### サブフェーズ概要
 
-| Sub-phase | 目的 | 主要 Figma MCP ツール | 成果物 |
-|-----------|------|----------------------|--------|
-| **5A** | UIデザインブリーフ | `whoami`, `search_design_system` | `designs/ui_design_brief.md` |
-| **5B** | IA & ユーザーフロー | `create_new_file`, `generate_diagram` | FigJam IA図 + 画面インベントリ |
-| **5C** | デザインシステム構築 | `create_new_file`, `use_figma` | Figma DS (カラー/タイポ/スペーシング変数) |
-| **5D** | ワイヤーフレーム | `use_figma`, `get_screenshot` | グレースケール WF (バッチ3-5画面) |
-| **5E** | モックアップ & 品質評価 | `use_figma`, `get_screenshot`, `get_metadata` | 高忠実度モックアップ + UIデザイン品質スコア |
+| Sub-phase | 目的                    | 主要 Figma MCP ツール                         | 成果物                                      |
+| --------- | ----------------------- | --------------------------------------------- | ------------------------------------------- |
+| **5A**    | UIデザインブリーフ      | `whoami`, `search_design_system`              | `designs/ui_design_brief.md`                |
+| **5B**    | IA & ユーザーフロー     | `create_new_file`, `generate_diagram`         | FigJam IA図 + 画面インベントリ              |
+| **5C**    | デザインシステム構築    | `create_new_file`, `use_figma`                | Figma DS (カラー/タイポ/スペーシング変数)   |
+| **5D**    | ワイヤーフレーム        | `use_figma`, `get_screenshot`                 | グレースケール WF (バッチ3-5画面)           |
+| **5E**    | モックアップ & 品質評価 | `use_figma`, `get_screenshot`, `get_metadata` | 高忠実度モックアップ + UIデザイン品質スコア |
 
 ### 適用するデザインスキル
 
