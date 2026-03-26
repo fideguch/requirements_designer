@@ -19,7 +19,7 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 - `README.md` — project overview
 - `designs/` — generated requirements documents (output of the skill)
 
-### Skill source (`~/.agents/skills/requirements_designer/`)
+### Skill source (`~/.claude/skills/requirements_designer/`)
 - `SKILL.md` — main skill definition (~34KB)
 - `templates/` — 7 document templates
 - `references/` — 7 reference files
@@ -61,8 +61,8 @@ cd ~/.agents/skills/requirements_designer && npx playwright test
 ## Key Commands
 ```bash
 /requirements_designer                    # Launch the skill
-cd ~/.agents/skills/requirements_designer
-npx playwright test                       # Run regression tests
+cd ~/.claude/skills/requirements_designer
+npm test                                  # Run regression tests (~200)
 npm run quality                           # lint + typecheck + format:check
 scripts/scaffold-requirements.sh . --with-ui  # Scaffold designs/ with UI phase
 ```
