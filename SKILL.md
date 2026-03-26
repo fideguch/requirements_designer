@@ -34,17 +34,19 @@ description: >
 
 📦 生成されるドキュメント
   designs/
+  ├── workflow_config.md             … ワークフロー設定 (Phase 0)
   ├── README.md                      … プロジェクト憲章
   ├── functional_requirements.md     … 機能要件 (FR-001〜)
   ├── non_functional_requirements.md … 非機能要件 (NFR-001〜)
   ├── user_stories.md                … ユーザーストーリー (US-001〜)
+  ├── ubiquitous_language.md         … ユビキタス言語定義 (UL-001〜)
   └── ui_design_brief.md             … UIデザインブリーフ (Phase 5)
 
 🔄 5つのフェーズ
   Phase 1: プロジェクト理解    → 背景・目標・スコープを整理
   Phase 2: 機能要件の抽出      → 対話Q&Aで機能を洗い出し
   Phase 3: 非機能要件の抽出    → 性能・セキュリティ等を定義
-  Phase 4: 品質評価 & 仕上げ   → スコアリング・US生成・次のステップ
+  Phase 4: 品質評価 & 仕上げ   → スコアリング・US生成・ユビキタス言語定義・次のステップ
   Phase 5: UIデザイン          → Figma MCPでDS・WF・モックアップ生成
 
 ⭐ 品質スコア (100点満点)
@@ -70,10 +72,12 @@ description: >
 ### 進捗表示（designs/ が存在する場合）
 
 既存の `designs/` を検出したら、どのフェーズまで完了しているかを判定して表示:
+- workflow_config.md が存在 → Phase 0 完了
 - README.md が存在 → Phase 1 完了
 - functional_requirements.md が存在し、FR-001以上の要件あり → Phase 2 完了
 - non_functional_requirements.md が存在し、NFR-001以上の要件あり → Phase 3 完了
-- user_stories.md が存在 → Phase 4 完了
+- user_stories.md が存在 → Phase 4B 完了
+- ubiquitous_language.md が存在し、UL-001以上の用語あり → Phase 4C 完了
 - ui_design_brief.md が存在 → Phase 5A 完了
 - ui_design_brief.md に FigJam URL 記載あり → Phase 5B 完了
 - ui_design_brief.md に Design File URL 記載あり → Phase 5C+ 進行中
@@ -93,6 +97,62 @@ description: >
 1. カレントディレクトリに `designs/` が存在するか確認
 2. 存在しない場合: `scripts/scaffold-requirements.sh` を実行してテンプレートから雛形を生成
 3. 存在する場合: 既存ファイルを読み込み、進捗を判定して途中から再開
+
+---
+
+## Phase 0: ワークフロー設定
+
+**目的:** プロジェクトの特性に応じて、実行するフェーズを選択し `designs/workflow_config.md` に記録する。
+
+### 進め方
+
+1. ユーザーに以下を確認:
+
+```
+⚙️ ワークフロー設定
+
+このプロジェクトで実行するフェーズを選んでください:
+
+✅ Phase 1: プロジェクト理解（必須）
+✅ Phase 2: 機能要件の抽出（必須）
+⬜ Phase 3: 非機能要件の抽出 — スキップ可能（MVP/PoCの場合等）
+✅ Phase 4A: 品質スコアリング（必須）
+✅ Phase 4B: ユーザーストーリー（必須）
+⬜ Phase 4C: ユビキタス言語定義 — スキップ可能（技術者向けツール等）
+⬜ Phase 5: UIデザイン — スキップ可能（API/バックエンドのみ等）
+
+デフォルトは全フェーズ実行です。
+スキップしたいフェーズがあれば教えてください。
+```
+
+2. ユーザーの回答に基づき `templates/workflow_config.md` をベースに `designs/workflow_config.md` を生成
+3. スキップするフェーズのStatus列を「スキップ」に変更し、Reason列に理由を記録
+
+### スキップ可能フェーズ
+
+| Phase | スキップが適切なケース |
+|-------|---------------------|
+| Phase 3（非機能要件） | MVP/PoC段階、NFRが別ドキュメントで定義済み |
+| Phase 4C（ユビキタス言語） | 技術者のみが使う内部ツール、既存プロジェクトで用語確立済み |
+| Phase 5（UIデザイン） | APIのみ、CLIツール、UIが別チームで実施 |
+
+### 必須フェーズ（スキップ不可）
+
+Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
+
+### 途中再開時の動作
+
+`designs/workflow_config.md` が既に存在する場合:
+1. 設定内容を表示
+2. 「この設定で続けますか？変更がある場合は教えてください。」と確認
+3. 変更があれば `workflow_config.md` を更新
+4. 変更がなければ進捗判定に基づき該当フェーズから再開
+
+### 各フェーズでのスキップ判定
+
+各フェーズの開始時に `designs/workflow_config.md` を確認し:
+- Status が「スキップ」のフェーズは自動的にスキップ
+- スキップ時に「Phase X はワークフロー設定でスキップされています。次のフェーズに進みます。」と表示
 
 ---
 
@@ -200,7 +260,7 @@ description: >
 
 ---
 
-## Phase 4: 品質評価・ユーザーストーリー・連携
+## Phase 4: 品質評価・ユーザーストーリー・ユビキタス言語・連携
 
 ### 4A: 品質スコアリング
 
@@ -268,7 +328,72 @@ description: >
 
 生成後にユーザーレビューを依頼し、修正があれば反映する。
 
-### 4C: 次のステップ提案
+### 4C: ユビキタス言語定義
+
+確定したFR・NFR・USからドメイン用語を抽出し、`designs/ubiquitous_language.md` を生成する。
+
+#### 目的
+
+- ドメイン専門家と開発者の間で共通語彙を確立する（DDD: Ubiquitous Language）
+- 機能名に技術用語がそのまま使われることを防ぐ（例: 「ML協調フィルタリング」→「おすすめマッチング」）
+- UI表示ラベルとコード内の命名を統一的に管理する
+- ユーザーの属性・技術レベルに合わせた自然な用語を選定する
+
+#### 進め方
+
+1. 既存の `designs/` ドキュメント（README.md, functional_requirements.md, non_functional_requirements.md, user_stories.md）を全て読み込む
+2. ドメイン用語を自動抽出:
+   - **README.md** → アクター名、プロジェクト目標のキーワード
+   - **functional_requirements.md** → FR説明の名詞（エンティティ）、主フローの動詞（アクション）、ビジネスルールの条件用語
+   - **non_functional_requirements.md** → カテゴリ名、技術境界の用語
+   - **user_stories.md** → I want節（機能名称）、受け入れ基準のドメイン用語
+3. `references/ubiquitous_language_questions.md` に基づき、3ラウンドのQ&Aで精緻化:
+   - **Round 1: 用語抽出・確認** — 自動抽出結果の確認、欠落概念の補完、境界コンテキストの識別
+   - **Round 2: ユーザー視点の精緻化** — 技術用語→ユーザーフレンドリーな名前、ロール別用語、業界標準語
+   - **Round 3: コード命名規則** — プログラミング言語/FW、命名規約、API/DB命名方針
+4. `templates/ubiquitous_language.md` をベースに `designs/ubiquitous_language.md` を生成
+
+#### ユーザー視点の精緻化ルール
+
+1. **技術名称を機能名にしない**: 実装技術はコード内部に留め、UIには「何ができるか」で表現する
+   - 悪い例: 「WebRTC P2P転送」→ 良い例: 「クイックシェア」
+   - 悪い例: 「ML協調フィルタリング」→ 良い例: 「おすすめマッチング」
+2. **ユーザーの語彙に合わせる**: ターゲットユーザーの技術レベル・業界用語・日常語に合わせる
+3. **1概念 = 1用語**: 同じ概念にコード・UI・会話で同じ用語を使う（同義語を増やさない）
+4. **アンチパターンを明記**: 避けるべき表現とその理由を記録する
+
+#### UL形式
+
+各ULは以下の構造で記録する:
+```
+#### UL-001: [用語]
+- **定義 / Definition**: [この概念の明確な意味]
+- **ユーザー向けラベル / User-Facing Label**: [UIに表示する名前]
+- **コード表現 / Code Representation**:
+  - Class/Type: `PascalCase`
+  - Variable/Method: `camelCase`
+  - DB Table/Column: `snake_case`
+  - API Endpoint: `/kebab-case`
+- **コンテキスト / Context**: BC-001
+- **ソース / Source**: FR-001, US-003
+- **エイリアス / Aliases**: [許容される同義語]
+- **アンチパターン / Anti-patterns**: [避けるべき表現と理由]
+- **使用例 / Usage Examples**:
+  - UI: 「[ボタンテキスト]」
+  - Code: `[コードスニペット]`
+```
+
+#### 4C 完了条件
+
+- `designs/ubiquitous_language.md` が生成されている
+- UL-001以上の用語が定義されている
+- 全ULにソースFR/NFR/USが紐づいている
+- アンチパターン一覧に1件以上の「避けるべき用語」が記録されている
+- ユーザーに確認: 「ユビキタス言語定義が完成しました。Phase 4D（次のステップ）に進みますか？」
+
+---
+
+### 4D: 次のステップ提案
 
 要件の完成度に応じて、次のアクションを提案:
 
@@ -293,6 +418,10 @@ description: >
   要件からFigmaでデザインを直接生成したい場合:
   → Phase 5: UI Design に進む（Figma MCP連携）
   → デザインシステム・ワイヤーフレーム・モックアップを自動生成
+
+📖 ユビキタス言語を確認・修正したい
+  用語の追加・修正をしたい場合:
+  → 「ユビキタス言語を修正したい」と伝えてください
 
 📊 品質をもっと上げたい
   スコアの低い次元を改善したい場合:
@@ -324,6 +453,7 @@ description: >
 3. `references/ui_design_questions.md` の Phase 5A セクションから3〜5問をバッチ出題
 4. 回答に基づき `designs/ui_design_brief.md` を段階的に更新
 5. 既存デザインシステムがあるか `mcp__claude_ai_Figma__search_design_system` で探索
+6. `designs/ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用する
 
 #### 適用するデザイン原則
 
@@ -442,6 +572,7 @@ get_screenshot でプレビュー表示
    - WF_COLORSパレット（グレースケール）使用
    - プレースホルダー矩形で画像/コンテンツ領域を表現
    - テキストラベルで要素名を明記
+   - **ubiquitous_language.md 参照**: 画面上のラベル・ボタン名・ナビゲーション項目はULの「ユーザー向けラベル」を使用
 2. `mcp__claude_ai_Figma__get_screenshot` — バッチごとのプレビュー表示
 3. `mcp__claude_ai_Figma__search_design_system` — 再利用可能なコンポーネント探索
 
@@ -634,6 +765,9 @@ UIデザインが完了しました！次のステップを選んでください
 | `templates/functional_requirements.md` | Phase 2 のFR記録時 |
 | `templates/non_functional_requirements.md` | Phase 3 のNFR記録時 |
 | `templates/user_stories.md` | Phase 4B のUS生成時 |
+| `templates/workflow_config.md` | Phase 0 のワークフロー設定生成時 |
+| `references/ubiquitous_language_questions.md` | Phase 4C のUL抽出Q&A時 |
+| `templates/ubiquitous_language.md` | Phase 4C のUL定義生成時 |
 | `references/ui_design_questions.md` | Phase 5A のデザインブリーフQ&A時 |
 | `references/ui_design_rubric.md` | Phase 5E のUIデザイン品質スコアリング時 |
 | `references/figma_code_patterns.md` | Phase 5C-5E のFigma Plugin APIコード生成時 |
