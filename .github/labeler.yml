@@ -1,32 +1,32 @@
 frontend:
   - changed-files:
       - any-glob-to-any-file:
-          - "src/components/**"
-          - "src/pages/**"
-          - "src/styles/**"
-          - "*.css"
-          - "*.scss"
-          - "*.tsx"
+          - 'src/components/**'
+          - 'src/pages/**'
+          - 'src/styles/**'
+          - '*.css'
+          - '*.scss'
+          - '*.tsx'
 
 backend:
   - changed-files:
       - any-glob-to-any-file:
-          - "src/api/**"
-          - "src/server/**"
-          - "src/lib/**"
-          - "src/db/**"
+          - 'src/api/**'
+          - 'src/server/**'
+          - 'src/lib/**'
+          - 'src/db/**'
 
 infra:
   - changed-files:
       - any-glob-to-any-file:
-          - ".github/**"
-          - "Dockerfile"
-          - "docker-compose.*"
-          - "*.yml"
-          - "*.yaml"
+          - '.github/**'
+          - 'Dockerfile'
+          - 'docker-compose.*'
+          - '*.yml'
+          - '*.yaml'
 
 docs:
   - changed-files:
       - any-glob-to-any-file:
-          - "**/*.md"
-          - "docs/**"
+          - '**/*.md'
+          - 'docs/**'
