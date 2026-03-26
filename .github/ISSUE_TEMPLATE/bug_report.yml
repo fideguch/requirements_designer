@@ -1,73 +1,72 @@
-name: "バグ報告 (Bug Report)"
-description: "バグの報告"
-labels: ["bug"]
+name: 'バグ報告 (Bug Report)'
+description: 'バグの報告'
+labels: ['bug']
 body:
   - type: markdown
     attributes:
-      value: "## バグ報告"
+      value: '## バグ報告'
   - type: textarea
     id: summary
     attributes:
-      label: "バグの概要"
-      description: "発生している問題を簡潔に記述してください"
-      placeholder: "○○画面で△△をすると、□□が発生する"
+      label: 'バグの概要'
+      description: '発生している問題を簡潔に記述してください'
+      placeholder: 'Phase 2 で○○すると、△△が発生する'
     validations:
       required: true
   - type: textarea
     id: steps
     attributes:
-      label: "再現手順"
-      description: "バグを再現するための手順"
+      label: '再現手順'
+      description: 'バグを再現するための手順'
       placeholder: |
-        1. ○○画面を開く
-        2. △△をクリック
-        3. □□を入力
+        1. /requirements_designer を起動
+        2. 「○○の要件定義をしたい」と入力
+        3. Phase 2 で△△と回答
         4. エラーが発生
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: "期待される動作"
-      description: "本来どうなるべきか"
-      placeholder: "○○が正常に表示される"
+      label: '期待される動作'
+      description: '本来どうなるべきか'
+      placeholder: 'FR-001 が正しく生成される'
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
-      label: "実際の動作"
-      description: "現在何が起きているか"
-      placeholder: "エラーメッセージが表示される / 画面が真っ白になる"
+      label: '実際の動作'
+      description: '現在何が起きているか'
+      placeholder: 'エラーが表示される / 不正なフォーマットで出力される'
     validations:
       required: true
   - type: dropdown
     id: severity
     attributes:
-      label: "深刻度"
+      label: '深刻度'
       options:
-        - P0 - サービス停止レベル
-        - P1 - 主要機能が使えない
-        - P2 - 代替手段あり
-        - P3 - 軽微な問題
-        - P4 - 見た目のみ
+        - High - スキルが実行不能 / データ消失
+        - Medium - 特定フェーズが正常動作しない
+        - Low - 軽微な表示崩れ / 誤字
     validations:
-      required: false
+      required: true
   - type: textarea
     id: environment
     attributes:
-      label: "環境情報"
-      description: "ブラウザ、OS、バージョンなど"
+      label: '環境情報'
+      description: 'Node.js バージョン、OS、Claude Code バージョンなど'
       placeholder: |
-        - OS: macOS 14.x
-        - Browser: Chrome 120
-        - 画面サイズ: Desktop
+        - OS: macOS 15.x
+        - Node.js: v20.x
+        - Claude Code: vX.X.X
     validations:
       required: false
   - type: textarea
-    id: screenshots
+    id: logs
     attributes:
-      label: "スクリーンショット・ログ"
-      description: "問題を示す画像やエラーログがあれば添付"
+      label: 'エラーログ・実行結果'
+      description: 'エラーメッセージやスタックトレースがあれば貼り付け'
+      render: shell
     validations:
       required: false
