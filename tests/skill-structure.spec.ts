@@ -10,6 +10,15 @@ function readFile(relativePath: string): string {
   return fs.readFileSync(path.join(SKILL_DIR, relativePath), 'utf-8');
 }
 
+// Helper to read SKILL.md + Phase 5 reference combined
+function readSkillWithPhase5(): string {
+  const skill = readFile('SKILL.md');
+  const phase5Ref = fileExists('references/phase5_ui_design.md')
+    ? readFile('references/phase5_ui_design.md')
+    : '';
+  return skill + '\n' + phase5Ref;
+}
+
 // Helper to check file exists
 function fileExists(relativePath: string): boolean {
   return fs.existsSync(path.join(SKILL_DIR, relativePath));
@@ -36,6 +45,7 @@ test.describe('File Structure', () => {
     'references/ui_design_rubric.md',
     'references/figma_code_patterns.md',
     'references/ubiquitous_language_questions.md',
+    'references/phase5_ui_design.md',
     'scripts/scaffold-requirements.sh',
   ];
 
@@ -136,23 +146,28 @@ test.describe('SKILL.md Phase Structure', () => {
   });
 
   test('Phase 5A sub-phase exists', () => {
-    expect(content).toMatch(/### 5A:/);
+    const combined = readSkillWithPhase5();
+    expect(combined).toMatch(/#{2,3} 5A:/);
   });
 
   test('Phase 5B sub-phase exists', () => {
-    expect(content).toMatch(/### 5B:/);
+    const combined = readSkillWithPhase5();
+    expect(combined).toMatch(/#{2,3} 5B:/);
   });
 
   test('Phase 5C sub-phase exists', () => {
-    expect(content).toMatch(/### 5C:/);
+    const combined = readSkillWithPhase5();
+    expect(combined).toMatch(/#{2,3} 5C:/);
   });
 
   test('Phase 5D sub-phase exists', () => {
-    expect(content).toMatch(/### 5D:/);
+    const combined = readSkillWithPhase5();
+    expect(combined).toMatch(/#{2,3} 5D:/);
   });
 
   test('Phase 5E sub-phase exists', () => {
-    expect(content).toMatch(/### 5E:/);
+    const combined = readSkillWithPhase5();
+    expect(combined).toMatch(/#{2,3} 5E:/);
   });
 });
 
@@ -160,10 +175,10 @@ test.describe('SKILL.md Phase Structure', () => {
 // Test Suite 4: SKILL.md — Figma MCP Tool References
 // ============================================================
 test.describe('SKILL.md Figma MCP Tool References', () => {
-  let content: string;
+  let combined: string;
 
   test.beforeAll(() => {
-    content = readFile('SKILL.md');
+    combined = readSkillWithPhase5();
   });
 
   const figmaTools = [
@@ -179,7 +194,7 @@ test.describe('SKILL.md Figma MCP Tool References', () => {
 
   for (const tool of figmaTools) {
     test(`references Figma tool: ${tool.split('__').pop()}`, () => {
-      expect(content).toContain(tool);
+      expect(combined).toContain(tool);
     });
   }
 });
@@ -370,7 +385,7 @@ test.describe('SKILL.md Phase 5E Quality', () => {
   let content: string;
 
   test.beforeAll(() => {
-    content = readFile('SKILL.md');
+    content = readSkillWithPhase5();
   });
 
   test('includes UI design quality score table', () => {
@@ -405,7 +420,7 @@ test.describe('SKILL.md Phase 5E Next Steps', () => {
   let content: string;
 
   test.beforeAll(() => {
-    content = readFile('SKILL.md');
+    content = readSkillWithPhase5();
   });
 
   test('includes Code Connect option', () => {
@@ -834,11 +849,12 @@ test.describe('Cross-Reference Integrity', () => {
   });
 
   test('Phase 5 sub-phase order is correct (5A < 5B < 5C < 5D < 5E)', () => {
-    const a = skillContent.indexOf('### 5A:');
-    const b = skillContent.indexOf('### 5B:');
-    const c = skillContent.indexOf('### 5C:');
-    const d = skillContent.indexOf('### 5D:');
-    const e = skillContent.indexOf('### 5E:');
+    const combined = readSkillWithPhase5();
+    const a = combined.indexOf('## 5A:');
+    const b = combined.indexOf('## 5B:');
+    const c = combined.indexOf('## 5C:');
+    const d = combined.indexOf('## 5D:');
+    const e = combined.indexOf('## 5E:');
 
     expect(a).toBeGreaterThan(-1);
     expect(b).toBeGreaterThan(a);
