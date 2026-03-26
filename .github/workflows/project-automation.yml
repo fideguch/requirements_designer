@@ -15,6 +15,7 @@ env:
 
 jobs:
   update-project:
+    if: ${{ secrets.PROJECT_TOKEN != '' }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
