@@ -62,25 +62,25 @@ designs/
 
 #### 使用するFigma MCPツール
 
-| ツール | 用途 |
-|--------|------|
-| `create_new_file` | FigJam/Designファイルの新規作成 |
-| `use_figma` | Plugin API経由でFigmaに直接書き込み |
-| `generate_diagram` | Mermaid記法でIA図・フロー図を生成 |
-| `get_screenshot` | デザインのプレビュースクリーンショット取得 |
-| `search_design_system` | 既存デザインシステムコンポーネント探索 |
-| `create_design_system_rules` | デザインシステムルール生成 |
-| `whoami` | Figma認証確認 |
+| ツール                       | 用途                                       |
+| ---------------------------- | ------------------------------------------ |
+| `create_new_file`            | FigJam/Designファイルの新規作成            |
+| `use_figma`                  | Plugin API経由でFigmaに直接書き込み        |
+| `generate_diagram`           | Mermaid記法でIA図・フロー図を生成          |
+| `get_screenshot`             | デザインのプレビュースクリーンショット取得 |
+| `search_design_system`       | 既存デザインシステムコンポーネント探索     |
+| `create_design_system_rules` | デザインシステムルール生成                 |
+| `whoami`                     | Figma認証確認                              |
 
 ## Quality Scoring
 
-| 次元 | 配点 | 評価内容 |
-|------|------|---------|
-| 網羅性 (Completeness) | 20 | 全アクター網羅、CRUD操作、エッジケース |
-| 具体性 (Specificity) | 20 | 定量的な値、具体的データ形式 |
-| テスト可能性 (Testability) | 20 | 明確なpass/fail基準、受け入れ基準 |
-| 一貫性 (Consistency) | 20 | 用語統一、矛盾なし、ID参照の整合性 |
-| 追跡可能性 (Traceability) | 20 | 目標→FR→NFR→USの紐付け |
+| 次元                       | 配点 | 評価内容                               |
+| -------------------------- | ---- | -------------------------------------- |
+| 網羅性 (Completeness)      | 20   | 全アクター網羅、CRUD操作、エッジケース |
+| 具体性 (Specificity)       | 20   | 定量的な値、具体的データ形式           |
+| テスト可能性 (Testability) | 20   | 明確なpass/fail基準、受け入れ基準      |
+| 一貫性 (Consistency)       | 20   | 用語統一、矛盾なし、ID参照の整合性     |
+| 追跡可能性 (Traceability)  | 20   | 目標→FR→NFR→USの紐付け                 |
 
 - **70点未満**: 追加Q&Aラウンドを推奨
 - **70〜79点**: 実装計画に進めるが改善余地あり
@@ -117,13 +117,13 @@ Claude Code で以下のいずれかを入力:
 
 ### コマンド例
 
-| 入力 | 動作 |
-|------|------|
-| `Slackボットの要件定義をしたい` | Phase 1 から開始 |
-| `既存のdesigns/を読み込んで続きをやりたい` | 進捗判定して途中から再開 |
-| `品質スコアを出して` | Phase 4A の品質スコアリングを実行 |
-| `ユーザーストーリーを生成して` | Phase 4B のUS生成を実行 |
-| `ヘルプ` | クイックガイドを表示 |
+| 入力                                       | 動作                              |
+| ------------------------------------------ | --------------------------------- |
+| `Slackボットの要件定義をしたい`            | Phase 1 から開始                  |
+| `既存のdesigns/を読み込んで続きをやりたい` | 進捗判定して途中から再開          |
+| `品質スコアを出して`                       | Phase 4A の品質スコアリングを実行 |
+| `ユーザーストーリーを生成して`             | Phase 4B のUS生成を実行           |
+| `ヘルプ`                                   | クイックガイドを表示              |
 
 ## File Structure
 
@@ -155,14 +155,14 @@ requirements_designer/
 
 Requirements Designer で生成した要件は、以下のスキルと連携できる。
 
-| スキル | 用途 |
-|--------|------|
-| `/brainstorming` | アイデアが固まらない段階で発散・収束 |
-| `/doc-coauthoring` | 要件をフォーマルなPRDに仕上げる |
-| `/writing-plans` | 要件から実装計画・タスク分解を作成 |
-| `/ui-ux-pro-max` | プレミアムUI/UXデザイン原則（Phase 5で自動適用） |
-| `/frontend-design` | 高品質フロントエンドデザイン原則（Phase 5で自動適用） |
-| `/web-design-guidelines` | UIガイドライン準拠チェック（Phase 5Eで使用） |
+| スキル                   | 用途                                                  |
+| ------------------------ | ----------------------------------------------------- |
+| `/brainstorming`         | アイデアが固まらない段階で発散・収束                  |
+| `/doc-coauthoring`       | 要件をフォーマルなPRDに仕上げる                       |
+| `/writing-plans`         | 要件から実装計画・タスク分解を作成                    |
+| `/ui-ux-pro-max`         | プレミアムUI/UXデザイン原則（Phase 5で自動適用）      |
+| `/frontend-design`       | 高品質フロントエンドデザイン原則（Phase 5で自動適用） |
+| `/web-design-guidelines` | UIガイドライン準拠チェック（Phase 5Eで使用）          |
 
 ## Language Support
 

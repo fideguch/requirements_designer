@@ -20,6 +20,7 @@ description: >
 ## Help Command
 
 以下のいずれかでヘルプを表示する:
+
 - 「ヘルプ」「help」「使い方」「how to use」「何から始める」「getting started」
 - **初回起動時**（`designs/` ディレクトリが存在しない場合）にも自動表示
 
@@ -72,6 +73,7 @@ description: >
 ### 進捗表示（designs/ が存在する場合）
 
 既存の `designs/` を検出したら、どのフェーズまで完了しているかを判定して表示:
+
 - workflow_config.md が存在 → Phase 0 完了
 - README.md が存在 → Phase 1 完了
 - functional_requirements.md が存在し、FR-001以上の要件あり → Phase 2 完了
@@ -83,6 +85,7 @@ description: >
 - ui_design_brief.md に Design File URL 記載あり → Phase 5C+ 進行中
 
 表示例:
+
 ```
 📊 現在の進捗: Phase 2 完了（機能要件 12件定義済み）
    → 次は Phase 3: 非機能要件の抽出 です
@@ -130,11 +133,11 @@ description: >
 
 ### スキップ可能フェーズ
 
-| Phase | スキップが適切なケース |
-|-------|---------------------|
-| Phase 3（非機能要件） | MVP/PoC段階、NFRが別ドキュメントで定義済み |
+| Phase                      | スキップが適切なケース                                     |
+| -------------------------- | ---------------------------------------------------------- |
+| Phase 3（非機能要件）      | MVP/PoC段階、NFRが別ドキュメントで定義済み                 |
 | Phase 4C（ユビキタス言語） | 技術者のみが使う内部ツール、既存プロジェクトで用語確立済み |
-| Phase 5（UIデザイン） | APIのみ、CLIツール、UIが別チームで実施 |
+| Phase 5（UIデザイン）      | APIのみ、CLIツール、UIが別チームで実施                     |
 
 ### 必須フェーズ（スキップ不可）
 
@@ -143,6 +146,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 ### 途中再開時の動作
 
 `designs/workflow_config.md` が既に存在する場合:
+
 1. 設定内容を表示
 2. 「この設定で続けますか？変更がある場合は教えてください。」と確認
 3. 変更があれば `workflow_config.md` を更新
@@ -151,6 +155,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 ### 各フェーズでのスキップ判定
 
 各フェーズの開始時に `designs/workflow_config.md` を確認し:
+
 - Status が「スキップ」のフェーズは自動的にスキップ
 - スキップ時に「Phase X はワークフロー設定でスキップされています。次のフェーズに進みます。」と表示
 
@@ -176,6 +181,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 ### Phase 1 完了条件
 
 以下が全て明確になったら次フェーズへ:
+
 - プロジェクトの目的と背景
 - 主要なアクター/ユーザー（最低2つ）
 - スコープ（In/Out）
@@ -204,6 +210,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 ### 要件の記録形式
 
 各FRは以下の構造で記録する:
+
 ```
 #### FR-001: [要件タイトル]
 - **説明**: ...
@@ -254,6 +261,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 ### ベストプラクティス提案
 
 ユーザーが「わからない」と答えた項目については:
+
 1. Web検索で同業種・同規模の一般的な水準を調査
 2. 「一般的にはこの程度です」と提案して判断を仰ぐ
 3. `references/best_practices.md` も参照
@@ -266,13 +274,13 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 `references/quality_rubric.md` に基づき、5次元 x 20点 = 100点満点で評価。
 
-| 次元 | 配点 | 評価内容 |
-|------|------|---------|
-| 網羅性 (Completeness) | 20 | 全アクター網羅、CRUD操作、エッジケース |
-| 具体性 (Specificity) | 20 | 定量的な値、具体的データ形式 |
-| テスト可能性 (Testability) | 20 | 明確なpass/fail基準、受け入れ基準 |
-| 一貫性 (Consistency) | 20 | 用語統一、矛盾なし、ID参照の整合性 |
-| 追跡可能性 (Traceability) | 20 | 目標→FR→NFR→USの紐付け |
+| 次元                       | 配点 | 評価内容                               |
+| -------------------------- | ---- | -------------------------------------- |
+| 網羅性 (Completeness)      | 20   | 全アクター網羅、CRUD操作、エッジケース |
+| 具体性 (Specificity)       | 20   | 定量的な値、具体的データ形式           |
+| テスト可能性 (Testability) | 20   | 明確なpass/fail基準、受け入れ基準      |
+| 一貫性 (Consistency)       | 20   | 用語統一、矛盾なし、ID参照の整合性     |
+| 追跡可能性 (Traceability)  | 20   | 目標→FR→NFR→USの紐付け                 |
 
 #### スコア表示形式
 
@@ -365,6 +373,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 #### UL形式
 
 各ULは以下の構造で記録する:
+
 ```
 #### UL-001: [用語]
 - **定義 / Definition**: [この概念の明確な意味]
@@ -463,6 +472,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 #### 5A 完了条件
 
 以下が全て明確になったら次サブフェーズへ:
+
 - ターゲットプラットフォームとレスポンシブ戦略
 - ブランドカラー（Primary/Secondary/Accent）
 - タイポグラフィ方針
@@ -756,19 +766,19 @@ UIデザインが完了しました！次のステップを選んでください
 
 スキルの実行中に以下のファイルを参照する:
 
-| ファイル | 参照タイミング |
-|---------|---------------|
-| `references/question_bank.md` | 各フェーズの質問生成時 |
-| `references/quality_rubric.md` | Phase 4A のスコアリング時 |
-| `references/best_practices.md` | Phase 3 のNFR提案時 |
-| `templates/README_charter.md` | Phase 1 のREADME生成時 |
-| `templates/functional_requirements.md` | Phase 2 のFR記録時 |
-| `templates/non_functional_requirements.md` | Phase 3 のNFR記録時 |
-| `templates/user_stories.md` | Phase 4B のUS生成時 |
-| `templates/workflow_config.md` | Phase 0 のワークフロー設定生成時 |
-| `references/ubiquitous_language_questions.md` | Phase 4C のUL抽出Q&A時 |
-| `templates/ubiquitous_language.md` | Phase 4C のUL定義生成時 |
-| `references/ui_design_questions.md` | Phase 5A のデザインブリーフQ&A時 |
-| `references/ui_design_rubric.md` | Phase 5E のUIデザイン品質スコアリング時 |
-| `references/figma_code_patterns.md` | Phase 5C-5E のFigma Plugin APIコード生成時 |
-| `templates/ui_design_brief.md` | Phase 5A のデザインブリーフ生成時 |
+| ファイル                                      | 参照タイミング                             |
+| --------------------------------------------- | ------------------------------------------ |
+| `references/question_bank.md`                 | 各フェーズの質問生成時                     |
+| `references/quality_rubric.md`                | Phase 4A のスコアリング時                  |
+| `references/best_practices.md`                | Phase 3 のNFR提案時                        |
+| `templates/README_charter.md`                 | Phase 1 のREADME生成時                     |
+| `templates/functional_requirements.md`        | Phase 2 のFR記録時                         |
+| `templates/non_functional_requirements.md`    | Phase 3 のNFR記録時                        |
+| `templates/user_stories.md`                   | Phase 4B のUS生成時                        |
+| `templates/workflow_config.md`                | Phase 0 のワークフロー設定生成時           |
+| `references/ubiquitous_language_questions.md` | Phase 4C のUL抽出Q&A時                     |
+| `templates/ubiquitous_language.md`            | Phase 4C のUL定義生成時                    |
+| `references/ui_design_questions.md`           | Phase 5A のデザインブリーフQ&A時           |
+| `references/ui_design_rubric.md`              | Phase 5E のUIデザイン品質スコアリング時    |
+| `references/figma_code_patterns.md`           | Phase 5C-5E のFigma Plugin APIコード生成時 |
+| `templates/ui_design_brief.md`                | Phase 5A のデザインブリーフ生成時          |

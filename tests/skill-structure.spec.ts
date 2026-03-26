@@ -809,7 +809,7 @@ test.describe('Cross-Reference Integrity', () => {
 
   test('all referenced files in SKILL.md Reference Table exist', () => {
     const refPattern = /`(references\/[^`]+\.md|templates\/[^`]+\.md)`/g;
-    const refs = [...skillContent.matchAll(refPattern)].map(m => m[1]);
+    const refs = [...skillContent.matchAll(refPattern)].map((m) => m[1]);
     const uniqueRefs = [...new Set(refs)];
 
     for (const ref of uniqueRefs) {
@@ -951,19 +951,25 @@ test.describe('Workflow Config Template', () => {
 
   test('marks Phase 3 as skippable by default', () => {
     // Phase 3 row has "実行" as default (not 必須)
-    const phase3Line = content.split('\n').find(l => l.includes('Phase 3') && l.includes('非機能要件'));
+    const phase3Line = content
+      .split('\n')
+      .find((l) => l.includes('Phase 3') && l.includes('非機能要件'));
     expect(phase3Line).toBeTruthy();
     expect(phase3Line).not.toContain('必須');
   });
 
   test('marks Phase 4C as skippable by default', () => {
-    const phase4cLine = content.split('\n').find(l => l.includes('Phase 4C') && l.includes('ユビキタス'));
+    const phase4cLine = content
+      .split('\n')
+      .find((l) => l.includes('Phase 4C') && l.includes('ユビキタス'));
     expect(phase4cLine).toBeTruthy();
     expect(phase4cLine).not.toContain('必須');
   });
 
   test('marks Phase 5 as skippable by default', () => {
-    const phase5Line = content.split('\n').find(l => l.includes('Phase 5') && l.includes('UIデザイン'));
+    const phase5Line = content
+      .split('\n')
+      .find((l) => l.includes('Phase 5') && l.includes('UIデザイン'));
     expect(phase5Line).toBeTruthy();
     expect(phase5Line).not.toContain('必須');
   });
