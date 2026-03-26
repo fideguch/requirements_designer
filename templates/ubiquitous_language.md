@@ -26,9 +26,9 @@
   コンテキストを分けて管理する。
 -->
 
-| Context ID | Context Name | Description | Primary Actors |
-|------------|-------------|-------------|----------------|
-| BC-001 | [コンテキスト名] | [このコンテキストの説明] | [主要アクター] |
+| Context ID | Context Name     | Description              | Primary Actors |
+| ---------- | ---------------- | ------------------------ | -------------- |
+| BC-001     | [コンテキスト名] | [このコンテキストの説明] | [主要アクター] |
 
 ---
 
@@ -69,19 +69,19 @@
   - 1つの概念に複数の名前をつけない
 -->
 
-| Avoid This Term | Use Instead (UL-ID) | Reason |
-|----------------|---------------------|--------|
-| [技術的な用語] | UL-001: [ユーザーフレンドリーな用語] | [技術名称がそのまま機能名になっている] |
+| Avoid This Term | Use Instead (UL-ID)                  | Reason                                 |
+| --------------- | ------------------------------------ | -------------------------------------- |
+| [技術的な用語]  | UL-001: [ユーザーフレンドリーな用語] | [技術名称がそのまま機能名になっている] |
 
 ### よくあるアンチパターン例
 
-| Pattern | Bad Example | Good Example | Why |
-|---------|-------------|-------------|-----|
-| 技術名がそのまま機能名 | 「ML協調フィルタリング」 | 「おすすめマッチング」 | ユーザーは実装技術を知る必要がない |
-| プロトコル名がそのまま機能名 | 「WebRTC P2P転送」 | 「クイックシェア」 | ユーザーのメリットで表現すべき |
-| DB用語がUI表示 | 「レコードを挿入」 | 「新規登録」 | ユーザーの行動で表現すべき |
-| 開発者向け略語 | 「CRUD操作」 | 「データの作成・閲覧・編集・削除」 | 一般ユーザーには通じない |
-| 内部ステータス名 | 「PENDING_APPROVAL」 | 「承認待ち」 | ユーザーの状況で表現すべき |
+| Pattern                      | Bad Example              | Good Example                       | Why                                |
+| ---------------------------- | ------------------------ | ---------------------------------- | ---------------------------------- |
+| 技術名がそのまま機能名       | 「ML協調フィルタリング」 | 「おすすめマッチング」             | ユーザーは実装技術を知る必要がない |
+| プロトコル名がそのまま機能名 | 「WebRTC P2P転送」       | 「クイックシェア」                 | ユーザーのメリットで表現すべき     |
+| DB用語がUI表示               | 「レコードを挿入」       | 「新規登録」                       | ユーザーの行動で表現すべき         |
+| 開発者向け略語               | 「CRUD操作」             | 「データの作成・閲覧・編集・削除」 | 一般ユーザーには通じない           |
+| 内部ステータス名             | 「PENDING_APPROVAL」     | 「承認待ち」                       | ユーザーの状況で表現すべき         |
 
 ---
 
@@ -98,22 +98,22 @@
 
 <!-- 実装で使用するプログラミング言語に応じてカスタマイズ -->
 
-| Context | Convention | Example |
-|---------|-----------|---------|
-| TypeScript/JavaScript class | PascalCase | `ClassName` |
-| TypeScript/JavaScript variable | camelCase | `variableName` |
-| TypeScript/JavaScript method | camelCase | `methodName()` |
-| Python class | PascalCase | `ClassName` |
-| Python variable/function | snake_case | `variable_name` |
-| Go struct | PascalCase (exported) | `StructName` |
-| Go variable | camelCase | `variableName` |
-| Database table | snake_case (plural) | `table_names` |
-| Database column | snake_case | `column_name` |
-| API endpoint | kebab-case | `/api/endpoint-path` |
-| React component | PascalCase | `<ComponentName />` |
-| CSS class | kebab-case | `.class-name` |
-| Environment variable | SCREAMING_SNAKE_CASE | `VARIABLE_NAME` |
-| Constants | SCREAMING_SNAKE_CASE | `MAX_VALUE` |
+| Context                        | Convention            | Example              |
+| ------------------------------ | --------------------- | -------------------- |
+| TypeScript/JavaScript class    | PascalCase            | `ClassName`          |
+| TypeScript/JavaScript variable | camelCase             | `variableName`       |
+| TypeScript/JavaScript method   | camelCase             | `methodName()`       |
+| Python class                   | PascalCase            | `ClassName`          |
+| Python variable/function       | snake_case            | `variable_name`      |
+| Go struct                      | PascalCase (exported) | `StructName`         |
+| Go variable                    | camelCase             | `variableName`       |
+| Database table                 | snake_case (plural)   | `table_names`        |
+| Database column                | snake_case            | `column_name`        |
+| API endpoint                   | kebab-case            | `/api/endpoint-path` |
+| React component                | PascalCase            | `<ComponentName />`  |
+| CSS class                      | kebab-case            | `.class-name`        |
+| Environment variable           | SCREAMING_SNAKE_CASE  | `VARIABLE_NAME`      |
+| Constants                      | SCREAMING_SNAKE_CASE  | `MAX_VALUE`          |
 
 ### Target Stack / 使用技術スタック
 
@@ -126,18 +126,18 @@
 
 ## 5. Traceability Matrix / 追跡マトリクス
 
-| UL-ID | Term | User Label | Source FR | Source NFR | Source US | Used in UI (SCR) |
-|-------|------|------------|-----------|-----------|-----------|-----------------|
-| UL-001 | | | | | | |
+| UL-ID  | Term | User Label | Source FR | Source NFR | Source US | Used in UI (SCR) |
+| ------ | ---- | ---------- | --------- | ---------- | --------- | ---------------- |
+| UL-001 |      |            |           |            |           |                  |
 
 ---
 
 ## 6. Summary / サマリー
 
 | Bounded Context | Term Count | Anti-Pattern Count |
-|----------------|------------|-------------------|
-| BC-001: [name] | | |
-| **Total** | | |
+| --------------- | ---------- | ------------------ |
+| BC-001: [name]  |            |                    |
+| **Total**       |            |                    |
 
 ---
 

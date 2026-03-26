@@ -36,29 +36,29 @@
 
 ### Colors
 
-| Role | Color | HEX | Usage |
-|------|-------|-----|-------|
-| Primary | | #______ | CTAボタン、主要アクセント |
-| Secondary | | #______ | セカンダリボタン、補助アクセント |
-| Accent | | #______ | ハイライト、バッジ |
-| Neutral-50 | | #______ | 背景色（最も明るい） |
-| Neutral-900 | | #______ | テキスト色（最も暗い） |
-| Success | | #______ | 成功状態 |
-| Warning | | #______ | 警告状態 |
-| Error | | #______ | エラー状態 |
-| Info | | #______ | 情報状態 |
+| Role        | Color | HEX       | Usage                            |
+| ----------- | ----- | --------- | -------------------------------- |
+| Primary     |       | #**\_\_** | CTAボタン、主要アクセント        |
+| Secondary   |       | #**\_\_** | セカンダリボタン、補助アクセント |
+| Accent      |       | #**\_\_** | ハイライト、バッジ               |
+| Neutral-50  |       | #**\_\_** | 背景色（最も明るい）             |
+| Neutral-900 |       | #**\_\_** | テキスト色（最も暗い）           |
+| Success     |       | #**\_\_** | 成功状態                         |
+| Warning     |       | #**\_\_** | 警告状態                         |
+| Error       |       | #**\_\_** | エラー状態                       |
+| Info        |       | #**\_\_** | 情報状態                         |
 
 ### Typography
 
-| Role | Font Family | Size (Desktop) | Size (Mobile) | Weight |
-|------|-------------|----------------|---------------|--------|
-| Display / Hero | | 96px | 48px | Bold |
-| H1 | | 48px | 32px | Bold |
-| H2 | | 36px | 24px | SemiBold |
-| H3 | | 24px | 20px | SemiBold |
-| Body | | 16px | 16px | Regular |
-| Caption | | 14px | 12px | Regular |
-| Overline | | 12px | 10px | Medium |
+| Role           | Font Family | Size (Desktop) | Size (Mobile) | Weight   |
+| -------------- | ----------- | -------------- | ------------- | -------- |
+| Display / Hero |             | 96px           | 48px          | Bold     |
+| H1             |             | 48px           | 32px          | Bold     |
+| H2             |             | 36px           | 24px          | SemiBold |
+| H3             |             | 24px           | 20px          | SemiBold |
+| Body           |             | 16px           | 16px          | Regular  |
+| Caption        |             | 14px           | 12px          | Regular  |
+| Overline       |             | 12px           | 10px          | Medium   |
 
 - **Japanese font**: [Noto Sans JP / Yu Gothic / etc.]
 
@@ -122,10 +122,10 @@
 <!-- Phase 5B完了時にuser_stories.mdから自動生成 -->
 
 | Screen ID | Screen Name | Source US | Priority | Status |
-|-----------|-------------|----------|----------|--------|
-| SCR-001 | | US-001 | Must | - |
-| SCR-002 | | US-002 | Must | - |
-| SCR-003 | | US-003 | Should | - |
+| --------- | ----------- | --------- | -------- | ------ |
+| SCR-001   |             | US-001    | Must     | -      |
+| SCR-002   |             | US-002    | Must     | -      |
+| SCR-003   |             | US-003    | Should   | -      |
 
 Status: `-` = 未着手 / `WF` = ワイヤーフレーム完了 / `MK` = モックアップ完了
 
