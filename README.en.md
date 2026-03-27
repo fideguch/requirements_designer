@@ -1,6 +1,6 @@
 # Requirements Designer
 
-**261 tests passing** | **Anthropic 500-line compliant** | **Figma MCP integrated**
+**261 tests passing** | **500-line skill guideline compliant** | **Figma MCP integrated**
 
 A Claude Code skill for interactive Q&A-based requirements definition.
 Simply say "I want to define requirements for X" and it will progressively generate a project charter, functional requirements, non-functional requirements, and user stories, presenting quality scores with improvement suggestions. With Figma MCP integration, you can generate design systems, wireframes, and mockups end-to-end from requirements.
