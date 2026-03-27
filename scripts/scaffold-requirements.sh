@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # scaffold-requirements.sh — Create designs/ directory with template files
-# Usage: ./scaffold-requirements.sh [project_dir] [--with-ul] [--with-ui] [--light]
+# Usage: ./scaffold-requirements.sh [project_dir] [--with-ul] [--with-ui] [--light] [--enhance]
 set -euo pipefail
 
 PROJECT_DIR="${1:-.}"
 WITH_UL=false
 WITH_UI=false
 WITH_LIGHT=false
+WITH_ENHANCE=false
 
 # Parse flags
 for arg in "$@"; do
@@ -14,6 +15,7 @@ for arg in "$@"; do
         --with-ul) WITH_UL=true ;;
         --with-ui) WITH_UI=true; WITH_UL=true ;;
         --light) WITH_LIGHT=true ;;
+        --enhance) WITH_ENHANCE=true ;;
     esac
 done
 
@@ -22,6 +24,18 @@ if [ "$WITH_LIGHT" = true ] && [ "$WITH_UI" = true ]; then
     echo "Warning: --light and --with-ui are mutually exclusive. Using --light (skips Phase 5)."
     WITH_UI=false
     WITH_UL=false
+fi
+
+# --enhance and --light are mutually exclusive
+if [ "$WITH_ENHANCE" = true ] && [ "$WITH_LIGHT" = true ]; then
+    echo "Warning: --enhance and --light are mutually exclusive. Using --enhance."
+    WITH_LIGHT=false
+fi
+
+# --enhance and --with-ui are mutually exclusive
+if [ "$WITH_ENHANCE" = true ] && [ "$WITH_UI" = true ]; then
+    echo "Warning: --enhance and --with-ui are mutually exclusive. Using --enhance (skips Phase 5)."
+    WITH_UI=false
 fi
 
 DESIGNS_DIR="$PROJECT_DIR/designs"
@@ -76,6 +90,14 @@ if [ "$WITH_LIGHT" = true ]; then
     sed -i '' 's/| Phase 5  | UIデザイン             | 実行     |/| Phase 5  | UIデザイン             | スキップ |/' "$DESIGNS_DIR/workflow_config.md"
     echo ""
     echo "Light mode enabled: Phase 3, 4C, 5 set to skip."
+fi
+
+# Apply enhance mode configuration
+if [ "$WITH_ENHANCE" = true ]; then
+    sed -i '' 's/- \*\*Mode\*\*: Full \/ Light \/ Enhance/- **Mode**: Enhance/' "$DESIGNS_DIR/workflow_config.md"
+    sed -i '' 's/| Phase 5  | UIデザイン             | 実行     |/| Phase 5  | UIデザイン             | スキップ |/' "$DESIGNS_DIR/workflow_config.md"
+    echo ""
+    echo "Enhance mode enabled: Phase 5 set to skip."
 fi
 
 echo ""

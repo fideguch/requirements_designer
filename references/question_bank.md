@@ -187,3 +187,75 @@
 53. **リアルタイム処理ですか？バッチ処理ですか？**
 54. **データソースは何ですか？（DB、API、ファイル等）**
 55. **データ品質の検証ルールはありますか？**
+
+---
+
+## Phase 1 エンハンス: 対話型リサーチ / Enhance Mode: Interactive Research
+
+### Round E1A: プロダクト基本情報 / Product Basics
+
+56. **プロダクトの名前とURLを教えてください**
+    What is the product name and URL?
+
+57. **このプロダクトの主な機能を簡単に説明してください**
+    Briefly describe the product's main features.
+
+58. **ターゲットユーザーは誰ですか？**
+    Who are the target users?
+
+59. **技術スタックは何を使っていますか？（わかる範囲で）**
+    What tech stack is used? (as far as you know)
+
+### Round E1B: 変更の背景 / Change Context
+
+60. **今回の変更のきっかけは何ですか？**
+    What triggered this change? (user feedback, business strategy, tech debt)
+
+61. **この変更で達成したい目標は何ですか？**
+    What goals do you want to achieve with this change?
+
+62. **変更のスコープ: 影響範囲はプロダクト全体？特定の機能？**
+    Change scope: entire product or specific features?
+
+---
+
+## Phase 2 エンハンス: 変更ヒアリング / Enhance Mode: Change Hearing
+
+### Round E2A: 変更の特定 / Change Identification
+
+63. **追加したい機能・振る舞いは何ですか？**
+    What features or behaviors do you want to add?
+
+64. **修正が必要な既存機能はありますか？どう変えたいですか？**
+    Are there existing features that need modification? How?
+
+65. **削除・廃止する機能はありますか？**
+    Are any features being removed or deprecated?
+
+66. **変更しない部分は何ですか？**
+    What parts of the product will NOT change?
+
+### Round E2B: 変更の詳細 / Change Details
+
+67. **各変更について: 現状の振る舞いと目標の振る舞いを教えてください**
+    For each change: describe current behavior and target behavior.
+
+68. **変更による他機能への影響はありますか？**
+    Will these changes affect other features?
+
+69. **データモデルの変更は必要ですか？**
+    Are data model changes required?
+
+70. **既存ユーザーへの影響は？マイグレーションは必要ですか？**
+    Impact on existing users? Is migration needed?
+
+### Round E2C (任意): 影響分析 / Impact Analysis
+
+71. **既存機能との衝突・依存関係はありますか？**
+    Are there conflicts or dependencies with existing features?
+
+72. **リグレッションリスクが高い箇所はどこですか？**
+    Where is the highest regression risk?
+
+73. **パフォーマンスやセキュリティへの影響はありますか？**
+    Any performance or security implications?

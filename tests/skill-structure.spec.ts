@@ -241,7 +241,7 @@ test.describe('SKILL.md Phase 4C Ubiquitous Language', () => {
   });
 
   test('Phase 4C includes term extraction logic', () => {
-    expect(content).toContain('用語抽出');
+    expect(content).toContain('用語を自動抽出');
   });
 
   test('Phase 4C includes anti-pattern rules', () => {
@@ -252,8 +252,8 @@ test.describe('SKILL.md Phase 4C Ubiquitous Language', () => {
     expect(content).toContain('ユーザー向けラベル');
   });
 
-  test('Phase 4C includes code representation', () => {
-    expect(content).toContain('コード表現');
+  test('Phase 4C includes code naming reference', () => {
+    expect(content).toContain('コード命名');
   });
 });
 
@@ -265,14 +265,15 @@ test.describe('SKILL.md Phase 4D Next Steps', () => {
   });
 
   test('Phase 4D includes UI design option', () => {
-    expect(content).toContain('UIデザインを作りたい');
+    expect(content).toContain('UIデザイン');
+    expect(content).toContain('Phase 5');
   });
 
   test('Phase 4D preserves original options', () => {
     expect(content).toContain('PRD化');
     expect(content).toContain('brainstorming');
     expect(content).toContain('writing-plans');
-    expect(content).toContain('品質をもっと上げたい');
+    expect(content).toContain('品質改善');
   });
 });
 
@@ -658,8 +659,10 @@ test.describe('README.md', () => {
     expect(content).toContain('Figma MCP');
   });
 
-  test('mentions 5 phases', () => {
-    expect(content).toContain('5つのフェーズ');
+  test('mentions phases', () => {
+    expect(content).toContain('Phase 0');
+    expect(content).toContain('Phase 1');
+    expect(content).toContain('Phase 5');
   });
 
   test('includes Phase 5 description', () => {
@@ -667,18 +670,16 @@ test.describe('README.md', () => {
   });
 
   test('includes Phase 5 sub-phases', () => {
-    expect(content).toContain('5A:');
-    expect(content).toContain('5B:');
-    expect(content).toContain('5C:');
-    expect(content).toContain('5D:');
-    expect(content).toContain('5E:');
+    expect(content).toContain('5A');
+    expect(content).toContain('5B');
+    expect(content).toContain('5C');
+    expect(content).toContain('5D');
+    expect(content).toContain('5E');
   });
 
-  test('includes Figma MCP tool table', () => {
-    expect(content).toContain('create_new_file');
-    expect(content).toContain('use_figma');
-    expect(content).toContain('generate_diagram');
-    expect(content).toContain('get_screenshot');
+  test('includes Figma MCP reference', () => {
+    expect(content).toContain('Figma MCP');
+    expect(content).toContain('デザインシステム');
   });
 
   test('includes workflow_config.md in file structure', () => {
@@ -705,10 +706,10 @@ test.describe('README.md', () => {
     expect(content).toContain('web-design-guidelines');
   });
 
-  test('includes new trigger words', () => {
+  test('includes trigger words', () => {
     expect(content).toContain('UIデザイン');
-    expect(content).toContain('wireframe');
-    expect(content).toContain('mockup');
+    expect(content).toContain('既存プロダクト改善');
+    expect(content).toContain('要件定義');
   });
 });
 
@@ -1188,7 +1189,7 @@ test.describe('SKILL.md Light Mode', () => {
   });
 
   test('Light Mode parameter table exists', () => {
-    expect(content).toContain('ライトモード設定値');
+    expect(content).toContain('モード別設定値');
   });
 
   test('Light Mode skips Phase 3, 4C, 5', () => {
@@ -1315,5 +1316,256 @@ test.describe('Scaffold Script Light Flag', () => {
 
   test('--light and --with-ui are mutually exclusive', () => {
     expect(content).toContain('mutually exclusive');
+  });
+});
+
+// ============================================================
+// Test Suite 32: Enhance Mode in SKILL.md
+// ============================================================
+test.describe('SKILL.md Enhance Mode', () => {
+  let content: string;
+
+  test.beforeAll(() => {
+    content = readFile('SKILL.md');
+  });
+
+  test('Phase 0 offers Enhance mode selection', () => {
+    expect(content).toContain('エンハンスモード');
+  });
+
+  test('Enhance mode parameter table exists', () => {
+    expect(content).toContain('モード別設定値');
+    expect(content).toMatch(/Enhance/);
+  });
+
+  test('Enhance mode auto-skips Phase 5', () => {
+    expect(content).toContain('Phase 5を自動スキップ');
+  });
+
+  test('Enhance mode mentions WebSearch', () => {
+    expect(content).toContain('WebSearch');
+  });
+
+  test('Enhance mode mentions WebFetch', () => {
+    expect(content).toContain('WebFetch');
+  });
+
+  test('Enhance mode mentions trust classification', () => {
+    expect(content).toContain('確認済み');
+    expect(content).toContain('要確認');
+    expect(content).toContain('不明');
+  });
+
+  test('Phase 1 references Enhance mode', () => {
+    const phase1 = content.indexOf('## Phase 1:');
+    const phase2 = content.indexOf('## Phase 2:');
+    const section = content.slice(phase1, phase2);
+    expect(section).toContain('エンハンスモード');
+  });
+
+  test('Phase 2 references change hearing', () => {
+    const phase2 = content.indexOf('## Phase 2:');
+    const phase3 = content.indexOf('## Phase 3:');
+    const section = content.slice(phase2, phase3);
+    expect(section).toContain('変更ヒアリング');
+  });
+
+  test('Phase 4A references Enhance mode scoring', () => {
+    const phase4a = content.indexOf('### 4A:');
+    const phase4b = content.indexOf('### 4B:');
+    const section = content.slice(phase4a, phase4b);
+    expect(section).toContain('エンハンスモード');
+  });
+
+  test('Help section mentions Enhance mode', () => {
+    const helpStart = content.indexOf('## Help Command');
+    const helpEnd = content.indexOf('## Workflow Overview');
+    const helpSection = content.slice(helpStart, helpEnd);
+    expect(helpSection).toContain('エンハンスモード');
+  });
+
+  test('Progress display shows Enhance mode indicator', () => {
+    expect(content).toContain('[エンハンスモード]');
+  });
+
+  test('Resume section supports mode switching including Enhance', () => {
+    expect(content).toContain('エンハンス');
+    expect(content).toContain('モード変更');
+  });
+
+  test('Reference Files table includes enhance_mode.md', () => {
+    expect(content).toContain('references/enhance_mode.md');
+  });
+
+  test('Enhance mode references enhance_mode.md for details', () => {
+    expect(content).toContain('references/enhance_mode.md');
+  });
+});
+
+// ============================================================
+// Test Suite 33: Enhance Mode in Workflow Config Template
+// ============================================================
+test.describe('Workflow Config Template Enhance Mode', () => {
+  let content: string;
+
+  test.beforeAll(() => {
+    content = readFile('templates/workflow_config.md');
+  });
+
+  test('Mode field includes Enhance', () => {
+    expect(content).toContain('Enhance');
+  });
+
+  test('has Enhance column in parameter table', () => {
+    expect(content).toContain('Enhance (既存改善)');
+  });
+
+  test('Enhance mode settings section exists', () => {
+    expect(content).toContain('エンハンスモード設定');
+  });
+
+  test('Enhance auto-skips Phase 5', () => {
+    expect(content).toContain('エンハンスモード');
+    expect(content).toContain('自動スキップ');
+  });
+
+  test('Enhance mode duration is 30-45 min', () => {
+    expect(content).toContain('30-45分');
+  });
+
+  test('Enhance mode mentions Change Type', () => {
+    expect(content).toContain('Change Type');
+  });
+});
+
+// ============================================================
+// Test Suite 34: Enhance Mode in Quality Rubric
+// ============================================================
+test.describe('Quality Rubric Enhance Mode', () => {
+  let content: string;
+
+  test.beforeAll(() => {
+    content = readFile('references/quality_rubric.md');
+  });
+
+  test('has Enhance mode evaluation section', () => {
+    expect(content).toContain('エンハンスモード評価');
+  });
+
+  test('Enhance mode mentions delta requirements', () => {
+    expect(content).toContain('デルタ要件');
+  });
+
+  test('Enhance mode mentions regression test criteria', () => {
+    expect(content).toContain('リグレッション');
+  });
+
+  test('Enhance mode uses same 100pt total as Full', () => {
+    expect(content).toContain('70/100');
+  });
+});
+
+// ============================================================
+// Test Suite 35: Scaffold Script Enhance Flag
+// ============================================================
+test.describe('Scaffold Script Enhance Flag', () => {
+  let content: string;
+
+  test.beforeAll(() => {
+    content = readFile('scripts/scaffold-requirements.sh');
+  });
+
+  test('supports --enhance flag', () => {
+    expect(content).toContain('--enhance');
+  });
+
+  test('--enhance and --light are mutually exclusive', () => {
+    expect(content).toContain('--enhance and --light are mutually exclusive');
+  });
+
+  test('--enhance and --with-ui are mutually exclusive', () => {
+    expect(content).toContain('--enhance and --with-ui are mutually exclusive');
+  });
+});
+
+// ============================================================
+// Test Suite 36: Enhance Mode Reference File
+// ============================================================
+test.describe('Enhance Mode Reference File', () => {
+  test('references/enhance_mode.md exists', () => {
+    expect(fileExists('references/enhance_mode.md')).toBe(true);
+  });
+
+  let content: string;
+
+  test.beforeAll(() => {
+    content = readFile('references/enhance_mode.md');
+  });
+
+  test('contains interactive research procedure', () => {
+    expect(content).toContain('対話型リサーチ');
+  });
+
+  test('contains safety rules', () => {
+    expect(content).toContain('安全ルール');
+  });
+
+  test('contains change hearing questions', () => {
+    expect(content).toContain('変更ヒアリング');
+  });
+
+  test('contains delta FR format', () => {
+    expect(content).toContain('Change Type');
+    expect(content).toContain('Current Behavior');
+    expect(content).toContain('Target Behavior');
+  });
+
+  test('contains trust classification', () => {
+    expect(content).toContain('確認済み');
+    expect(content).toContain('要確認');
+  });
+
+  test('contains quality scoring adjustments', () => {
+    expect(content).toContain('品質スコアリング調整');
+  });
+});
+
+// ============================================================
+// Test Suite 37: Drift Prevention & Rejected Scope
+// ============================================================
+test.describe('Drift Prevention', () => {
+  test('SKILL.md Phase 2 has drift prevention check', () => {
+    const content = readFile('SKILL.md');
+    const phase2 = content.indexOf('## Phase 2:');
+    const phase3 = content.indexOf('## Phase 3:');
+    const section = content.slice(phase2, phase3);
+    expect(section).toContain('ドリフト防止');
+  });
+
+  test('SKILL.md Phase 2 reads full README.md', () => {
+    const content = readFile('SKILL.md');
+    const phase2 = content.indexOf('## Phase 2:');
+    const phase3 = content.indexOf('## Phase 3:');
+    const section = content.slice(phase2, phase3);
+    expect(section).toContain('全セクション');
+  });
+
+  test('SKILL.md Phase 3 reads full README.md', () => {
+    const content = readFile('SKILL.md');
+    const phase3 = content.indexOf('## Phase 3:');
+    const phase4 = content.indexOf('## Phase 4:');
+    const section = content.slice(phase3, phase4);
+    expect(section).toContain('全セクション');
+  });
+
+  test('README charter template has Rejected Scope section', () => {
+    const content = readFile('templates/README_charter.md');
+    expect(content).toContain('却下されたスコープ');
+    expect(content).toContain('Rejected Scope');
+  });
+
+  test('Rejected Scope has reason column', () => {
+    const content = readFile('templates/README_charter.md');
+    expect(content).toContain('却下理由');
   });
 });

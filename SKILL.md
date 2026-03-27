@@ -12,6 +12,7 @@ intent: >-
 type: interactive
 best_for:
   - 'Starting a new project and defining requirements from scratch'
+  - 'Enhancing existing product requirements with delta definitions'
   - 'Generating structured requirement documents (FR/NFR/US)'
   - 'Scoring and improving requirements quality (5-dimension rubric)'
   - 'Creating Figma UI designs from validated requirements'
@@ -37,6 +38,9 @@ triggers:
   - 'mockup'
   - 'デザインシステム'
   - 'design system'
+  - '既存プロダクト改善'
+  - 'existing product enhancement'
+  - '機能改善'
 ---
 
 # Requirements Designer
@@ -85,6 +89,9 @@ triggers:
 💡 ライトモード (MVP/PoC向け)
   Phase 0で選択 → 15-20分で完了。3次元60点満点。
 
+🔄 エンハンスモード (既存プロダクト改善)
+  Phase 0で選択 → 30-45分。リサーチ+ヒアリング同時進行。Phase 5自動スキップ。
+
 🔗 連携スキル
   /brainstorming        → アイデアが固まらない時に
   /doc-coauthoring      → 要件をPRDに仕上げる時に
@@ -96,6 +103,7 @@ triggers:
 💡 コマンド例
   「Slackボットの要件定義をしたい」
   「既存のdesigns/を読み込んで続きをやりたい」
+  「既存プロダクトの改善要件を定義したい」
   「品質スコアを出して」
   「ユーザーストーリーを生成して」
   「ヘルプ」
@@ -119,6 +127,7 @@ triggers:
 
 ```
 📊 現在の進捗: Phase 2 完了（機能要件 12件定義済み）[ライトモード]
+📊 現在の進捗: Phase 2 完了（変更要件 8件定義済み）[エンハンスモード]
    → 次は Phase 4A: 品質スコアリング です
 ```
 
@@ -140,55 +149,31 @@ triggers:
 
 ### 進め方
 
-1. ユーザーに以下を確認:
-
-```
-⚙️ ワークフロー設定
-
-実行モードを選んでください:
-
-1️⃣ **フルモード** (デフォルト / 40-60分)
-   全フェーズ実行。本番プロジェクト・正式な要件定義向け。
-
-2️⃣ **ライトモード** (MVP/PoC向け / 15-20分)
-   コア要件に絞って素早く定義。Phase 3, 4C, 5を自動スキップ。
-   質問ラウンド・FR項目・品質次元も削減。
-
-→ フルモードで良ければそのまま、ライトモードなら「2」と答えてください。
-```
-
-- **フルモード選択時**: 続けて個別スキップ選択UIを表示
-
-```
-フルモードを選択しました。さらにスキップしたいフェーズはありますか？
-
-⬜ Phase 3: 非機能要件の抽出
-⬜ Phase 4C: ユビキタス言語定義
-⬜ Phase 5: UIデザイン
-
-全て実行する場合はそのまま進めてください。
-```
-
-- **ライトモード選択時**: 個別選択をスキップし、Phase 3/4C/5 を自動でスキップ設定
+1. ユーザーにモード選択を確認（1️⃣フルモード / 2️⃣ライトモード / 3️⃣エンハンスモード）:
+   - **フルモード** (デフォルト / 40-60分): 全フェーズ実行。続けてPhase 3/4C/5の個別スキップ選択UIを表示
+   - **ライトモード** (MVP/PoC / 15-20分): Phase 3, 4C, 5を自動スキップ。質問ラウンド・FR項目・品質次元も削減
+   - **エンハンスモード** (既存プロダクト改善 / 30-45分): Phase 5を自動スキップ。Phase 3/4Cは個別選択UI表示
 
 2. ユーザーの回答に基づき `templates/workflow_config.md` をベースに `designs/workflow_config.md` を生成
 3. Mode フィールドに選択したモードを記録。スキップフェーズのStatus列を「スキップ」に変更
 
 > スキップ可能フェーズの詳細は `templates/workflow_config.md` の Skippable Phases Guide を参照。
 
-### ライトモード設定値
+### モード別設定値
 
 > 詳細は `templates/workflow_config.md` の Mode セクションを参照。
 
-| パラメータ       | Full        | Light       |
-| ---------------- | ----------- | ----------- |
-| Phase 1 ラウンド | 1-2         | 1           |
-| Phase 2 ラウンド | 3-5         | 2           |
-| FR項目           | 全10項目    | 必須5項目   |
-| 品質             | 5次元 100pt | 3次元 60pt  |
-| 合格ライン       | 70/100      | 42/60 (70%) |
+| パラメータ       | Full        | Light       | Enhance              |
+| ---------------- | ----------- | ----------- | -------------------- |
+| Phase 1 ラウンド | 1-2         | 1           | 1-2 (リサーチ並行)   |
+| Phase 2 ラウンド | 3-5         | 2           | 2-3 (変更ヒアリング) |
+| FR項目           | 全10項目    | 必須5項目   | 全10項目 (デルタ)    |
+| 品質             | 5次元 100pt | 3次元 60pt  | 5次元 100pt          |
+| 合格ライン       | 70/100      | 42/60 (70%) | 70/100               |
+| 自動スキップ     | なし        | Ph3,4C,5    | Ph5                  |
 
 ライトモードFR必須5項目: 説明・アクター・主フロー・例外フロー・優先度
+エンハンスモード詳細: `references/enhance_mode.md` 参照
 
 ### 必須フェーズ（スキップ不可）
 
@@ -200,7 +185,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 1. 設定内容（モード含む）を表示
 2. 「この設定で続けますか？変更がある場合は教えてください。」と確認
-3. 変更があれば `workflow_config.md` を更新（モード変更: ライト↔フルも可能）
+3. 変更があれば `workflow_config.md` を更新（モード変更: フル↔ライト↔エンハンスも可能）
 4. 変更がなければ進捗判定に基づき該当フェーズから再開
 
 ### 各フェーズでのスキップ判定
@@ -240,6 +225,16 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 完了時にユーザーに確認: 「プロジェクト憲章のドラフトが完成しました。Phase 2（機能要件の抽出）に進みますか？」
 
+### エンハンスモード時の動作
+
+Phase 1 でリサーチとヒアリングを同時進行する。詳細は `references/enhance_mode.md` 参照。
+
+1. プロダクト名・URL等の基本情報をユーザーに聞く
+2. WebSearch / WebFetch で並行リサーチ（ツール不可時はユーザー手動入力）
+3. 収集した情報を信頼度分類（✅確認済み / ⚠️要確認 / ❓不明）してユーザーに提示
+4. ユーザー確認後、README.md の「現状サマリー」セクションに記録
+5. 変更の背景・目的をヒアリングし、通常のプロジェクト憲章セクションに反映
+
 ---
 
 ## Phase 2: 機能要件の抽出 (3-5ラウンド)
@@ -248,7 +243,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 ### 進め方
 
-1. `designs/README.md` のセクション3（アクター）とセクション4（やりたいこと）を読み込む
+1. `designs/README.md` を**全セクション**読み込み、プロジェクト全体の文脈を把握する
 2. アクターごとに機能を深掘りする質問を出題
 3. 回答を元に FR-001 形式で要件を記録
 
@@ -271,6 +266,15 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 - ユーザーの確認を得てから次のラウンドへ
 - 「十分」と判断されたら Phase 3 へ移行
 
+### ドリフト防止
+
+新たなFRを記録する前に、`designs/README.md` のセクション2（目標）・セクション5（スコープ・制約）を参照し、矛盾がないか検証する。矛盾を検出した場合はユーザーに警告してから記録する。却下された項目は README.md の「却下されたスコープ」テーブルに理由付きで記録する。
+
+### エンハンスモード時の動作
+
+「変更ヒアリング」形式で進行。質問カタログは `references/enhance_mode.md` 参照。
+FRに Change Type (Add/Modify/Remove) と Current Behavior フィールドを追加可能。
+
 ---
 
 ## Phase 3: 非機能要件の抽出 (2-3ラウンド)
@@ -279,7 +283,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 ### 進め方
 
-1. `designs/README.md` のセクション5（制約）とセクション6（品質期待値）を読み込む
+1. `designs/README.md` を**全セクション**読み込み、プロジェクト全体の文脈を踏まえる
 2. 10カテゴリについて順に質問:
    - パフォーマンス / 可用性 / セキュリティ / スケーラビリティ / ユーザビリティ
    - 保守性 / 互換性 / 法規制・コンプライアンス / データ / 運用
@@ -307,35 +311,11 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 > **ライトモード**: 網羅性・具体性・テスト可能性の3次元 x 20pt = 60点満点。
 > 合格ライン: 42/60。詳細は `references/quality_rubric.md` ライトモード評価セクション参照。
+>
+> **エンハンスモード**: デルタ要件向けに調整された5次元100pt評価。
+> 詳細は `references/enhance_mode.md` 品質スコアリング調整セクション参照。
 
-| 次元                       | 配点 | 評価内容                               |
-| -------------------------- | ---- | -------------------------------------- |
-| 網羅性 (Completeness)      | 20   | 全アクター網羅、CRUD操作、エッジケース |
-| 具体性 (Specificity)       | 20   | 定量的な値、具体的データ形式           |
-| テスト可能性 (Testability) | 20   | 明確なpass/fail基準、受け入れ基準      |
-| 一貫性 (Consistency)       | 20   | 用語統一、矛盾なし、ID参照の整合性     |
-| 追跡可能性 (Traceability)  | 20   | 目標→FR→NFR→USの紐付け                 |
-
-#### スコア表示形式
-
-```
-## 要件品質スコア
-
-| 次元 | スコア | 評価 |
-|------|--------|------|
-| 網羅性 | 16/20 | Good - 管理者エラー回復フローが未定義 |
-| 具体性 | 12/20 | Adequate - 5件のFRに定量基準なし |
-| テスト可能性 | 18/20 | Excellent |
-| 一貫性 | 17/20 | Good - 用語の軽微な揺れあり |
-| 追跡可能性 | 14/20 | Good - 3件のFRが目標に未紐付け |
-
-**合計: 77/100**
-
-### 改善提案
-1. [最もインパクトの大きい改善]
-2. [2番目の改善]
-3. [3番目の改善]
-```
+次元別スコア（X/20）+ 評価コメント + 合計点を表形式で表示し、改善提案を3件提示する。各次元の詳細チェック項目は `references/quality_rubric.md` 参照。
 
 #### スコアに基づく推奨
 
@@ -355,20 +335,7 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 - FRのカテゴリをエピックとしてグルーピング
 - 優先度はソースFRから継承（最高優先度を採用）
 
-#### US形式
-
-```
-#### US-001: [ストーリータイトル]
-- **ストーリー**: As a [アクター], I want [機能], so that [価値].
-- **ソースFR**: FR-001, FR-002
-- **優先度**: Must / Should / Could
-- **受け入れ基準**:
-  - [ ] Given [事前条件], When [トリガー], Then [期待結果]
-  - [ ] Given [代替フロー条件], When [アクション], Then [期待動作]
-  - [ ] Given [例外フロー条件], When [エラー発生], Then [エラー処理]
-```
-
-生成後にユーザーレビューを依頼し、修正があれば反映する。
+USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + Given-When-Then受け入れ基準）で記録する。生成後にユーザーレビューを依頼し、修正があれば反映する。
 
 ### 4C: ユビキタス言語定義
 
@@ -383,48 +350,11 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 #### 進め方
 
-1. 既存の `designs/` ドキュメント（README.md, functional_requirements.md, non_functional_requirements.md, user_stories.md）を全て読み込む
-2. ドメイン用語を自動抽出:
-   - **README.md** → アクター名、プロジェクト目標のキーワード
-   - **functional_requirements.md** → FR説明の名詞（エンティティ）、主フローの動詞（アクション）、ビジネスルールの条件用語
-   - **non_functional_requirements.md** → カテゴリ名、技術境界の用語
-   - **user_stories.md** → I want節（機能名称）、受け入れ基準のドメイン用語
-3. `references/ubiquitous_language_questions.md` に基づき、3ラウンドのQ&Aで精緻化:
-   - **Round 1: 用語抽出・確認** — 自動抽出結果の確認、欠落概念の補完、境界コンテキストの識別
-   - **Round 2: ユーザー視点の精緻化** — 技術用語→ユーザーフレンドリーな名前、ロール別用語、業界標準語
-   - **Round 3: コード命名規則** — プログラミング言語/FW、命名規約、API/DB命名方針
-4. `templates/ubiquitous_language.md` をベースに `designs/ubiquitous_language.md` を生成
+1. 既存の `designs/` ドキュメントを全て読み込み、ドメイン用語を自動抽出
+2. `references/ubiquitous_language_questions.md` に基づき、3ラウンドのQ&Aで精緻化（用語確認→ユーザー視点→コード命名）
+3. `templates/ubiquitous_language.md` をベースに `designs/ubiquitous_language.md` を生成
 
-#### ユーザー視点の精緻化ルール
-
-1. **技術名称を機能名にしない**: 実装技術はコード内部に留め、UIには「何ができるか」で表現する
-   - 悪い例: 「WebRTC P2P転送」→ 良い例: 「クイックシェア」
-   - 悪い例: 「ML協調フィルタリング」→ 良い例: 「おすすめマッチング」
-2. **ユーザーの語彙に合わせる**: ターゲットユーザーの技術レベル・業界用語・日常語に合わせる
-3. **1概念 = 1用語**: 同じ概念にコード・UI・会話で同じ用語を使う（同義語を増やさない）
-4. **アンチパターンを明記**: 避けるべき表現とその理由を記録する
-
-#### UL形式
-
-各ULは以下の構造で記録する:
-
-```
-#### UL-001: [用語]
-- **定義 / Definition**: [この概念の明確な意味]
-- **ユーザー向けラベル / User-Facing Label**: [UIに表示する名前]
-- **コード表現 / Code Representation**:
-  - Class/Type: `PascalCase`
-  - Variable/Method: `camelCase`
-  - DB Table/Column: `snake_case`
-  - API Endpoint: `/kebab-case`
-- **コンテキスト / Context**: BC-001
-- **ソース / Source**: FR-001, US-003
-- **エイリアス / Aliases**: [許容される同義語]
-- **アンチパターン / Anti-patterns**: [避けるべき表現と理由]
-- **使用例 / Usage Examples**:
-  - UI: 「[ボタンテキスト]」
-  - Code: `[コードスニペット]`
-```
+> 精緻化ルール・UL記録形式の詳細は `references/ubiquitous_language_questions.md` および `templates/ubiquitous_language.md` を参照。
 
 #### 4C 完了条件
 
@@ -440,36 +370,14 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 
 要件の完成度に応じて、次のアクションを提案:
 
-```
-## Next Steps
+要件の完成度に応じて、次のアクションを提案:
 
-要件定義が完了しました！次のステップを選んでください:
-
-📄 PRD化
-  要件をフォーマルなPRDに仕上げたい場合:
-  → /doc-coauthoring を使って designs/ の内容をPRDに変換
-
-💡 もっとアイデアを練りたい
-  特定の領域をもっと深掘りしたい場合:
-  → /brainstorming でアイデアを発散・収束
-
-🔨 実装計画を作りたい
-  開発チームに渡せる実装計画が欲しい場合:
-  → /writing-plans で要件からタスク分解
-
-🎨 UIデザインを作りたい
-  要件からFigmaでデザインを直接生成したい場合:
-  → Phase 5: UI Design に進む（Figma MCP連携）
-  → デザインシステム・ワイヤーフレーム・モックアップを自動生成
-
-📖 ユビキタス言語を確認・修正したい
-  用語の追加・修正をしたい場合:
-  → 「ユビキタス言語を修正したい」と伝えてください
-
-📊 品質をもっと上げたい
-  スコアの低い次元を改善したい場合:
-  → 「品質スコアを改善したい」と伝えてください
-```
+- **PRD化** → `/doc-coauthoring` で designs/ をPRDに変換
+- **アイデア深掘り** → `/brainstorming` で発散・収束
+- **実装計画** → `/writing-plans` で要件からタスク分解
+- **UIデザイン** → Phase 5 に進む（Figma MCP連携でDS・WF・モックアップ生成）
+- **ユビキタス言語の修正** → 「ユビキタス言語を修正したい」と伝える
+- **品質改善** → 「品質スコアを改善したい」と伝える
 
 ---
 
@@ -549,4 +457,5 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 | `references/ui_design_rubric.md`              | Phase 5E のUIデザイン品質スコアリング時    |
 | `references/figma_code_patterns.md`           | Phase 5C-5E のFigma Plugin APIコード生成時 |
 | `references/phase5_ui_design.md`              | Phase 5 の詳細手順リファレンス             |
+| `references/enhance_mode.md`                  | エンハンスモードの詳細手順リファレンス     |
 | `templates/ui_design_brief.md`                | Phase 5A のデザインブリーフ生成時          |
