@@ -19,6 +19,16 @@ Use only team-agreed terms. Never expose raw technical terms in UI.
 All containers use HUG/FILL for auto-sizing.
 Japanese text is wider than English — fixed-width calculations always break.
 
+#### CJK Text Width Rules
+- Full-width characters (日本語): ~1.0em per character
+- Half-width (English/numbers in mixed text): ~0.5em per character
+- Minimum button horizontal padding for Japanese: 16px (vs 12px for English)
+- Line height for Japanese body text: 170-180% (vs 150% for English)
+- Noto Sans JP Bold is ~5% wider than Regular — account for weight changes
+- NEVER use `resize(fixedWidth, fixedHeight)` on frames containing Japanese text
+- For multi-line Japanese: `textAutoResize = "HEIGHT"` + fixed container width
+- For buttons/badges: `primaryAxisSizingMode = "AUTO"` (HUG) + min padding 16px
+
 ### 3. Visual Hierarchy
 Decide the single most important element per section. Equal-sized elements = failure.
 One CTA button per screen. Use color and size to clarify primary vs secondary.
@@ -101,6 +111,21 @@ Input: [N]px / Toggle: [N]px / Avatar: full circle
 | Toggle | [W]x[H], cornerRadius [R], ON/OFF colors |
 | Icon | fixed size (HUG forbidden), define per use case |
 
+### Component States
+| Component | State | Visual Change |
+|-----------|-------|---------------|
+| Button | Default | Standard fill + text colors |
+| Button | Hover | Primary Light background |
+| Button | Active | Primary Dark background |
+| Button | Disabled | opacity 0.4, cursor not-allowed |
+| Button | Focus | 2px offset ring, Primary color |
+| Input | Default | border [COLOR], background white |
+| Input | Focus | border Primary, 2px width |
+| Input | Error | border Error, error message below field |
+| Input | Disabled | background neutral-100, text muted |
+| Toggle | OFF | [OFF_COLOR] background, knob left |
+| Toggle | ON | [ON_COLOR] background, knob right |
+
 ### Screen Patterns
 | Type | Layout |
 |------|--------|
@@ -162,6 +187,113 @@ f.appendChild(t);
 ### Design System Page Structure
 One master frame with auto-layout (VERTICAL) containing all sections.
 Scattered nodes at page root are **FORBIDDEN** (causes orphan nodes).
+
+---
+
+## HEAL: Self-Healing Loop (Post-Creation Verification)
+
+Every `use_figma` call that creates or modifies nodes MUST follow this protocol.
+
+### Defect Prevention Preamble (MANDATORY)
+Every `use_figma` code block in Phase 5C-5E MUST begin with:
+```javascript
+// === PREAMBLE ===
+await figma.setCurrentPageAsync(figma.currentPage);
+// Load only the font variants actually used in this code block
+await figma.loadFontAsync({ family: "Noto Sans JP", style: "Regular" });
+await figma.loadFontAsync({ family: "Noto Sans JP", style: "Medium" });
+await figma.loadFontAsync({ family: "Noto Sans JP", style: "Bold" });
+await figma.loadFontAsync({ family: "Inter", style: "Regular" });
+await figma.loadFontAsync({ family: "Inter", style: "Medium" });
+await figma.loadFontAsync({ family: "Inter", style: "Bold" });
+await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
+try {
+  // ... creation code here ...
+} catch (e) {
+  return JSON.stringify({ success: false, error: e.message });
+}
+```
+
+### Verification Suffix (MANDATORY)
+Every `use_figma` code block MUST end with this verification:
+```javascript
+// === VERIFICATION ===
+const _page = figma.currentPage;
+const _allText = _page.findAll(n => n.type === 'TEXT');
+const _allFrames = _page.findAll(n => n.type === 'FRAME');
+const _v = {
+  success: true,
+  pageChildCount: _page.children.length,
+  emptyTextNodes: _allText.filter(n => n.characters.length === 0).map(n => n.name),
+  orphanCount: _page.children.filter(n =>
+    n.type !== 'FRAME' || (!n.name.startsWith('WF-') && !n.name.startsWith('MK-') && !n.name.startsWith('DS-'))
+  ).length,
+  gridViolations: _allFrames.filter(n =>
+    n.layoutMode !== 'NONE' &&
+    ['paddingTop','paddingBottom','paddingLeft','paddingRight','itemSpacing']
+      .some(p => n[p] % 4 !== 0 && n[p] !== 0)
+  ).map(n => n.name),
+  fillWithoutAutoLayout: _allFrames.filter(n =>
+    n.layoutSizingHorizontal === 'FILL' && n.parent?.layoutMode === 'NONE'
+  ).map(n => n.name)
+};
+return JSON.stringify(_v);
+```
+
+### Verification Response Handling
+| Field | Expected | Action if violated |
+|-------|----------|-------------------|
+| `emptyTextNodes` | `[]` | Fix F-001: reload fonts + re-set characters |
+| `orphanCount` | `0` | Fix F-002: remove orphan nodes |
+| `gridViolations` | `[]` | Fix F-004: snap to nearest 4px multiple |
+| `fillWithoutAutoLayout` | `[]` | Fix F-003: set parent layoutMode first |
+
+### Post-Verification Screenshot
+After every batch of `use_figma` calls, ALWAYS run `get_screenshot` and confirm:
+- [ ] No "square" placeholder characters (font loading OK)
+- [ ] No overlapping elements (auto-layout OK)
+- [ ] Text not truncated (HUG sizing OK for Japanese)
+- [ ] Colors match design brief (token application OK)
+- [ ] Hero element is visually prominent (hierarchy OK)
+
+### Self-Healing Rules
+1. Parse verification JSON after every `use_figma` call
+2. If any field violates expected values → apply targeted fix (see `references/figma_code_patterns.md` Section 11)
+3. Re-run verification after fix
+4. Max **2 auto-fix attempts** per defect — if still failing, report to user with screenshot
+5. **Never full-regenerate** — surgical fixes on specific broken nodes only
+
+### Defect Severity Classification
+| Severity | Examples | Action |
+|----------|---------|--------|
+| P0 | Font load failure, page context lost, runtime exception | Block — fix before proceeding |
+| P1 | Japanese text truncation, element overlap, wrong colors | Auto-heal, re-verify |
+| P2 | Orphan nodes, 8pt grid violation, naming convention | Auto-heal in batch |
+| P3 | Corner radius inconsistency, shadow mismatch | Log for user review |
+
+---
+
+## SYNC: Token Drift Prevention
+
+### Source of Truth Hierarchy
+1. **DESIGN.md** token table (master definition)
+2. **Figma variable collection** (derived from DESIGN.md)
+3. **Code CSS variables** (derived from Figma export)
+
+### Drift Detection Protocol
+Before Phase 5D (Wireframes) and Phase 5E (Mockups):
+1. Read DESIGN.md token values
+2. Call `get_variable_defs` from Figma file
+3. Compare: any mismatches → report and prompt user to choose source
+4. Update the non-authoritative source
+
+### Token Naming Convention
+| DESIGN.md Role | Figma Variable Name | CSS Custom Property |
+|----------------|--------------------|--------------------|
+| Primary | color/primary | --color-primary |
+| BG Base | color/bg/base | --color-bg-base |
+| Text Primary | color/text/primary | --color-text-primary |
+| spacing/M | spacing/4 | --spacing-4 |
 
 ---
 

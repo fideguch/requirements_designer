@@ -20,11 +20,11 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 - `designs/` — generated requirements documents (output of the skill)
 
 ### Skill source (`~/.claude/skills/requirements_designer/`)
-- `SKILL.md` — main skill definition (461 lines, Anthropic 500行準拠)
+- `SKILL.md` — main skill definition (469 lines, Anthropic 500行準拠)
 - `templates/` — 7 document templates
-- `references/` — 9 reference files (including enhance_mode.md)
+- `references/` — 10 reference files (including enhance_mode.md, skill_orchestration.md)
 - `scripts/scaffold-requirements.sh` — designs/ scaffolding (`--with-ul`, `--with-ui`, `--light`, `--enhance`)
-- `tests/skill-structure.spec.ts` — full regression suite (261 tests)
+- `tests/skill-structure.spec.ts` — full regression suite (322 tests)
 
 ## Tech Stack
 - Skill definition: Markdown
@@ -43,6 +43,26 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 ### Notion MCP
 - Before page creation/update → check `notion://docs/enhanced-markdown-spec`
 - Prioritize readability: tables, callouts, heading hierarchy
+
+## Pipeline Stage Gates
+
+requirements_designer output flowing to downstream skills must pass these gates:
+
+| Gate | From → To | Criteria |
+|------|-----------|----------|
+| G1 | Requirements → Spec | Quality score ≥70, user_stories.md generated, Must-priority FRs have AC |
+| G2 | Requirements → UI Design (Phase 5) | G1 passed + ubiquitous_language.md defined OR skip justified |
+| G3 | Requirements → PRD | Quality score ≥80 |
+| G4 | UI Design → Frontend | UI quality score ≥70, DESIGN.md tokens synced with Figma variables |
+
+### Downstream Skill Contracts
+
+| Downstream Skill | Required Input | Optional |
+|-----------------|----------------|----------|
+| /writing-plans | designs/README.md, functional_requirements.md, user_stories.md | non_functional_requirements.md |
+| /speckit-bridge | All designs/*.md | — |
+| /doc-coauthoring | All designs/*.md | ui_design_brief.md |
+| /frontend-design | designs/ui_design_brief.md | DESIGN.md tokens |
 
 ## Four-File Update Rule (CRITICAL)
 
