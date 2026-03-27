@@ -1,6 +1,6 @@
 # Requirements Designer
 
-**261 tests passing** | **Anthropic 500-line compliant** | **Figma MCP integrated**
+**261 tests passing** | **500行スキルガイドライン準拠** | **Figma MCP integrated**
 
 対話式Q&Aで要件定義を行う Claude Code スキル。
 「○○の要件定義をしたい」と伝えるだけで、プロジェクト憲章・機能要件・非機能要件・ユーザーストーリーを段階的に生成し、品質スコアで改善点を提示する。Figma MCP連携でデザインシステム・ワイヤーフレーム・モックアップまで一気通貫で生成可能。
