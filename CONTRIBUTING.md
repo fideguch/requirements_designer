@@ -28,6 +28,7 @@ git checkout -b refactor/<issue番号>-<概要>
 ```
 
 **type 一覧:**
+
 - `feat`: 新機能（フェーズ追加、トリガー追加等）
 - `fix`: バグ修正
 - `refactor`: リファクタリング
@@ -73,13 +74,13 @@ Backlog → In Progress → Review → Done
 
 ## ラベル
 
-| カテゴリ | ラベル | 説明 |
-|---------|--------|------|
-| Type | `feature` | 新機能追加 |
-| Type | `bug` | バグ修正 |
-| Type | `docs` | ドキュメント |
-| Area | `skill` | SKILL.md 変更 |
-| Area | `templates` | テンプレート変更 |
-| Area | `references` | リファレンス変更 |
-| Area | `test` | テスト変更 |
-| Area | `infra` | CI/インフラ変更 |
+| カテゴリ | ラベル       | 説明             |
+| -------- | ------------ | ---------------- |
+| Type     | `feature`    | 新機能追加       |
+| Type     | `bug`        | バグ修正         |
+| Type     | `docs`       | ドキュメント     |
+| Area     | `skill`      | SKILL.md 変更    |
+| Area     | `templates`  | テンプレート変更 |
+| Area     | `references` | リファレンス変更 |
+| Area     | `test`       | テスト変更       |
+| Area     | `infra`      | CI/インフラ変更  |

@@ -135,11 +135,14 @@ triggers:
 
 ## Workflow Overview
 
-### 事前準備: designs/ ディレクトリのセットアップ
+### 事前準備: プロジェクトスキャン + designs/ セットアップ
 
-1. カレントディレクトリに `designs/` が存在するか確認
-2. 存在しない場合: `scripts/scaffold-requirements.sh` を実行してテンプレートから雛形を生成
-3. 存在する場合: 既存ファイルを読み込み、進捗を判定して途中から再開
+1. カレントディレクトリ全体をスキャンし、プロジェクト成熟度を判定（`references/skill_orchestration.md` Section 1-2 参照）
+   - Lv.0 新規 / Lv.1 構想中 / Lv.2 開発済み / Lv.3 運用中
+2. スキャン結果をユーザーに提示:「以下の情報を検出しました。正しいですか？」
+3. `designs/` が存在しない場合: `scripts/scaffold-requirements.sh` で雛形を生成
+4. `designs/` が存在する場合: 既存ファイルを読み込み、進捗を判定して途中から再開
+5. Lv.2/Lv.3 の場合: スキャン結果を `designs/README.md` Section 10 に自動記録
 
 ---
 
@@ -393,6 +396,15 @@ USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + 
 - 品質スコア >= 70（70未満の場合は警告表示の上、ユーザー判断でオーバーライド可能）
 - ユーザーが Phase 5 への進行を確認
 
+### FigJam図の生成（オプション）
+
+Phase 5 開始時、designs/ の内容を分析して以下を提案:
+
+> 💡 `/pm-figjam-diagrams` でdesigns/の内容をFigJam図に変換できます。
+> ユーザーストーリーマップ、ユーザーフロー、状態遷移図など、要件に適した図種を提案します。
+
+ユーザーが希望する場合は `/pm-figjam-diagrams` を起動（designs/連携モード自動適用）。
+
 ### サブフェーズ概要
 
 | Sub-phase | 目的                    | 主要 Figma MCP ツール                         | 成果物                                      |
@@ -403,15 +415,19 @@ USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + 
 | **5D**    | ワイヤーフレーム        | `use_figma`, `get_screenshot`                 | グレースケール WF (バッチ3-5画面)           |
 | **5E**    | モックアップ & 品質評価 | `use_figma`, `get_screenshot`, `get_metadata` | 高忠実度モックアップ + UIデザイン品質スコア |
 
-### 適用するデザインスキル
+### 自動起動するスキル（Phase 5）
 
-- **ui-ux-pro-max**: 疑ってから作る / 1ヒーロー / 70点の均一を避ける / プレデリバリーチェックリスト
-- **frontend-design**: Purpose → Tone → Constraints → Differentiation / 独自タイポ選定
-- **web-design-guidelines**: Vercel Web Interface Guidelines準拠チェック
+以下のスキルを各サブフェーズで**自動起動**する（詳細は `references/skill_orchestration.md` Section 3）:
+
+- **`/ui-ux-pro-max`**: 5A（ブリーフ）+ 5E（プレデリバリーチェック）
+- **`/frontend-design`**: 5A（デザイン思考）+ 5E（品質評価）
+- **`/web-design-guidelines`**: 5D（レイアウト監査）+ 5E（最終UI監査）
+- **`/pm-customer-journey-map`**: 5B（IA設計）
+- **`/cro-methodology`**: 5E（LP/EC案件のCVR最適化）
 
 ### 共通ルール
 
-- 全サブフェーズでバッチ処理後に `get_screenshot` → ユーザーフィードバック → 即修正のフィードバックループ
+- 全サブフェーズでバッチ処理後に `get_screenshot` → HEAL検証 → スキル起動 → ユーザーフィードバック → 即修正
 - `ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用
 - 命名規則: WF-[US-XXX], MK-[US-XXX] 形式
 
@@ -458,4 +474,5 @@ USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + 
 | `references/figma_code_patterns.md`           | Phase 5C-5E のFigma Plugin APIコード生成時 |
 | `references/phase5_ui_design.md`              | Phase 5 の詳細手順リファレンス             |
 | `references/enhance_mode.md`                  | エンハンスモードの詳細手順リファレンス     |
+| `references/skill_orchestration.md`           | プロジェクトスキャン・スキル自動起動マップ |
 | `templates/ui_design_brief.md`                | Phase 5A のデザインブリーフ生成時          |

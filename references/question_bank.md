@@ -143,6 +143,17 @@
 38. **CI/CDやデプロイ頻度の要件は？**
     CI/CD or deployment frequency requirements?
 
+### Round 3B+: 日本市場法規制 / Japan Legal Compliance
+
+34b. **このプロダクトは決済機能を持ちますか？（特定商取引法・資金決済法の確認）**
+Does this product handle payments? (triggers 特定商取引法 + 資金決済法 checks)
+
+34c. **日本のユーザーから個人情報を収集しますか？（個人情報保護法の確認）**
+Does this product collect personal information from Japanese users? (triggers APPI checks)
+
+34d. **価格表示はありますか？広告やプロモーションを行いますか？（景品表示法の確認）**
+Does this product display prices or run promotions? (triggers 景品表示法 checks)
+
 ### Round 3C: 品質と保守性 / Quality & Maintenance
 
 39. **対応するブラウザ/デバイス/OSは？**

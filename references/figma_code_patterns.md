@@ -427,3 +427,312 @@ function getContrastRatio(color1, color2) {
 // WCAG 2.1 AA: 通常テキスト >= 4.5, 大テキスト >= 3.0
 // WCAG 2.1 AAA: 通常テキスト >= 7.0, 大テキスト >= 4.5
 ```
+
+---
+
+## 9. エラー防止ラッパー / Error Prevention Wrappers
+
+### 安全なテキスト作成（フォントロード保証 + 日本語自動HUG）
+
+```javascript
+async function safeCreateText(text, fontFamily, fontSize, fontWeight, color) {
+  const weight = fontWeight || 'Regular';
+  await figma.loadFontAsync({ family: fontFamily, style: weight });
+  const textNode = figma.createText();
+  textNode.fontName = { family: fontFamily, style: weight };
+  textNode.fontSize = fontSize;
+  textNode.characters = text;
+  if (color) {
+    textNode.fills = [{ type: 'SOLID', color }];
+  }
+  // Japanese text: always HUG, never fixed width
+  if (/[\u3000-\u9FFF\u30A0-\u30FF\u3040-\u309F]/.test(text)) {
+    textNode.textAutoResize = 'WIDTH_AND_HEIGHT';
+  }
+  return textNode;
+}
+```
+
+### 安全なFILL設定（親Auto-Layout確認付き）
+
+```javascript
+function safeSetFill(node, parent) {
+  if (parent && parent.layoutMode && parent.layoutMode !== 'NONE') {
+    node.layoutSizingHorizontal = 'FILL';
+  } else {
+    // Fallback: set fixed width instead of crashing
+    node.resize(parent ? parent.width : 400, node.height);
+  }
+}
+```
+
+### 安全なページ操作（コンテキスト保証付き）
+
+```javascript
+async function safeSetPage(pageName) {
+  let page = figma.root.children.find((p) => p.name === pageName);
+  if (!page) {
+    page = figma.createPage();
+    page.name = pageName;
+  }
+  await figma.setCurrentPageAsync(page);
+  return page;
+}
+```
+
+### try/catch ラッパー
+
+```javascript
+async function safeFigmaOp(description, operation) {
+  try {
+    const result = await operation();
+    return { success: true, description, result };
+  } catch (e) {
+    return { success: false, description, error: e.message };
+  }
+}
+// Usage:
+const result = await safeFigmaOp('Create dashboard wireframe', async () => {
+  // ... creation code ...
+  return { nodesCreated: 5 };
+});
+```
+
+---
+
+## 10. 検証ユーティリティ / Verification Utilities
+
+### ノードツリー検証
+
+```javascript
+function verifyNodeTree(page, expectedRootPrefixes) {
+  const issues = [];
+
+  // Check orphans
+  const orphans = page.children.filter(
+    (n) => !expectedRootPrefixes.some((prefix) => n.name.startsWith(prefix))
+  );
+  if (orphans.length > 0) {
+    issues.push({
+      type: 'ORPHAN_NODES',
+      severity: 'P2',
+      count: orphans.length,
+      nodes: orphans.map((n) => ({ id: n.id, name: n.name })),
+    });
+  }
+
+  // Check empty text nodes (font loading failure)
+  const emptyTexts = page.findAll((n) => n.type === 'TEXT' && n.characters.length === 0);
+  if (emptyTexts.length > 0) {
+    issues.push({
+      type: 'EMPTY_TEXT',
+      severity: 'P0',
+      count: emptyTexts.length,
+      nodes: emptyTexts.map((n) => ({ id: n.id, name: n.name })),
+    });
+  }
+
+  // Check FILL without parent auto-layout
+  const frames = page.findAll((n) => n.type === 'FRAME');
+  for (const f of frames) {
+    if (f.layoutSizingHorizontal === 'FILL' && f.parent?.layoutMode === 'NONE') {
+      issues.push({
+        type: 'FILL_NO_PARENT_AL',
+        severity: 'P1',
+        node: { id: f.id, name: f.name, parent: f.parent?.name },
+      });
+    }
+  }
+
+  // Check 8pt grid violations
+  for (const f of frames) {
+    if (f.layoutMode === 'NONE') continue;
+    for (const prop of [
+      'paddingTop',
+      'paddingBottom',
+      'paddingLeft',
+      'paddingRight',
+      'itemSpacing',
+    ]) {
+      if (f[prop] % 4 !== 0 && f[prop] !== 0) {
+        issues.push({
+          type: 'GRID_VIOLATION',
+          severity: 'P2',
+          node: f.name,
+          property: prop,
+          value: f[prop],
+          fix: Math.round(f[prop] / 4) * 4,
+        });
+      }
+    }
+  }
+
+  return issues;
+}
+// Usage: const issues = verifyNodeTree(figma.currentPage, ['WF-', 'MK-', 'DS-']);
+```
+
+### コントラスト比自動チェック
+
+```javascript
+function verifyContrast(page) {
+  const issues = [];
+  const textNodes = page.findAll((n) => n.type === 'TEXT');
+  for (const t of textNodes) {
+    if (!t.fills || t.fills.length === 0) continue;
+    const textColor = t.fills[0]?.color;
+    if (!textColor) continue;
+    let parent = t.parent;
+    let bgColor = null;
+    while (parent) {
+      if (parent.fills && parent.fills.length > 0 && parent.fills[0]?.color) {
+        bgColor = parent.fills[0].color;
+        break;
+      }
+      parent = parent.parent;
+    }
+    if (!bgColor) continue;
+    const ratio = getContrastRatio(textColor, bgColor);
+    const isLarge = t.fontSize >= 18 || (t.fontSize >= 14 && t.fontName?.style?.includes('Bold'));
+    const threshold = isLarge ? 3.0 : 4.5;
+    if (ratio < threshold) {
+      issues.push({
+        type: 'CONTRAST_FAIL',
+        severity: 'P2',
+        node: t.name,
+        text: t.characters.substring(0, 30),
+        ratio: ratio.toFixed(2),
+        required: threshold,
+      });
+    }
+  }
+  return issues;
+}
+```
+
+### 命名規則検証
+
+```javascript
+function verifyNaming(page, phase) {
+  const prefix = phase === 'wireframe' ? 'WF-' : 'MK-';
+  const issues = [];
+  for (const f of page.children) {
+    if (f.type === 'FRAME' && !f.name.startsWith(prefix) && !f.name.startsWith('DS-')) {
+      issues.push({
+        type: 'NAMING',
+        severity: 'P3',
+        node: f.name,
+        expected: `${prefix}[US-XXX] — [Screen Name]`,
+      });
+    }
+  }
+  return issues;
+}
+```
+
+---
+
+## 11. 自己修復パターン / Self-Healing Fix Patterns
+
+See DESIGN.md "HEAL" section for when to apply these patterns.
+
+### F-001: フォント再ロード + テキスト再設定
+
+```javascript
+async function fixFontLoading(page) {
+  const textNodes = page.findAll((n) => n.type === 'TEXT');
+  let fixed = 0;
+  for (const t of textNodes) {
+    if (t.fontName && t.characters.length === 0) {
+      await figma.loadFontAsync(t.fontName);
+      // If characters were lost, they need to be re-set from the caller
+      fixed++;
+    }
+  }
+  return { pattern: 'F-001', fixed };
+}
+```
+
+### F-002: オーファンノード除去
+
+```javascript
+function fixOrphans(page, validPrefixes) {
+  const orphans = page.children.filter((n) => !validPrefixes.some((p) => n.name.startsWith(p)));
+  let removed = 0;
+  for (const orphan of orphans) {
+    orphan.remove();
+    removed++;
+  }
+  return { pattern: 'F-002', removed };
+}
+// Usage: fixOrphans(figma.currentPage, ['WF-', 'MK-', 'DS-', 'Design System']);
+```
+
+### F-003: Auto-Layout 修復
+
+```javascript
+function fixAutoLayout(page) {
+  const frames = page.findAll((n) => n.type === 'FRAME');
+  let fixed = 0;
+  for (const f of frames) {
+    if (f.layoutSizingHorizontal === 'FILL' && f.parent?.layoutMode === 'NONE') {
+      f.parent.layoutMode = 'VERTICAL';
+      f.parent.primaryAxisSizingMode = 'AUTO';
+      fixed++;
+    }
+    if (f.counterAxisAlignItems === 'STRETCH') {
+      f.counterAxisAlignItems = 'MIN';
+      fixed++;
+    }
+  }
+  return { pattern: 'F-003', fixed };
+}
+```
+
+### F-004: 8pt グリッドスナップ
+
+```javascript
+function fixGridSnap(page) {
+  const frames = page.findAll((n) => n.type === 'FRAME' && n.layoutMode !== 'NONE');
+  let fixed = 0;
+  for (const f of frames) {
+    for (const prop of [
+      'paddingTop',
+      'paddingBottom',
+      'paddingLeft',
+      'paddingRight',
+      'itemSpacing',
+    ]) {
+      if (f[prop] % 4 !== 0 && f[prop] !== 0) {
+        f[prop] = Math.round(f[prop] / 4) * 4;
+        fixed++;
+      }
+    }
+  }
+  return { pattern: 'F-004', fixed };
+}
+```
+
+### F-005: 日本語テキスト HUG 強制
+
+```javascript
+async function fixJapaneseTextSizing(page) {
+  const textNodes = page.findAll((n) => n.type === 'TEXT');
+  let fixed = 0;
+  for (const t of textNodes) {
+    if (/[\u3000-\u9FFF\u30A0-\u30FF\u3040-\u309F]/.test(t.characters)) {
+      if (t.parent?.type === 'FRAME' && t.parent.layoutMode !== 'NONE') {
+        if (t.parent.primaryAxisSizingMode !== 'AUTO') {
+          t.parent.primaryAxisSizingMode = 'AUTO'; // HUG
+          fixed++;
+        }
+      }
+      if (t.textAutoResize !== 'WIDTH_AND_HEIGHT' && t.textAutoResize !== 'HEIGHT') {
+        t.textAutoResize = 'HEIGHT';
+        fixed++;
+      }
+    }
+  }
+  return { pattern: 'F-005', fixed };
+}
+```

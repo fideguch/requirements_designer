@@ -18,10 +18,11 @@
 5. 既存デザインシステムがあるか `mcp__claude_ai_Figma__search_design_system` で探索
 6. `designs/ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用する
 
-### 適用するデザイン原則
+### スキル自動起動（5A）
 
-- **ui-ux-pro-max ルール1「疑ってから作る」**: 各要素が本当に必要か問う
-- **frontend-design のデザイン思考**: Purpose → Tone → Constraints → Differentiation
+1. **`/ui-ux-pro-max` を起動**: 「疑ってから作る」フレームワークでブリーフのQ&Aを実施。既存 DESIGN.md のトークンがあればコンテキストとして注入
+2. **`/frontend-design` を起動**: Purpose → Tone → Constraints → Differentiation フレームワークを適用。既存コンポーネント一覧があれば注入
+3. 両スキルの出力を `designs/ui_design_brief.md` に統合
 
 ### 5A 完了条件
 
@@ -52,6 +53,10 @@
    - planKey: 5Aで取得したplanKeyを使用
 2. `mcp__claude_ai_Figma__generate_diagram` — Mermaid記法でIA図生成（flowchart LR）
 3. `mcp__claude_ai_Figma__generate_diagram` — 主要ユーザーフロー図を2-3本生成（最高優先度FRのメインフロー）
+
+### スキル自動起動（5B）
+
+1. **`/pm-customer-journey-map` を起動**: FR メインフローをコンテキストとして渡し、ジャーニーマップを生成。IA図とユーザーフロー図の質を向上させる
 
 ### マッピングロジック
 
@@ -93,6 +98,14 @@
 3. `mcp__claude_ai_Figma__create_design_system_rules` — デザインシステムルール生成（オプション）
 4. `mcp__claude_ai_Figma__search_design_system` — 既存コンポーネントの探索（再利用判定）
 5. `mcp__claude_ai_Figma__get_screenshot` — Design Systemページのプレビュー表示
+
+### スキル自動起動（5C）
+
+DS 構築後、以下を順番に実行:
+
+1. `get_screenshot` でDesign Systemページを撮影
+2. HEAL 検証（DESIGN.md「HEAL」セクションの Preamble + Verification Suffix）
+3. 検証結果に問題があれば自己修復ループを実行（最大2回）
 
 ### 適用するデザイン原則
 
@@ -159,11 +172,18 @@ get_screenshot でプレビュー表示
 4. 全バッチ完了 → 画面インベントリのStatus列を "WF" に更新
 ```
 
+### スキル自動起動（5D — 各バッチ後に実行）
+
+1. `get_screenshot` でバッチ内の全WF画面を撮影
+2. HEAL 検証（日本語テキスト切れ・要素重なり・ヒエラルキーを自動検出）
+3. 検証結果に問題があれば自己修復ループ実行
+4. **`/web-design-guidelines` を起動**: スクリーンショットを渡してレイアウト準拠チェック
+5. チェック結果をユーザーに提示（⚠️ 指摘あり → 修正 → 再スクショ）
+
 ### 適用するデザイン原則
 
 - **ui-ux-pro-max ルール2「1ヒーロー/セクション」**: 各画面で最も目立つ要素を1つ決定
 - **ui-ux-pro-max ルール3「70点の均一を避ける」**: 要素の強弱に差をつける
-- **web-design-guidelines**: Vercel Web Interface Guidelinesとの整合性チェック
 
 ---
 
@@ -202,12 +222,18 @@ get_screenshot でプレビュー表示
    a. WFフレームを"Mockups"ページに複製
    b. use_figma でデザインシステム適用
    c. get_screenshot でモックアップ表示
-   d. ui-ux-pro-max チェック結果を自動表示:
-      ✅/⚠️ ヒーロー要素の明確さ
-      ✅/⚠️ セクション間隔 >= 112px
-      ✅/⚠️ WCAGコントラスト比
-      ✅/⚠️ ボタンスタイル準拠
-      ✅/⚠️ 背景の単色ルール
+   d. スキル自動起動（5E — 各バッチ後）:
+      i.   `get_screenshot` でモックアップ撮影
+      ii.  HEAL 検証 + 自己修復ループ
+      iii. `/ui-ux-pro-max` 起動 → プレデリバリーチェックリスト自動実行:
+           ✅/⚠️ ヒーロー要素の明確さ
+           ✅/⚠️ セクション間隔 >= 112px
+           ✅/⚠️ WCAGコントラスト比
+           ✅/⚠️ ボタンスタイル準拠
+           ✅/⚠️ 背景の単色ルール
+      iv.  `/web-design-guidelines` 起動 → 最終UI監査
+      v.   `/frontend-design` 起動 → デザイン品質最終評価
+      vi.  LP/EC案件の場合: `/cro-methodology` 起動 → CVR最適化レビュー
    e. ユーザーフィードバック → use_figma で即修正 → 再スクショ
 3. 全画面完了 → 画面インベントリのStatus列を "MK" に更新
 ```
