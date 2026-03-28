@@ -1,35 +1,32 @@
-skill:
+frontend:
   - changed-files:
       - any-glob-to-any-file:
-          - 'SKILL.md'
+          - 'src/components/**'
+          - 'src/pages/**'
+          - 'src/styles/**'
+          - '*.css'
+          - '*.scss'
+          - '*.tsx'
 
-templates:
+backend:
   - changed-files:
       - any-glob-to-any-file:
-          - 'templates/**'
-
-references:
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'references/**'
-
-test:
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'tests/**'
-          - 'playwright.config.ts'
-
-docs:
-  - changed-files:
-      - any-glob-to-any-file:
-          - '**/*.md'
-          - '!SKILL.md'
+          - 'src/api/**'
+          - 'src/server/**'
+          - 'src/lib/**'
+          - 'src/db/**'
 
 infra:
   - changed-files:
       - any-glob-to-any-file:
           - '.github/**'
-          - 'package.json'
-          - 'tsconfig.json'
-          - 'eslint.config.mjs'
-          - '.prettierrc'
+          - 'Dockerfile'
+          - 'docker-compose.*'
+          - '*.yml'
+          - '*.yaml'
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**'

@@ -10,7 +10,7 @@ body:
     attributes:
       label: '概要'
       description: '実現したいことを簡潔に記述してください'
-      placeholder: '新しいフェーズを追加して○○できるようにしたい'
+      placeholder: 'ユーザーが○○できるようにしたい'
     validations:
       required: true
   - type: textarea
@@ -26,16 +26,19 @@ body:
     attributes:
       label: '提案する解決策'
       description: 'どのように解決したいか具体的に記述してください'
+      placeholder: '○○画面に△△ボタンを追加し...'
     validations:
       required: false
   - type: dropdown
     id: priority
     attributes:
-      label: '優先度'
+      label: '希望優先度'
       options:
-        - High
-        - Medium
-        - Low
+        - P0 - 即日着手
+        - P1 - 高 (1〜3営業日)
+        - P2 - 中 (スプリント内)
+        - P3 - 低 (時間あれば)
+        - P4 - 未定 (保留中)
     validations:
       required: false
   - type: textarea
@@ -45,13 +48,13 @@ body:
       description: 'この機能が完成したと判断する条件'
       placeholder: |
         - [ ] ○○ができること
-        - [ ] テストが追加されていること
+        - [ ] △△が表示されること
     validations:
       required: false
   - type: textarea
     id: additional
     attributes:
       label: '補足情報'
-      description: '参考 URL、関連 Issue など'
+      description: 'スクリーンショット、参考URL、関連Issueなど'
     validations:
       required: false
