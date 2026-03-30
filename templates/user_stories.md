@@ -1,4 +1,8 @@
-# User Stories / ユーザーストーリー
+# ユーザーストーリー
+
+> [📋 目次](./README.md) | [設定](./workflow_config.md) | [機能要件](./functional_requirements.md) | [非機能要件](./non_functional_requirements.md) | **US** | [UL](./ubiquitous_language.md) | [UI](./ui_design_brief.md)
+
+---
 
 ## Document Info
 
@@ -20,7 +24,7 @@
 
 ### [Epic 1: エピック名] / [Epic Name]
 
-<!-- エピック = FRのカテゴリに対応 -->
+> 💡 エピック = FRのカテゴリに対応
 
 #### US-001: [ストーリータイトル]
 
@@ -38,10 +42,7 @@
 
 <!-- US-002以降も同じ形式で追加 -->
 
-<!--
-  ==========================================
-  記入のヒント
-  ==========================================
+<details><summary>書き方のヒント・INVEST原則</summary>
 
   良いユーザーストーリーの例:
   ✅ As a 来店客, I want QRコードでメニューを閲覧できる,
@@ -61,8 +62,8 @@
   E - Estimable（見積もり可能）
   S - Small（小さい）
   T - Testable（テスト可能）
-  ==========================================
--->
+
+</details>
 
 ---
 
@@ -84,3 +85,7 @@
 | Should   |      |                        |
 | Could    |      |                        |
 | **合計** |      |                        |
+
+---
+
+[← 非機能要件](./non_functional_requirements.md) | [📋 目次](./README.md) | [UL →](./ubiquitous_language.md)

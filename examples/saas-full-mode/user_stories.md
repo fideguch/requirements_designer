@@ -1,4 +1,4 @@
-# User Stories / ユーザーストーリー
+# ユーザーストーリー
 
 **Project**: TaskFlow - Project Management SaaS
 **Mode**: Full

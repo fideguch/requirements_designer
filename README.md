@@ -51,6 +51,7 @@ cd requirements_designer && npm install && npm test
 - **エラーハンドリング** — Phase 5 開始時の品質スコア閾値チェック（70未満で警告、ユーザー判断でオーバーライド可能）
 - **スキル自動起動** — 各フェーズで関連スキルを自動呼び出し（要件フェーズ5種 + デザインフェーズ5種）
 - **267件の回帰テスト** — Playwright + TypeScript、CI/CD完備
+- **Markdownプレビュー** — designs/をブラウザにレンダリング表示。外部依存不要、ファイル間ナビゲーション対応
 
 ---
 
@@ -163,10 +164,11 @@ designs/
 | `品質スコアを出して`                       | Phase 4A の品質スコアリングを実行 |
 | `ユーザーストーリーを生成して`             | Phase 4B のUS生成を実行           |
 | `ヘルプ`                                   | クイックガイドを表示              |
+| `プレビューして`                       | designs/ をブラウザでプレビュー表示 |
 
 ### トリガーワード
 
-`要件定義` / `requirements definition` / `機能要件` / `非機能要件` / `要件を整理` / `user stories` / `ユーザーストーリー` / `プロジェクト憲章` / `project charter` / `UIデザイン` / `Figmaデザイン` / `ワイヤーフレーム` / `モックアップ` / `デザインシステム` / `既存プロダクト改善` / `機能改善`
+`要件定義` / `requirements definition` / `機能要件` / `非機能要件` / `要件を整理` / `user stories` / `ユーザーストーリー` / `プロジェクト憲章` / `project charter` / `UIデザイン` / `Figmaデザイン` / `ワイヤーフレーム` / `モックアップ` / `デザインシステム` / `既存プロダクト改善` / `機能改善` / `プレビューして` / `preview` / `マークダウンプレビュー`
 
 ---
 
@@ -206,7 +208,8 @@ requirements_designer/
 │   ├── ui_design_rubric.md            #   UIデザイン品質ルブリック
 │   └── figma_code_patterns.md         #   Figma Plugin APIパターン集
 ├── scripts/
-│   └── scaffold-requirements.sh       #   designs/ 初期セットアップ
+│   ├── scaffold-requirements.sh       #   designs/ 初期セットアップ
+│   └── preview-designs.sh             #   designs/ ブラウザプレビュー
 └── tests/                             # 回帰テスト (267件, 6ファイル)
     ├── structure/
     │   ├── file-existence.spec.ts     #   ファイル存在チェック

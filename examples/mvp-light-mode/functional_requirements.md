@@ -1,4 +1,4 @@
-# Functional Requirements / 機能要件 (Light Mode)
+# 機能要件 (Light Mode)
 
 **Project**: QuickForm - Simple Form Builder
 **Mode**: Light (MVP/PoC)

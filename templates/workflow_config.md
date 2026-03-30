@@ -1,12 +1,8 @@
-# Workflow Configuration / ワークフロー設定
+# ワークフロー設定
 
-<!--
-  このファイルはPhase 0（ワークフロー設定）で生成されます。
-  プロジェクトの特性に応じて、実行するフェーズと
-  スキップするフェーズを記録します。
-  各フェーズの開始時にこのファイルを参照し、
-  スキップ設定のフェーズは自動的にスキップされます。
--->
+> [📋 目次](./README.md) | **設定** | [機能要件](./functional_requirements.md) | [非機能要件](./non_functional_requirements.md) | [US](./user_stories.md) | [UL](./ubiquitous_language.md) | [UI](./ui_design_brief.md)
+
+> 💡 Phase 0 で生成されるワークフロー設定ファイル。実行するフェーズとスキップするフェーズを記録します。
 
 ---
 
@@ -67,7 +63,7 @@
 - Phase 1 でインターネットリサーチとヒアリングを同時進行
 - FR に Change Type (Add/Modify/Remove) と Current Behavior フィールドを追加可能
 - Phase 5（UIデザイン）を自動スキップ（既存プロダクトは既存デザインを使用）
-- 品質評価はデルタ要件向けに調整（詳細は `references/enhance_mode.md`）
+- 品質評価はデルタ要件向けに調整
 
 ---
 
@@ -103,9 +99,10 @@
 
 ## Notes / 備考
 
-<!--
-  ワークフロー設定に関する補足事項があれば記載。
-  例: 「Phase 3は後日追加予定」「Phase 5はデザイナー合流後に実施」
--->
+> 💡 ワークフロー設定に関する補足事項があれば記載。
 
 -
+
+---
+
+[📋 目次](./README.md) | [機能要件 →](./functional_requirements.md)

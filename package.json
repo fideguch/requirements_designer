@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "quality": "npm run lint && npm run typecheck && npm run format:check",
     "test": "playwright test",
+    "preview": "node scripts/generate-preview.js designs",
     "prepare": "husky"
   },
   "lint-staged": {

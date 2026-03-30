@@ -6,10 +6,22 @@ All notable changes to the `requirements_designer` skill are documented in this 
 
 ### Added
 
+- Self-contained Markdown preview: `scripts/generate-preview.js` generates static HTML, no external dependencies
+- Preview shell wrapper: `scripts/preview-designs.sh`
+- Navigation headers and footers in all 7 templates (inter-file linking)
+- Preview instructions in README charter template (`<details>` block)
+- New trigger words: `プレビューして`, `preview`, `designs/をプレビュー`, `マークダウンプレビュー`
 - Split monolithic test file into 6 focused spec files under `tests/structure/` and `tests/content/`
 - Shared test helpers extracted to `tests/helpers/test-helpers.ts`
 - Example output for SaaS Full Mode (`examples/saas-full-mode/`)
 - Example output for MVP Light Mode (`examples/mvp-light-mode/`)
+
+### Changed
+
+- Template H1 titles simplified to Japanese (e.g., `# プロジェクト憲章`)
+- HTML comments converted to visible guidance (`> 💡` hints, `<details>` examples)
+- Section badges made visible (`> **必須**` / `> *任意*`)
+- Privacy: removed internal skill path references from all templates
 
 ## 2026-03-28
 

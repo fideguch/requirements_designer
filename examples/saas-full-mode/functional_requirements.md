@@ -1,4 +1,4 @@
-# Functional Requirements / 機能要件
+# 機能要件
 
 **Project**: TaskFlow - Project Management SaaS
 **Mode**: Full

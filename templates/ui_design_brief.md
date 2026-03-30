@@ -1,10 +1,8 @@
-# UI Design Brief / UIデザインブリーフ
+# UIデザインブリーフ
 
-<!--
-  このテンプレートはPhase 5A（UIデザインブリーフ）の出力です。
-  Phase 5Aの対話Q&Aで収集した情報をもとに自動生成されます。
-  後続のPhase 5B-5Eで参照されるため、正確に記入してください。
--->
+> [📋 目次](./README.md) | [設定](./workflow_config.md) | [機能要件](./functional_requirements.md) | [非機能要件](./non_functional_requirements.md) | [US](./user_stories.md) | [UL](./ubiquitous_language.md) | **UI**
+
+> 💡 Phase 5A の出力。対話 Q&A で収集したデザイン方針を記録します。
 
 ---
 
@@ -18,7 +16,7 @@
 
 ## 1. Platform & Responsive Strategy / プラットフォームとレスポンシブ戦略
 
-<!-- 必須 -->
+> **必須**
 
 - **Target**: [Web / Mobile App / Both]
 - **Primary approach**: [Desktop-first / Mobile-first]
@@ -32,7 +30,7 @@
 
 ## 2. Brand Identity / ブランドアイデンティティ
 
-<!-- 必須 -->
+> **必須**
 
 ### Colors
 
@@ -70,7 +68,7 @@
 
 ## 3. Design Style / デザインスタイル
 
-<!-- 必須 -->
+> **必須**
 
 - **Direction**: [Minimal / Editorial / Dashboard / Playful / Corporate]
 - **Mood keywords**: [3-5 words, e.g., "clean, professional, trustworthy"]
@@ -90,7 +88,7 @@
 
 ## 4. Accessibility / アクセシビリティ
 
-<!-- 必須 -->
+> **必須**
 
 - **Target level**: [WCAG 2.1 AA / AAA]
 - **Contrast ratio**: Normal text ≥ 4.5:1, Large text ≥ 3:1
@@ -110,7 +108,7 @@
 
 ## 6. Figma Files / Figmaファイル
 
-<!-- Phase 5B以降で自動更新 -->
+> 💡 Phase 5B 以降で自動更新
 
 - **FigJam (IA & Flows)**: [URL — Phase 5B完了時に記入]
 - **Design File**: [URL — Phase 5C完了時に記入]
@@ -119,7 +117,7 @@
 
 ## 7. Screen Inventory / 画面インベントリ
 
-<!-- Phase 5B完了時にuser_stories.mdから自動生成 -->
+> 💡 Phase 5B 完了時に user_stories.md から自動生成
 
 | Screen ID | Screen Name | Source US | Priority | Status |
 | --------- | ----------- | --------- | -------- | ------ |
@@ -130,10 +128,11 @@
 Status: `-` = 未着手 / `WF` = ワイヤーフレーム完了 / `MK` = モックアップ完了
 
 ---
+[← UL](./ubiquitous_language.md) | [📋 目次](./README.md)
 
 <!--
   ==========================================
-  内部マッピング（スキル処理用 / ユーザーは無視してOK）
+  内部マッピング（処理用 / ユーザーは無視してOK）
   ==========================================
   Section 1 (Platform)       → Phase 5D レスポンシブフレームサイズ
   Section 2 (Brand)          → Phase 5C デザインシステム変数

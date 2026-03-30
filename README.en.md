@@ -33,6 +33,7 @@ cd requirements_designer && npm install && npm test
 - **Ubiquitous Language (DDD)** — Automatic domain term extraction + unified UI/code naming conventions
 - **Drift Prevention** — Automatic detection of goal/scope contradictions in Phase 2, with rejected scope items recorded with rationale
 - **261 Regression Tests** — Playwright + TypeScript, full CI/CD
+- **Markdown Preview** — Render designs/ in browser. No external dependencies, inter-file navigation
 
 ---
 
@@ -129,10 +130,11 @@ designs/
 | `Generate quality score`                                            | Run Phase 4A quality scoring               |
 | `Generate user stories`                                             | Run Phase 4B user story generation         |
 | `Help`                                                              | Show quick guide                           |
+| `Preview` or `プレビューして`                      | Preview designs/ in browser         |
 
 ### Trigger Words
 
-`要件定義` / `requirements definition` / `機能要件` / `非機能要件` / `要件を整理` / `user stories` / `ユーザーストーリー` / `プロジェクト憲章` / `project charter` / `UIデザイン` / `Figmaデザイン` / `ワイヤーフレーム` / `モックアップ` / `デザインシステム` / `既存プロダクト改善` / `機能改善`
+`要件定義` / `requirements definition` / `機能要件` / `非機能要件` / `要件を整理` / `user stories` / `ユーザーストーリー` / `プロジェクト憲章` / `project charter` / `UIデザイン` / `Figmaデザイン` / `ワイヤーフレーム` / `モックアップ` / `デザインシステム` / `既存プロダクト改善` / `機能改善` / `プレビューして` / `preview` / `マークダウンプレビュー`
 
 ---
 
@@ -176,7 +178,8 @@ requirements_designer/
 │   ├── ui_design_rubric.md            #   UI design quality rubric
 │   └── figma_code_patterns.md         #   Figma Plugin API pattern collection
 ├── scripts/
-│   └── scaffold-requirements.sh       #   designs/ initial setup
+│   ├── scaffold-requirements.sh       #   designs/ initial setup
+│   └── preview-designs.sh             #   designs/ ブラウザプレビュー
 └── tests/
     └── skill-structure.spec.ts        #   Regression tests (261 tests)
 ```
