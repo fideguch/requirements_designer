@@ -225,3 +225,13 @@ test.describe('Phase 5 Trust Design Integration', () => {
     expect(content).toMatch(/信頼設計|trust design/i);
   });
 });
+
+// ============================================================
+// Test Suite: Light Mode Trust Design Guarantee
+// ============================================================
+test.describe('Light Mode Trust Design', () => {
+  test('SKILL.md guarantees Q74-Q76 in Light mode', () => {
+    const skillContent = readFile('SKILL.md');
+    expect(skillContent).toMatch(/ライトモード.*信頼設計.*Q74.*Q76/s);
+  });
+});
