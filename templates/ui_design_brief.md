@@ -86,6 +86,42 @@
 
 ---
 
+## 3.5. Trust Design Principles / 信頼設計原則
+
+<!-- 信頼方程式（NNGroup 2026）: 信頼 = 透明性 × 制御 × 一貫性 × 障害時支援 -->
+
+### Tier 1: 普遍的信頼パターン（全プロジェクト必須）
+
+| パターン | 適用 | 設計メモ |
+|---------|------|---------|
+| P1: Visibility（状態可視性） | ✓必須 | [操作結果表示: トースト/インライン/モーダル] |
+| P2: User Control（制御） | ✓必須 | [Undo提供: Yes. 時間窓: ___秒] |
+| P3: Error Prevention（エラー予防） | ✓必須 | [確認ステップ対象: 削除/送信/___] |
+| P4: Consistency（一貫性） | ✓必須 | [フィードバック統一ルール: ___] |
+| P5: Appropriate Friction（適切な摩擦） | ✓必須 | [プレビュー対象: ___] |
+| P6: Audit & Undo（監査と取り消し） | ✓必須 | [操作ログ表示: Yes/No. 保持期間: ___] |
+| P7: Feedback Loop（フィードバック） | ✓必須 | [収集方法: 👍👎/NPS/コメント] |
+
+### Tier 2: AI強化信頼パターン（AI機能がある場合）
+
+| パターン | 適用 | 設計メモ |
+|---------|------|---------|
+| P8: Intent Preview | [Yes/No] | [不可逆操作のみ / 全操作] |
+| P9: Autonomy Dial | [Yes/No] | [段階: 提案/計画/確認/自律] |
+| P10: Explainable Rationale | [Yes/No] | [一行理由/詳細パネル/プログレッシブ開示] |
+| P11: Confidence Signal | [Yes/No] | [カテゴリ/N-best/数値/可視化] |
+| P12: Escalation Pathway | [Yes/No] | [明確化要求/選択肢/人間ルーティング] |
+| P13: Anti-Anthropomorphism | [Yes/No] | [禁止語彙リスト適用] |
+
+### 信頼キャリブレーション4段階
+
+- Pre-interaction: [___]
+- Early usage: [___]
+- Ongoing: [___]
+- Error recovery: [___]
+
+---
+
 ## 4. Accessibility / アクセシビリティ
 
 > **必須**

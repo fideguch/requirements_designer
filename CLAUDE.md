@@ -26,7 +26,7 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 
 - `SKILL.md` — main skill definition (469 lines, Anthropic 500行準拠)
 - `templates/` — 7 document templates
-- `references/` — 10 reference files (including enhance_mode.md, skill_orchestration.md)
+- `references/` — 11 reference files (including enhance_mode.md, skill_orchestration.md, ux_trust_design.md)
 - `scripts/scaffold-requirements.sh` — designs/ scaffolding (`--with-ul`, `--with-ui`, `--light`, `--enhance`)
 - `tests/skill-structure.spec.ts` — full regression suite (322 tests)
 

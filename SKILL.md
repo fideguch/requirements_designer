@@ -231,6 +231,8 @@ Phase 1, Phase 2, Phase 4A, Phase 4B, Phase 4D
 - スコープ（In/Out）
 - 成功基準（最低1つの定量指標）
 
+完了時に信頼キャリブレーション段階（Pre-interaction / Early usage / Ongoing / Error recovery）を識別し `designs/README.md` に記録する（`references/ux_trust_design.md` Section 5 参照）。
+
 完了時にユーザーに確認: 「プロジェクト憲章のドラフトが完成しました。Phase 2（機能要件の抽出）に進みますか？」
 
 ### エンハンスモード時の動作
@@ -259,7 +261,8 @@ Phase 1 でリサーチとヒアリングを同時進行する。詳細は `refe
 
 1. **コア機能** (ラウンド1-2): 各アクターの主要アクション、データCRUD
 2. **エッジケース** (ラウンド3): 失敗時の挙動、権限、バリデーション
-3. **補完** (ラウンド4-5): バッチ処理、レポート、管理機能
+3. **信頼設計** (ラウンド3D, 全プロジェクト): 可視性・制御・エラー回復等のTier 1質問（`references/ux_trust_design.md` 参照）。AI機能がある場合はRound 3E（Tier 2）も追加
+4. **補完** (ラウンド4-5): バッチ処理、レポート、管理機能
 
 ### 要件の記録形式
 
@@ -293,7 +296,7 @@ FRに Change Type (Add/Modify/Remove) と Current Behavior フィールドを追
 
 1. `designs/README.md` を**全セクション**読み込み、プロジェクト全体の文脈を踏まえる
 2. 10カテゴリについて順に質問:
-   - パフォーマンス / 可用性 / セキュリティ / スケーラビリティ / ユーザビリティ
+   - パフォーマンス / 可用性 / セキュリティ / スケーラビリティ / ユーザビリティ（信頼設計NFRを含む: `references/ux_trust_design.md` Section 8）
    - 保守性 / 互換性 / 法規制・コンプライアンス / データ / 運用
 3. **WebSearchツールを活用**して、ドメイン固有のベストプラクティスを調査し提案
 
@@ -343,7 +346,7 @@ FRに Change Type (Add/Modify/Remove) と Current Behavior フィールドを追
 - FRのカテゴリをエピックとしてグルーピング
 - 優先度はソースFRから継承（最高優先度を採用）
 
-USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + Given-When-Then受け入れ基準）で記録する。生成後にユーザーレビューを依頼し、修正があれば反映する。
+USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + Given-When-Then受け入れ基準）で記録する。信頼設計FR（P1-P7）からも信頼USを自動生成する（AI機能時はP8-P13からも追加）。US数が5件以上の場合は `/pm-user-story-mapping` を起動してリリーススライスに配置する。生成後にユーザーレビューを依頼し、修正があれば反映する。
 
 ### 4C: ユビキタス言語定義
 
@@ -414,7 +417,7 @@ Phase 5 開始時、designs/ の内容を分析して以下を提案:
 
 | Sub-phase | 目的                    | 主要 Figma MCP ツール                         | 成果物                                      |
 | --------- | ----------------------- | --------------------------------------------- | ------------------------------------------- |
-| **5A**    | UIデザインブリーフ      | `whoami`, `search_design_system`              | `designs/ui_design_brief.md`                |
+| **5A**    | UIデザインブリーフ      | `whoami`, `search_design_system`              | `designs/ui_design_brief.md`（Section 3.5 信頼設計原則を含む） |
 | **5B**    | IA & ユーザーフロー     | `create_new_file`, `generate_diagram`         | FigJam IA図 + 画面インベントリ              |
 | **5C**    | デザインシステム構築    | `create_new_file`, `use_figma`                | Figma DS (カラー/タイポ/スペーシング変数)   |
 | **5D**    | ワイヤーフレーム        | `use_figma`, `get_screenshot`                 | グレースケール WF (バッチ3-5画面)           |
@@ -433,6 +436,7 @@ Phase 5 開始時、designs/ の内容を分析して以下を提案:
 ### 共通ルール
 
 - 全サブフェーズでバッチ処理後に `get_screenshot` → HEAL検証 → スキル起動 → ユーザーフィードバック → 即修正
+- 5D-5E: 信頼UIパターン（トースト/確認ダイアログ/Undo）を `references/ux_trust_design.md` Section 9 に基づき配置。AI機能時はインライン推論/信頼度インジケータも追加
 - `ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用
 - 命名規則: WF-[US-XXX], MK-[US-XXX] 形式
 
@@ -526,4 +530,5 @@ Phase 5 開始時、designs/ の内容を分析して以下を提案:
 | `references/phase5_ui_design.md`              | Phase 5 の詳細手順リファレンス             |
 | `references/enhance_mode.md`                  | エンハンスモードの詳細手順リファレンス     |
 | `references/skill_orchestration.md`           | プロジェクトスキャン・スキル自動起動マップ |
+| `references/ux_trust_design.md`               | 全フェーズの信頼設計パターン参照           |
 | `templates/ui_design_brief.md`                | Phase 5A のデザインブリーフ生成時          |

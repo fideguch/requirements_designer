@@ -171,6 +171,46 @@ Does this product display prices or run promotions? (triggers 景品表示法 ch
 43. **監視・アラートの要件は？（何を監視し、誰に通知するか）**
     Monitoring and alerting requirements?
 
+### Round 3D: 信頼設計（全プロジェクト必須） / Trust Design (All Projects)
+
+74. **操作結果をユーザーにどう可視化しますか？（成功/失敗/進行中）**
+    How do you visualize operation results to users? (success/failure/in-progress)
+
+75. **ユーザーが操作を取り消せる場面はどこですか？Undo時間窓は？**
+    Where can users undo actions? What is the undo time window?
+
+76. **破壊的操作（削除・送信等）の前に確認ステップがありますか？**
+    Are there confirmation steps before destructive operations (delete, send, etc.)?
+
+77. **エラー発生時、ユーザーに何を表示し、どう回復を支援しますか？**
+    When errors occur, what do you show users and how do you support recovery?
+
+78. **操作履歴（監査ログ）をユーザーに表示しますか？**
+    Do you display operation history (audit log) to users?
+
+79. **フィードバック収集の仕組みはありますか？**
+    Is there a mechanism for collecting user feedback?
+
+80. **用語・UIパターンは全機能で一貫していますか？**
+    Are terms and UI patterns consistent across all features?
+
+### Round 3E: AI信頼設計（AI機能がある場合） / AI Trust Design (When AI Features Present)
+
+81. **AI判断の理由をユーザーにどう説明しますか？**
+    How do you explain AI decisions to users?
+
+82. **AIの自律操作範囲と人間エスカレーションルールは？**
+    What is the AI's autonomous operation scope and human escalation rules?
+
+83. **AI操作前にプレビュー/確認を表示しますか？**
+    Do you show previews/confirmations before AI operations?
+
+84. **AI出力の信頼度をどう伝えますか？（カテゴリ/数値/可視化）**
+    How do you communicate AI output confidence? (categorical/numeric/visualization)
+
+85. **AI応答に人間的な語彙（理解する/考える）を使わない方針ですか？**
+    Do you have a policy against using human-like vocabulary (understand/think) in AI responses?
+
 ---
 
 ## ドメイン固有の補足質問 / Domain-Specific Supplements
