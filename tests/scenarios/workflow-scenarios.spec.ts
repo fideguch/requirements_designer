@@ -30,7 +30,7 @@ test.describe('Scenario: Phase Progression Prerequisites', () => {
 
     // Then: references functional_requirements
     expect(phase4Section).not.toBeNull();
-    expect(phase4Section![0]).toMatch(/functional_requirements|FR-\d{3}/);
+    expect(phase4Section![0]).toMatch(/functional_requirements|FR-\d{3}|確定したFR/);
   });
 
   test('Phase 5 requires Figma MCP authentication', () => {

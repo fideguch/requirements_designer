@@ -82,11 +82,11 @@ test.describe('Cross-Reference Integrity', () => {
   });
 
   test('Phase 5 sub-phase order is correct (5A < 5B < 5C < 5D < 5E)', () => {
-    const a = skillContent.indexOf('### 5A:');
-    const b = skillContent.indexOf('### 5B:');
-    const c = skillContent.indexOf('### 5C:');
-    const d = skillContent.indexOf('### 5D:');
-    const e = skillContent.indexOf('### 5E:');
+    const a = skillContent.indexOf('**5A**');
+    const b = skillContent.indexOf('**5B**');
+    const c = skillContent.indexOf('**5C**');
+    const d = skillContent.indexOf('**5D**');
+    const e = skillContent.indexOf('**5E**');
 
     expect(a).toBeGreaterThan(-1);
     expect(b).toBeGreaterThan(a);

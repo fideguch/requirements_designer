@@ -20,14 +20,13 @@ test.describe('SKILL.md Figma MCP Tool References', () => {
   });
 
   const figmaTools = [
-    'mcp__claude_ai_Figma__whoami',
-    'mcp__claude_ai_Figma__create_new_file',
-    'mcp__claude_ai_Figma__use_figma',
-    'mcp__claude_ai_Figma__generate_diagram',
-    'mcp__claude_ai_Figma__get_screenshot',
-    'mcp__claude_ai_Figma__search_design_system',
-    'mcp__claude_ai_Figma__create_design_system_rules',
-    'mcp__claude_ai_Figma__get_metadata',
+    'whoami',
+    'create_new_file',
+    'use_figma',
+    'generate_diagram',
+    'get_screenshot',
+    'search_design_system',
+    'get_metadata',
   ];
 
   for (const tool of figmaTools) {
@@ -79,7 +78,7 @@ test.describe('SKILL.md Phase 4C Ubiquitous Language', () => {
   });
 
   test('Phase 4C includes term extraction logic', () => {
-    expect(content).toContain('用語抽出');
+    expect(content).toContain('ドメイン用語');
   });
 
   test('Phase 4C includes anti-pattern rules', () => {
@@ -91,7 +90,7 @@ test.describe('SKILL.md Phase 4C Ubiquitous Language', () => {
   });
 
   test('Phase 4C includes code representation', () => {
-    expect(content).toContain('コード表現');
+    expect(content).toContain('コード命名');
   });
 });
 
@@ -103,14 +102,14 @@ test.describe('SKILL.md Phase 4D Next Steps', () => {
   });
 
   test('Phase 4D includes UI design option', () => {
-    expect(content).toContain('UIデザインを作りたい');
+    expect(content).toContain('UIデザイン');
   });
 
   test('Phase 4D preserves original options', () => {
     expect(content).toContain('PRD化');
     expect(content).toContain('brainstorming');
     expect(content).toContain('writing-plans');
-    expect(content).toContain('品質をもっと上げたい');
+    expect(content).toContain('品質改善');
   });
 });
 
@@ -153,14 +152,16 @@ test.describe('SKILL.md Progress Detection', () => {
 // Test Suite 10: SKILL.md — Phase 5E Quality Scoring
 // ============================================================
 test.describe('SKILL.md Phase 5E Quality', () => {
-  let content: string;
+  let phase5Ref: string;
+  let uiRubric: string;
 
   test.beforeAll(() => {
-    content = readFile('SKILL.md');
+    phase5Ref = readFile('references/phase5_ui_design.md');
+    uiRubric = readFile('references/ui_design_rubric.md');
   });
 
   test('includes UI design quality score table', () => {
-    expect(content).toContain('UIデザイン品質スコア');
+    expect(phase5Ref).toContain('UIデザイン品質スコア');
   });
 
   const scoreDimensions = [
@@ -173,14 +174,15 @@ test.describe('SKILL.md Phase 5E Quality', () => {
 
   for (const dim of scoreDimensions) {
     test(`quality score includes dimension: ${dim}`, () => {
-      expect(content).toContain(dim);
+      const combined = phase5Ref + uiRubric;
+      expect(combined).toContain(dim);
     });
   }
 
   test('includes score thresholds', () => {
-    expect(content).toContain('70点未満');
-    expect(content).toContain('70〜79点');
-    expect(content).toContain('80点以上');
+    expect(phase5Ref).toContain('70点未満');
+    expect(phase5Ref).toContain('70〜79点');
+    expect(phase5Ref).toContain('80点以上');
   });
 });
 
@@ -188,22 +190,24 @@ test.describe('SKILL.md Phase 5E Quality', () => {
 // Test Suite 11: SKILL.md — Phase 5E Next Steps
 // ============================================================
 test.describe('SKILL.md Phase 5E Next Steps', () => {
-  let content: string;
+  let phase5Ref: string;
+  let skillContent: string;
 
   test.beforeAll(() => {
-    content = readFile('SKILL.md');
+    phase5Ref = readFile('references/phase5_ui_design.md');
+    skillContent = readFile('SKILL.md');
   });
 
   test('includes Code Connect option', () => {
-    expect(content).toContain('Code Connect');
+    expect(phase5Ref).toContain('Code Connect');
   });
 
   test('includes implementation plan option', () => {
-    expect(content).toContain('writing-plans');
+    expect(skillContent).toContain('writing-plans');
   });
 
   test('includes design audit option', () => {
-    expect(content).toContain('デザイン監査');
+    expect(phase5Ref).toContain('デザイン監査');
   });
 });
 

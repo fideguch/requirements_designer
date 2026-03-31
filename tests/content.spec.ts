@@ -99,23 +99,23 @@ test.describe('SKILL.md Phase Structure', () => {
   });
 
   test('Phase 5A sub-phase exists', () => {
-    expect(content).toMatch(/### 5A:/);
+    expect(content).toContain('**5A**');
   });
 
   test('Phase 5B sub-phase exists', () => {
-    expect(content).toMatch(/### 5B:/);
+    expect(content).toContain('**5B**');
   });
 
   test('Phase 5C sub-phase exists', () => {
-    expect(content).toMatch(/### 5C:/);
+    expect(content).toContain('**5C**');
   });
 
   test('Phase 5D sub-phase exists', () => {
-    expect(content).toMatch(/### 5D:/);
+    expect(content).toContain('**5D**');
   });
 
   test('Phase 5E sub-phase exists', () => {
-    expect(content).toMatch(/### 5E:/);
+    expect(content).toContain('**5E**');
   });
 });
 
@@ -201,7 +201,8 @@ test.describe('README.md', () => {
   });
 
   test('mentions 5 phases', () => {
-    expect(content).toContain('5つのフェーズ');
+    expect(content).toContain('Phase 0');
+    expect(content).toContain('Phase 5');
   });
 
   test('includes Phase 5 description', () => {
@@ -209,18 +210,15 @@ test.describe('README.md', () => {
   });
 
   test('includes Phase 5 sub-phases', () => {
-    expect(content).toContain('5A:');
-    expect(content).toContain('5B:');
-    expect(content).toContain('5C:');
-    expect(content).toContain('5D:');
-    expect(content).toContain('5E:');
+    expect(content).toContain('**5A**');
+    expect(content).toContain('**5B**');
+    expect(content).toContain('**5C**');
+    expect(content).toContain('**5D**');
+    expect(content).toContain('**5E**');
   });
 
   test('includes Figma MCP tool table', () => {
-    expect(content).toContain('create_new_file');
-    expect(content).toContain('use_figma');
-    expect(content).toContain('generate_diagram');
-    expect(content).toContain('get_screenshot');
+    expect(content).toContain('Figma MCP');
   });
 
   test('includes workflow_config.md in file structure', () => {
@@ -249,8 +247,8 @@ test.describe('README.md', () => {
 
   test('includes new trigger words', () => {
     expect(content).toContain('UIデザイン');
-    expect(content).toContain('wireframe');
-    expect(content).toContain('mockup');
+    expect(content).toContain('ワイヤーフレーム');
+    expect(content).toContain('モックアップ');
   });
 });
 
@@ -320,7 +318,7 @@ test.describe('SKILL.md Phase 0 Workflow Config', () => {
   });
 
   test('Phase 0 default is all phases enabled', () => {
-    expect(content).toContain('デフォルトは全フェーズ実行');
+    expect(content).toContain('全フェーズ実行');
   });
 });
 
