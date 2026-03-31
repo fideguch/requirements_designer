@@ -45,11 +45,22 @@ if (fs.existsSync(OUTPUT_DIR)) {
 fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
 function mdToHtml(markdown) {
-  return execSync('npx -y marked --gfm', {
-    input: markdown,
-    encoding: 'utf-8',
-    timeout: 30000,
-  });
+  // Use temp files for both input and output to avoid execSync pipe buffer truncation (~8KB limit)
+  const tmpInput = path.join(os.tmpdir(), 'marked-input-' + process.pid + '.md');
+  const tmpOutput = path.join(os.tmpdir(), 'marked-output-' + process.pid + '.html');
+  fs.writeFileSync(tmpInput, markdown, 'utf-8');
+  try {
+    execSync(`npx -y marked --gfm -i "${tmpInput}" -o "${tmpOutput}"`, {
+      encoding: 'utf-8',
+      timeout: 30000,
+      shell: true,
+      maxBuffer: 50 * 1024 * 1024,
+    });
+    return fs.readFileSync(tmpOutput, 'utf-8');
+  } finally {
+    try { fs.unlinkSync(tmpInput); } catch (_) {}
+    try { fs.unlinkSync(tmpOutput); } catch (_) {}
+  }
 }
 
 function buildSidebar(activeFile) {
