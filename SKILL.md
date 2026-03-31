@@ -416,13 +416,13 @@ Phase 5 開始時、designs/ の内容を分析して以下を提案:
 
 ### サブフェーズ概要
 
-| Sub-phase | 目的                    | 主要 Figma MCP ツール                         | 成果物                                      |
-| --------- | ----------------------- | --------------------------------------------- | ------------------------------------------- |
+| Sub-phase | 目的                    | 主要 Figma MCP ツール                         | 成果物                                                         |
+| --------- | ----------------------- | --------------------------------------------- | -------------------------------------------------------------- |
 | **5A**    | UIデザインブリーフ      | `whoami`, `search_design_system`              | `designs/ui_design_brief.md`（Section 3.5 信頼設計原則を含む） |
-| **5B**    | IA & ユーザーフロー     | `create_new_file`, `generate_diagram`         | FigJam IA図 + 画面インベントリ              |
-| **5C**    | デザインシステム構築    | `create_new_file`, `use_figma`                | Figma DS (カラー/タイポ/スペーシング変数)   |
-| **5D**    | ワイヤーフレーム        | `use_figma`, `get_screenshot`                 | グレースケール WF (バッチ3-5画面)           |
-| **5E**    | モックアップ & 品質評価 | `use_figma`, `get_screenshot`, `get_metadata` | 高忠実度モックアップ + UIデザイン品質スコア |
+| **5B**    | IA & ユーザーフロー     | `create_new_file`, `generate_diagram`         | FigJam IA図 + 画面インベントリ                                 |
+| **5C**    | デザインシステム構築    | `create_new_file`, `use_figma`                | Figma DS (カラー/タイポ/スペーシング変数)                      |
+| **5D**    | ワイヤーフレーム        | `use_figma`, `get_screenshot`                 | グレースケール WF (バッチ3-5画面)                              |
+| **5E**    | モックアップ & 品質評価 | `use_figma`, `get_screenshot`, `get_metadata` | 高忠実度モックアップ + UIデザイン品質スコア                    |
 
 ### 自動起動するスキル（Phase 5）
 
