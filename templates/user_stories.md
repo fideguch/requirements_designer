@@ -4,11 +4,8 @@
 
 ---
 
-## Document Info
-
-- Project: [プロジェクト名]
-- Generated from: functional_requirements.md v1.0
-- Last Updated: [日付]
+## このドキュメントについて
+ユーザーストーリーとは、**「誰が・何をしたい・なぜ」**をユーザーの視点で整理したものです。各ストーリーには**受け入れ基準**（Given-When-Then形式）がついています。
 
 ---
 
@@ -20,17 +17,32 @@
 
 ---
 
+## ストーリーマップ
+
+| エピック | Must | Should | Could |
+| -------- | ---- | ------ | ----- |
+| [Epic 1] | [US-001](#us-001), [US-002](#us-002) | [US-005](#us-005) | [US-010](#us-010) |
+| [Epic 2] | [US-003](#us-003) | [US-006](#us-006), [US-007](#us-007) | |
+| [Epic 3] | [US-004](#us-004) | [US-008](#us-008), [US-009](#us-009) | [US-011](#us-011) |
+
+---
+
 ## Stories by Epic
 
 ### [Epic 1: エピック名] / [Epic Name]
 
 > 💡 エピック = FRのカテゴリに対応
 
-#### US-001: [ストーリータイトル]
+| US ID | タイトル | ソースFR | 優先度 | SP |
+| ----- | -------- | -------- | ------ | -- |
+| [US-001](#us-001) | [タイトル] | [FR-001](./functional_requirements.md#fr-001) | Must | — |
+
+<a id="us-001"></a>
+#### US-001: [ストーリータイトル] — Must / Should / Could (SP)
+
+**ソースFR:** [FR-001](./functional_requirements.md#fr-001), [FR-002](./functional_requirements.md#fr-002)
 
 - **ストーリー / Story**: As a [アクター], I want [機能], so that [価値].
-- **ソースFR / Source FR**: FR-001, FR-002
-- **優先度 / Priority**: Must / Should / Could
 - **ストーリーポイント / Story Points**: [見積もり]
 - **受け入れ基準 / Acceptance Criteria**:
   - [ ] Given [事前条件], When [アクション], Then [期待結果]
@@ -64,16 +76,6 @@
   T - Testable（テスト可能）
 
 </details>
-
----
-
-## Story Map Overview / ストーリーマップ
-
-| エピック | Must           | Should         | Could  |
-| -------- | -------------- | -------------- | ------ |
-| [Epic 1] | US-001, US-002 | US-005         | US-010 |
-| [Epic 2] | US-003         | US-006, US-007 |        |
-| [Epic 3] | US-004         | US-008, US-009 | US-011 |
 
 ---
 

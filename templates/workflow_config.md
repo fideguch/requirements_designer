@@ -4,14 +4,7 @@
 
 > 💡 Phase 0 で生成されるワークフロー設定ファイル。実行するフェーズとスキップするフェーズを記録します。
 
----
-
-## Document Info
-
-- **Project**: [プロジェクト名]
-- **Mode**: Full / Light / Enhance
-- **Created**: [日付]
-- **Last Updated**: [日付]
+**Mode**: Full / Light / Enhance
 
 ---
 

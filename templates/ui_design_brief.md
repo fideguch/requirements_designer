@@ -6,14 +6,6 @@
 
 ---
 
-## Document Info
-
-- **Project**: [プロジェクト名]
-- **Generated from**: designs/ v1.0
-- **Last Updated**: [日付]
-
----
-
 ## 1. Platform & Responsive Strategy / プラットフォームとレスポンシブ戦略
 
 > **必須**
@@ -157,9 +149,9 @@
 
 | Screen ID | Screen Name | Source US | Priority | Status |
 | --------- | ----------- | --------- | -------- | ------ |
-| SCR-001   |             | US-001    | Must     | -      |
-| SCR-002   |             | US-002    | Must     | -      |
-| SCR-003   |             | US-003    | Should   | -      |
+| SC-001    |             | US-001    | Must     | -      |
+| SC-002    |             | US-002    | Must     | -      |
+| SC-003    |             | US-003    | Should   | -      |
 
 Status: `-` = 未着手 / `WF` = ワイヤーフレーム完了 / `MK` = モックアップ完了
 

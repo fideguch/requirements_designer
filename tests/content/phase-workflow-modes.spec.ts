@@ -76,7 +76,7 @@ test.describe('Workflow Config Template Light Mode', () => {
     content = readFile('templates/workflow_config.md');
   });
 
-  test('has Mode field in Document Info', () => {
+  test('has Mode field', () => {
     expect(content).toContain('**Mode**');
   });
 

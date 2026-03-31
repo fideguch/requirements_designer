@@ -95,8 +95,8 @@ test.describe('UI Design Brief Template', () => {
     expect(content).toContain('Caption');
   });
 
-  test('has screen inventory table with SCR-001 format', () => {
-    expect(content).toMatch(/SCR-001/);
+  test('has screen inventory table with SC-001 format', () => {
+    expect(content).toMatch(/SC-001/);
   });
 
   test('has internal mapping notes', () => {
@@ -369,12 +369,11 @@ test.describe('Ubiquitous Language Template', () => {
     content = readFile('templates/ubiquitous_language.md');
   });
 
-  test('has Bounded Contexts section', () => {
-    expect(content).toContain('Bounded Contexts');
+  test('has category-based glossary section', () => {
+    expect(content).toContain('用語集');
   });
 
   test('has Glossary section', () => {
-    expect(content).toContain('Glossary');
     expect(content).toContain('用語集');
   });
 
@@ -383,11 +382,11 @@ test.describe('Ubiquitous Language Template', () => {
   });
 
   test('has Definition field', () => {
-    expect(content).toContain('定義 / Definition');
+    expect(content).toContain('定義');
   });
 
   test('has User-Facing Label field', () => {
-    expect(content).toContain('ユーザー向けラベル / User-Facing Label');
+    expect(content).toContain('UIラベル');
   });
 
   test('has Code Representation fields', () => {

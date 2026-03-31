@@ -78,8 +78,8 @@ test.describe('UI Design Brief Template', () => {
     expect(content).toContain('Caption');
   });
 
-  test('has screen inventory table with SCR-001 format', () => {
-    expect(content).toMatch(/SCR-001/);
+  test('has screen inventory table with SC-001 format', () => {
+    expect(content).toMatch(/SC-001/);
   });
 
   test('has internal mapping notes', () => {

@@ -2,12 +2,8 @@
 
 > [📋 目次](./README.md) | [設定](./workflow_config.md) | [機能要件](./functional_requirements.md) | **非機能要件** | [US](./user_stories.md) | [UL](./ubiquitous_language.md) | [UI](./ui_design_brief.md)
 
-## Document Info
-
-- Project: [プロジェクト名]
-- Version: 1.0
-- Last Updated: [日付]
-- Quality Score: [XX]/100
+## このドキュメントについて
+非機能要件とは、**「システムがどの程度の品質で動くべきか」**を定義したものです。エンジニアが技術選定やインフラ設計を行う際の判断基準になります。
 
 ---
 
@@ -19,18 +15,27 @@
 
 ---
 
+## 要件サマリー
+
+| カテゴリ | Must | Should |
+| -------- | ---- | ------ |
+| パフォーマンス | [NFR-001](#nfr-001): [タイトル] | — |
+
+---
+
 ## Categories
 
 ### Performance / パフォーマンス
 
-#### NFR-001: [要件タイトル]
+<a id="nfr-001"></a>
+#### NFR-001: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [レスポンスタイム、スループット等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: API レスポンスタイム</summary>
@@ -49,14 +54,15 @@
 
 ### Availability / 可用性
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-availability"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [稼働率、MTTR等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: サービス稼働率</summary>
@@ -74,14 +80,15 @@
 
 ### Security / セキュリティ
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-security"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [準拠基準、脆弱性件数等]
 - **目標値 / Target**: [具体的な数値・基準]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: 認証・認可</summary>
@@ -99,14 +106,15 @@
 
 ### Scalability / スケーラビリティ
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-scalability"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [同時接続数、処理件数等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: 水平スケーリング</summary>
@@ -124,14 +132,15 @@
 
 ### Usability / ユーザビリティ
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-usability"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [完了率、エラー率等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: 初回利用完了率</summary>
@@ -149,14 +158,15 @@
 
 ### Maintainability / 保守性
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-maintainability"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [カバレッジ、複雑度等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: テストカバレッジ</summary>
@@ -174,14 +184,15 @@
 
 ### Compatibility / 互換性
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-compatibility"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [対応環境、バージョン等]
 - **目標値 / Target**: [具体的な対応範囲]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: ブラウザ対応</summary>
@@ -199,14 +210,15 @@
 
 ### Regulatory & Compliance / 法規制・コンプライアンス
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-regulatory"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [準拠法令、規格等]
 - **目標値 / Target**: [準拠状態・対応内容]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: 個人情報保護</summary>
@@ -224,14 +236,15 @@
 
 ### Data / データ
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-data"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [RPO、RTO、保存期間等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: バックアップ・復旧</summary>
@@ -249,14 +262,15 @@
 
 ### Operational / 運用
 
-#### NFR-00X: [要件タイトル]
+<a id="nfr-00x-operational"></a>
+#### NFR-00X: [要件タイトル] — Must / Should / Could
+
+> **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
 
 - **説明 / Description**: ...
 - **指標 / Metric**: [通知時間、対応時間等]
 - **目標値 / Target**: [具体的な数値]
 - **測定方法 / Measurement**: [どう測るか]
-- **優先度 / Priority**: Must / Should / Could
-- **関連FR / Related FR**: FR-XXX
 
 <details>
 <summary>記入例: 監視・アラート</summary>

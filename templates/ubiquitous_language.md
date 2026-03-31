@@ -6,57 +6,34 @@
 
 ---
 
-## Document Info
-
-- **Project**: [プロジェクト名]
-- **Generated from**: functional_requirements.md, non_functional_requirements.md, user_stories.md
-- **Last Updated**: [日付]
+## このドキュメントについて
+本ページはプロジェクトの**ユビキタス言語定義**（Ubiquitous Language）です。FR・NFR・USから自動抽出した用語をベースに、対話Q&Aで精緻化しています。
 
 ---
 
-## 1. Bounded Contexts / 境界づけられたコンテキスト
+## 1. 用語集
 
-<details><summary>ガイダンス</summary>
+### [カテゴリ名]
 
-プロジェクト内で異なる語彙体系を持つ領域を識別する。
-小規模プロジェクトではBC-001のみの場合も多い。
-同じ用語が異なるコンテキストで異なる意味を持つ場合、
-コンテキストを分けて管理する。
+<a id="ul-001"></a>
+
+| ID | 用語 | UIラベル | 定義 | ソース | 備考 |
+| -- | ---- | -------- | ---- | ------ | ---- |
+| UL-001 | [用語] | [UIラベル] | [定義] | [FR-001](./functional_requirements.md#fr-001), [US-001](./user_stories.md#us-001) | [備考] |
+
+<details><summary>コード表現の詳細</summary>
+
+#### UL-001: [用語]
+- **コード表現**: Class: `PascalCase` / Variable: `camelCase` / DB: `snake_case` / API: `/kebab-case`
+- **エイリアス**: [許容される同義語]
+- **アンチパターン**: [避けるべき表現と理由]
+- **使用例**: UI: 「...」 / Code: `...` / Conversation: 「...」
 
 </details>
 
-| Context ID | Context Name     | Description              | Primary Actors |
-| ---------- | ---------------- | ------------------------ | -------------- |
-| BC-001     | [コンテキスト名] | [このコンテキストの説明] | [主要アクター] |
-
 ---
 
-## 2. Glossary / 用語集
-
-### BC-001: [コンテキスト名]
-
-#### UL-001: [用語 / Term]
-
-- **定義 / Definition**: [この概念のこのコンテキストにおける明確な意味]
-- **ユーザー向けラベル / User-Facing Label**: [UIに表示する名前]
-- **コード表現 / Code Representation**:
-  - Class/Type: `PascalCase`
-  - Variable/Method: `camelCase`
-  - DB Table/Column: `snake_case`
-  - API Endpoint: `/kebab-case`
-  - File Path: `kebab-case`
-- **コンテキスト / Context**: BC-001
-- **ソース / Source**: FR-001, US-001
-- **エイリアス / Aliases**: [許容される同義語]
-- **アンチパターン / Anti-patterns**: [避けるべき表現と理由]
-- **使用例 / Usage Examples**:
-  - UI: 「[ボタンテキストやラベルの例]」
-  - Code: `[コードスニペットの例]`
-  - Conversation: 「[会話での使用例]」
-
----
-
-## 3. Anti-Pattern Registry / アンチパターン一覧
+## 2. Anti-Pattern Registry / アンチパターン一覧
 
 > 技術用語がそのままユーザー向け名称になっている等、避けるべき命名パターンを記録する。
 >
@@ -81,7 +58,7 @@
 
 ---
 
-## 4. Naming Convention Rules / 命名規則
+## 3. Naming Convention Rules / 命名規則
 
 ### 一般ルール
 
@@ -120,20 +97,20 @@
 
 ---
 
-## 5. Traceability Matrix / 追跡マトリクス
+## 4. Traceability Matrix / 追跡マトリクス
 
-| UL-ID  | Term | User Label | Source FR | Source NFR | Source US | Used in UI (SCR) |
-| ------ | ---- | ---------- | --------- | ---------- | --------- | ---------------- |
-| UL-001 |      |            |           |            |           |                  |
+| UL-ID  | Term | User Label | Source FR | Source NFR | Source US | Used in UI (SC) |
+| ------ | ---- | ---------- | --------- | ---------- | --------- | --------------- |
+| UL-001 |      |            |           |            |           |                 |
 
 ---
 
-## 6. Summary / サマリー
+## 5. Summary / サマリー
 
-| Bounded Context | Term Count | Anti-Pattern Count |
-| --------------- | ---------- | ------------------ |
-| BC-001: [name]  |            |                    |
-| **Total**       |            |                    |
+| カテゴリ | 用語数 |
+| -------- | ------ |
+| [カテゴリ名] | |
+| **合計** | |
 
 ---
 
@@ -143,10 +120,9 @@
   ==========================================
   内部マッピング（処理用 / ユーザーは無視してOK）
   ==========================================
-  Section 1 (Bounded Contexts)  → Phase 5 コンテキスト別画面グルーピング
-  Section 2 (Glossary)          → Phase 5D/5E UIラベル、実装コード命名
-  Section 3 (Anti-Patterns)     → Phase 4A 一貫性チェック補強
-  Section 4 (Naming Rules)      → 実装フェーズのコード規約
-  Section 5 (Traceability)      → Phase 5 画面-用語マッピング
+  Section 1 (用語集)          → Phase 5D/5E UIラベル、実装コード命名
+  Section 2 (Anti-Patterns)   → Phase 4A 一貫性チェック補強
+  Section 3 (Naming Rules)    → 実装フェーズのコード規約
+  Section 4 (Traceability)    → Phase 5 画面-用語マッピング
   ==========================================
 -->
