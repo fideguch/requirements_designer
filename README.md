@@ -1,6 +1,6 @@
 # Requirements Designer
 
-**267 tests** | **Anthropic 500-line compliant** | **Figma MCP integrated**
+**692 tests** | **Figma MCP integrated**
 
 ## Product Vision
 
@@ -46,11 +46,11 @@ cd requirements_designer && npm install && npm test
 - **5次元品質スコアリング** — 網羅性・具体性・テスト可能性・一貫性・追跡可能性（100点満点）
 - **Figma MCP連携** — 要件からデザインシステム・WF・モックアップを直接Figmaに生成
 - **ユビキタス言語 (DDD)** — ドメイン用語の自動抽出 + UI/コード命名規則の統一
-- **76問+ 質問バンク** — Phase 1-3 の質問カタログで抜け漏れを防止
+- **85問+ 質問バンク** — Phase 1-3 の質問カタログで抜け漏れを防止
 - **ドリフト防止** — Phase 2 で目標・スコープとの矛盾を自動検出、却下スコープを理由付き記録
 - **エラーハンドリング** — Phase 5 開始時の品質スコア閾値チェック（70未満で警告、ユーザー判断でオーバーライド可能）
 - **スキル自動起動** — 各フェーズで関連スキルを自動呼び出し（要件フェーズ5種 + デザインフェーズ5種）
-- **267件の回帰テスト** — Playwright + TypeScript、CI/CD完備
+- **692件の回帰テスト** — Playwright + TypeScript、CI/CD完備
 - **Markdownプレビュー** — designs/をブラウザにレンダリング表示。外部依存不要、ファイル間ナビゲーション対応
 
 ---
@@ -186,7 +186,7 @@ designs/
 
 ```
 requirements_designer/
-├── SKILL.md                           # スキル定義 (478行)
+├── SKILL.md                           # スキル定義 (589行)
 ├── README.md                          # このファイル
 ├── templates/                         # designs/ にコピーされるテンプレート (7件)
 │   ├── README_charter.md              #   プロジェクト憲章
@@ -197,7 +197,7 @@ requirements_designer/
 │   ├── ubiquitous_language.md         #   ユビキタス言語定義
 │   └── ui_design_brief.md            #   UIデザインブリーフ
 ├── references/                        # スキル実行中に参照するリファレンス (11件)
-│   ├── question_bank.md               #   Phase 1-3 質問カタログ (88問, 信頼設計12問含む)
+│   ├── question_bank.md               #   Phase 1-3 質問カタログ (85問)
 │   ├── quality_rubric.md              #   品質評価ルブリック (Full/Light/Enhance)
 │   ├── enhance_mode.md                #   エンハンスモード詳細手順
 │   ├── skill_orchestration.md         #   プロジェクトスキャン・スキル自動起動マップ
@@ -210,16 +210,31 @@ requirements_designer/
 │   └── ux_trust_design.md            #   UX信頼設計リファレンス (2層: Tier 1全プロジェクト + Tier 2 AI)
 ├── scripts/
 │   ├── scaffold-requirements.sh       #   designs/ 初期セットアップ
-│   └── preview-designs.sh             #   designs/ ブラウザプレビュー
-└── tests/                             # 回帰テスト (267件, 6ファイル)
+│   ├── preview-designs.sh             #   designs/ ブラウザプレビュー
+│   └── generate-preview.js            #   プレビューHTML生成
+└── tests/                             # 回帰テスト (692件, 18ファイル)
+    ├── structure.spec.ts              #   構造テストエントリ
+    ├── content.spec.ts                #   コンテンツテストエントリ
+    ├── phases.spec.ts                 #   フェーズテスト
+    ├── references.spec.ts             #   リファレンステスト
+    ├── trust-design.spec.ts           #   UX信頼設計テスト
+    ├── linkify-ids.spec.ts            #   アンカーリンク検証テスト
+    ├── helpers/
+    │   └── test-helpers.ts            #   テストユーティリティ
     ├── structure/
     │   ├── file-existence.spec.ts     #   ファイル存在チェック
     │   ├── skill-frontmatter.spec.ts  #   SKILL.md フロントマター検証
-    │   └── template-content.spec.ts   #   テンプレート内容検証
-    └── content/
-        ├── cross-references.spec.ts   #   ファイル間参照整合性
-        ├── phase-workflow.spec.ts      #   フェーズワークフロー検証
-        └── rubric-scoring.spec.ts      #   品質ルブリック検証
+    │   ├── template-content.spec.ts   #   テンプレート内容検証
+    │   ├── template-privacy.spec.ts   #   テンプレートプライバシー検証
+    │   └── template-navigation.spec.ts #  テンプレートナビゲーション検証
+    ├── content/
+    │   ├── cross-references.spec.ts   #   ファイル間参照整合性
+    │   ├── phase-workflow-core.spec.ts #   フェーズワークフロー (コア)
+    │   ├── phase-workflow-modes.spec.ts #  フェーズワークフロー (モード別)
+    │   ├── rubric-scoring-core.spec.ts #   品質ルブリック (コア)
+    │   └── rubric-scoring-integration.spec.ts # 品質ルブリック (統合)
+    └── scenarios/
+        └── workflow-scenarios.spec.ts #   ワークフローシナリオテスト
 ```
 
 ---

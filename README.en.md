@@ -1,6 +1,6 @@
 # Requirements Designer
 
-**261 tests passing** | **500-line skill guideline compliant** | **Figma MCP integrated**
+**692 tests passing** | **Figma MCP integrated**
 
 A Claude Code skill for interactive Q&A-based requirements definition.
 Simply say "I want to define requirements for X" and it will progressively generate a project charter, functional requirements, non-functional requirements, and user stories, presenting quality scores with improvement suggestions. With Figma MCP integration, you can generate design systems, wireframes, and mockups end-to-end from requirements.
@@ -32,7 +32,7 @@ cd requirements_designer && npm install && npm test
 - **Figma MCP Integration** — Generate design systems, wireframes, and mockups directly in Figma from requirements
 - **Ubiquitous Language (DDD)** — Automatic domain term extraction + unified UI/code naming conventions
 - **Drift Prevention** — Automatic detection of goal/scope contradictions in Phase 2, with rejected scope items recorded with rationale
-- **261 Regression Tests** — Playwright + TypeScript, full CI/CD
+- **692 Regression Tests** — Playwright + TypeScript, full CI/CD
 - **Markdown Preview** — Render designs/ in browser. No external dependencies, inter-file navigation
 
 ---
@@ -156,7 +156,7 @@ designs/
 
 ```
 requirements_designer/
-├── SKILL.md                           # Skill definition (461 lines)
+├── SKILL.md                           # Skill definition (589 lines)
 ├── README.md                          # Japanese documentation
 ├── README.en.md                       # This file
 ├── templates/                         # Templates copied to designs/ (7 files)
@@ -167,21 +167,45 @@ requirements_designer/
 │   ├── workflow_config.md             #   Workflow configuration
 │   ├── ubiquitous_language.md         #   Ubiquitous language definitions
 │   └── ui_design_brief.md            #   UI design brief
-├── references/                        # Reference files used during skill execution (9 files)
-│   ├── question_bank.md               #   Phase 1-3 question catalog (73 questions)
+├── references/                        # Reference files used during skill execution (11 files)
+│   ├── question_bank.md               #   Phase 1-3 question catalog (85 questions)
 │   ├── quality_rubric.md              #   Quality evaluation rubric (Full/Light/Enhance)
 │   ├── enhance_mode.md                #   Enhance mode detailed procedure
+│   ├── skill_orchestration.md         #   Project scan & skill auto-invocation map
 │   ├── best_practices.md              #   NFR suggestion best practices
 │   ├── ubiquitous_language_questions.md #  UL question catalog
 │   ├── phase5_ui_design.md            #   Phase 5 detailed procedure reference
 │   ├── ui_design_questions.md         #   UI design question catalog
 │   ├── ui_design_rubric.md            #   UI design quality rubric
-│   └── figma_code_patterns.md         #   Figma Plugin API pattern collection
+│   ├── figma_code_patterns.md         #   Figma Plugin API pattern collection
+│   └── ux_trust_design.md            #   UX trust design reference (2-layer: Tier 1 all projects + Tier 2 AI)
 ├── scripts/
 │   ├── scaffold-requirements.sh       #   designs/ initial setup
-│   └── preview-designs.sh             #   designs/ ブラウザプレビュー
-└── tests/
-    └── skill-structure.spec.ts        #   Regression tests (261 tests)
+│   ├── preview-designs.sh             #   designs/ browser preview
+│   └── generate-preview.js            #   Preview HTML generator
+└── tests/                             # Regression tests (692 tests, 18 files)
+    ├── structure.spec.ts              #   Structure test entry
+    ├── content.spec.ts                #   Content test entry
+    ├── phases.spec.ts                 #   Phase tests
+    ├── references.spec.ts             #   Reference tests
+    ├── trust-design.spec.ts           #   UX trust design tests
+    ├── linkify-ids.spec.ts            #   Anchor link validation tests
+    ├── helpers/
+    │   └── test-helpers.ts            #   Test utilities
+    ├── structure/
+    │   ├── file-existence.spec.ts     #   File existence checks
+    │   ├── skill-frontmatter.spec.ts  #   SKILL.md frontmatter validation
+    │   ├── template-content.spec.ts   #   Template content validation
+    │   ├── template-privacy.spec.ts   #   Template privacy validation
+    │   └── template-navigation.spec.ts #  Template navigation validation
+    ├── content/
+    │   ├── cross-references.spec.ts   #   Cross-file reference integrity
+    │   ├── phase-workflow-core.spec.ts #   Phase workflow (core)
+    │   ├── phase-workflow-modes.spec.ts #  Phase workflow (modes)
+    │   ├── rubric-scoring-core.spec.ts #   Quality rubric (core)
+    │   └── rubric-scoring-integration.spec.ts # Quality rubric (integration)
+    └── scenarios/
+        └── workflow-scenarios.spec.ts #   Workflow scenario tests
 ```
 
 ---

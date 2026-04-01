@@ -24,11 +24,13 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 
 ### Skill source (`~/.claude/skills/requirements_designer/`)
 
-- `SKILL.md` — main skill definition (469 lines, Anthropic 500行準拠)
+- `SKILL.md` — main skill definition (589 lines)
 - `templates/` — 7 document templates
 - `references/` — 11 reference files (including enhance_mode.md, skill_orchestration.md, ux_trust_design.md)
 - `scripts/scaffold-requirements.sh` — designs/ scaffolding (`--with-ul`, `--with-ui`, `--light`, `--enhance`)
-- `tests/skill-structure.spec.ts` — full regression suite (322 tests)
+- `scripts/preview-designs.sh` — designs/ browser preview
+- `scripts/generate-preview.js` — preview HTML generator
+- `tests/` — regression test suite (692 tests, 16 files)
 
 ## Tech Stack
 
@@ -78,7 +80,7 @@ When adding phases or files to the skill, always update simultaneously:
 1. **SKILL.md** — frontmatter triggers, help section, progress detection, new phase, Reference Files table
 2. **README.md** — overview, document list, phase descriptions, file structure, skill integrations
 3. **scripts/scaffold-requirements.sh** — template copies, flag support
-4. **tests/skill-structure.spec.ts** — file existence, content, cross-reference tests
+4. **tests/** — file existence, content, cross-reference tests (16 files)
 
 Verify before commit:
 
@@ -91,7 +93,7 @@ cd ~/.claude/skills/requirements_designer && npx playwright test
 ```bash
 /requirements_designer                    # Launch the skill
 cd ~/.claude/skills/requirements_designer
-npm test                                  # Run regression tests (261)
+npm test                                  # Run regression tests (597)
 npm run quality                           # lint + typecheck + format:check
 scripts/scaffold-requirements.sh . --with-ui  # Scaffold designs/ with UI phase
 scripts/scaffold-requirements.sh . --light    # Scaffold designs/ in Light Mode

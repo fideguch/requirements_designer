@@ -6,5 +6,9 @@ test-results/
 playwright-report/
 node_modules/
 
+# Session artifacts
+HANDOFF.md
+CHANGELOG.md
+
 # OS
 .DS_Store
