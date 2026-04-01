@@ -46,7 +46,7 @@
 - **目標値**: 200ms以内（GET）、500ms以内（POST）
 - **測定方法**: APMツール（DataDog等）で継続監視
 - **優先度**: Must
-- **関連FR**: FR-001, FR-005
+- **関連FR**: [FR-001](./functional_requirements.md#fr-001), [FR-005](./functional_requirements.md#fr-005)
 
 </details>
 
@@ -54,7 +54,7 @@
 
 ### Availability / 可用性
 
-<a id="nfr-00x-availability"></a>
+<a id="nfr-002"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -80,7 +80,7 @@
 
 ### Security / セキュリティ
 
-<a id="nfr-00x-security"></a>
+<a id="nfr-003"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -106,7 +106,7 @@
 
 ### Scalability / スケーラビリティ
 
-<a id="nfr-00x-scalability"></a>
+<a id="nfr-004"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -132,7 +132,7 @@
 
 ### Usability / ユーザビリティ
 
-<a id="nfr-00x-usability"></a>
+<a id="nfr-005"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -158,7 +158,7 @@
 
 ### Maintainability / 保守性
 
-<a id="nfr-00x-maintainability"></a>
+<a id="nfr-006"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -184,7 +184,7 @@
 
 ### Compatibility / 互換性
 
-<a id="nfr-00x-compatibility"></a>
+<a id="nfr-007"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -210,7 +210,7 @@
 
 ### Regulatory & Compliance / 法規制・コンプライアンス
 
-<a id="nfr-00x-regulatory"></a>
+<a id="nfr-008"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -236,7 +236,7 @@
 
 ### Data / データ
 
-<a id="nfr-00x-data"></a>
+<a id="nfr-009"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)
@@ -262,7 +262,7 @@
 
 ### Operational / 運用
 
-<a id="nfr-00x-operational"></a>
+<a id="nfr-010"></a>
 #### NFR-00X: [要件タイトル] — Must / Should / Could
 
 > **関連FR:** [FR-XXX](./functional_requirements.md#fr-xxx)

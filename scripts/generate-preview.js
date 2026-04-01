@@ -20,7 +20,6 @@ const FILE_ORDER = [
   { file: 'non_functional_requirements.md', label: '非機能要件' },
   { file: 'user_stories.md', label: 'ユーザーストーリー' },
   { file: 'ubiquitous_language.md', label: 'ユビキタス言語' },
-  { file: 'screen_inventory.md', label: '画面一覧' },
   { file: 'ui_design_brief.md', label: 'UIデザインブリーフ' },
 ];
 
