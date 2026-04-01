@@ -2,11 +2,11 @@
 // linkify-ids.js — Detect and fix unlinked ID references in designs/*.md
 //
 // Usage:
-//   node scripts/linkify-ids.js [designs_dir]        # detect only (exit 1 if found)
-//   node scripts/linkify-ids.js --fix [designs_dir]   # detect and auto-fix
+//   node scripts/linkify-ids.js [path]        # detect only (exit 1 if found)
+//   node scripts/linkify-ids.js --fix [path]   # detect and auto-fix
 //
-// No external dependencies. Uses line-based analysis with context-aware
-// skipping (headings, anchor tags, HTML comments, code blocks).
+// [path] can be a directory or a single .md file.
+// No external dependencies.
 
 'use strict';
 
@@ -14,7 +14,6 @@ const fs = require('fs');
 const path = require('path');
 
 const ID_PATTERN = /(?:FR|NFR|US|SC|UL)-\d{3}/g;
-const LINKED_ID_PATTERN = /\[(?:FR|NFR|US|SC|UL)-\d{3}\]\(/g;
 
 // Map ID prefix to the file where its anchors are defined
 const FILE_MAP = {
@@ -22,44 +21,98 @@ const FILE_MAP = {
   NFR: 'non_functional_requirements.md',
   US: 'user_stories.md',
   UL: 'ubiquitous_language.md',
-  SC: 'functional_requirements.md', // SC anchors live in FR file
+  SC: 'functional_requirements.md',
 };
 
 function buildLink(id, currentFile) {
   const prefix = id.split('-')[0];
-  const anchor = id.toLowerCase().replace('-', '-');
+  const anchor = id.toLowerCase();
   const targetFile = FILE_MAP[prefix];
 
-  if (!targetFile) return `[${id}](#${anchor})`;
-
-  if (targetFile === currentFile) {
+  if (!targetFile || targetFile === currentFile) {
     return `[${id}](#${anchor})`;
   }
   return `[${id}](./${targetFile}#${anchor})`;
 }
 
-function isInsideLink(line, matchIndex, matchStr) {
-  // Check if this match is inside an HTML anchor tag: <a id="fr-001">
-  const before = line.substring(0, matchIndex);
-  if (before.includes('<a id="') && !before.includes('">')) {
-    return true; // Inside an anchor tag attribute
+/**
+ * Strip HTML comment regions from a line, returning only non-comment text.
+ * Preserves character positions by replacing comment content with spaces.
+ */
+function stripComments(line, inComment) {
+  let result = '';
+  let i = 0;
+  let commenting = inComment;
+
+  while (i < line.length) {
+    if (!commenting) {
+      if (line.substring(i, i + 4) === '<!--') {
+        commenting = true;
+        result += '    '; // replace <!-- with spaces
+        i += 4;
+        continue;
+      }
+      result += line[i];
+    } else {
+      if (line.substring(i, i + 3) === '-->') {
+        commenting = false;
+        result += '   '; // replace --> with spaces
+        i += 3;
+        continue;
+      }
+      result += ' '; // replace comment char with space
+    }
+    i++;
   }
 
-  // Check if this match is already part of a markdown link: [ID](...)
-  const after = line.substring(matchIndex + matchStr.length);
+  return { text: result, inComment: commenting };
+}
 
-  // Pattern: [...ID...](...)  — already linked
-  const lastBracketOpen = before.lastIndexOf('[');
-  const lastBracketClose = before.lastIndexOf(']');
-  if (lastBracketOpen > lastBracketClose && after.startsWith('](')) {
+/**
+ * Check if a match at the given position is already inside a markdown link.
+ * Uses the ORIGINAL line (before any modifications) for reliable detection.
+ */
+function isInsideLink(line, matchIndex, matchLen) {
+  // Check if inside an HTML anchor attribute: <a id="fr-001">
+  const segment = line.substring(0, matchIndex + matchLen + 5);
+  const lastAnchorOpen = segment.lastIndexOf('<a id="');
+  if (lastAnchorOpen !== -1 && lastAnchorOpen < matchIndex) {
+    const closingQuote = segment.indexOf('">', lastAnchorOpen + 7);
+    if (closingQuote === -1 || closingQuote >= matchIndex) {
+      return true; // Inside anchor attribute
+    }
+  }
+
+  // Check if this ID is the text of a markdown link: [ID](...)
+  // Look for the nearest enclosing [...](...)
+  const before = line.substring(0, matchIndex);
+  const after = line.substring(matchIndex + matchLen);
+
+  // Direct check: immediately preceded by [ and followed by ](
+  if (before.endsWith('[') && after.startsWith('](')) {
     return true;
   }
 
-  // Check if preceded by '[' (we're inside link text)
-  if (lastBracketOpen > lastBracketClose) {
-    // Verify there's a closing ]( after our position
-    const closeIdx = line.indexOf('](', matchIndex);
-    if (closeIdx !== -1) return true;
+  // Check if inside link text: [some ID text](url)
+  // Find the last unmatched [ before our position
+  let bracketDepth = 0;
+  for (let i = matchIndex - 1; i >= 0; i--) {
+    if (line[i] === ']') bracketDepth++;
+    if (line[i] === '[') {
+      if (bracketDepth === 0) {
+        // Found unmatched [. Check if there's a ]( that closes AFTER our position
+        const closePos = line.indexOf('](', matchIndex);
+        if (closePos !== -1 && closePos < line.indexOf('[', matchIndex + matchLen)) {
+          return true;
+        }
+        // Also check if ]( immediately follows the match
+        if (after.match(/^\]\(/)) {
+          return true;
+        }
+        break;
+      }
+      bracketDepth--;
+    }
   }
 
   return false;
@@ -67,7 +120,18 @@ function isInsideLink(line, matchIndex, matchStr) {
 
 function processFile(filepath, fix) {
   const currentFile = path.basename(filepath);
-  const content = fs.readFileSync(filepath, 'utf-8');
+  let content;
+  try {
+    content = fs.readFileSync(filepath, 'utf-8');
+  } catch (err) {
+    console.error(`Error reading ${filepath}: ${err.message}`);
+    return [];
+  }
+
+  // Normalize line endings to \n, remember if CRLF
+  const hasCRLF = content.includes('\r\n');
+  if (hasCRLF) content = content.replace(/\r\n/g, '\n');
+
   const lines = content.split('\n');
   const issues = [];
   let inCodeBlock = false;
@@ -76,45 +140,45 @@ function processFile(filepath, fix) {
   const newLines = lines.map((line, idx) => {
     const lineNum = idx + 1;
 
-    // Track code blocks
-    if (line.trim().startsWith('```')) {
+    // Track fenced code blocks (``` or ~~~)
+    if (/^(`{3,}|~{3,})/.test(line.trim())) {
       inCodeBlock = !inCodeBlock;
       return line;
     }
     if (inCodeBlock) return line;
 
-    // Track HTML comments (multi-line)
-    if (line.includes('<!--')) inHtmlComment = true;
-    if (line.includes('-->')) {
-      inHtmlComment = false;
-      return line;
-    }
-    if (inHtmlComment) return line;
+    // Handle HTML comments — strip comment regions, process remainder
+    const { text: uncommented, inComment: stillInComment } = stripComments(line, inHtmlComment);
+    inHtmlComment = stillInComment;
+    // If the entire line is inside a comment, skip
+    if (uncommented.trim() === '') return line;
 
-    // Note: lines with <a id=...> may also contain linkable IDs in table cells
-    // Only skip if the ENTIRE line is just an anchor tag
-    if (line.trim().startsWith('<a id=') && line.trim().endsWith('</a>')) return line;
+    // Skip lines that are ONLY an anchor tag (standalone anchor)
+    if (line.trim().match(/^<a id="[^"]+"><\/a>$/)) return line;
 
-    // Skip heading lines (#### FR-001: Title — these are definitions, not references)
+    // Skip heading lines (definitions, not references)
     if (/^#{1,6}\s/.test(line.trim())) return line;
 
-    // Find all ID matches in this line
+    // Find all ID matches in the uncommented text
+    const matches = [...uncommented.matchAll(ID_PATTERN)];
+    if (matches.length === 0) return line;
+
+    // Process matches on the ORIGINAL line, using positions from uncommented text
     let newLine = line;
     let offset = 0;
-    const matches = [...line.matchAll(ID_PATTERN)];
 
     for (const match of matches) {
       const id = match[0];
-      const originalIndex = match.index;
-      const adjustedIndex = originalIndex + offset;
+      const posInUncommented = match.index;
+      const adjustedPos = posInUncommented + offset;
 
-      // Skip if already inside a markdown link
-      if (isInsideLink(newLine, adjustedIndex, id)) continue;
+      // Skip if already inside a markdown link (check original line)
+      if (isInsideLink(newLine, adjustedPos, id.length)) continue;
 
-      // Skip if inside bold markers for ID rule section (e.g., **FR-001**)
-      const surroundingBefore = newLine.substring(Math.max(0, adjustedIndex - 3), adjustedIndex);
-      const surroundingAfter = newLine.substring(adjustedIndex + id.length, adjustedIndex + id.length + 3);
-      if (surroundingBefore.includes('**') && surroundingAfter.includes('**')) continue;
+      // Skip if inside bold markers: **FR-001**
+      const bBefore = newLine.substring(Math.max(0, adjustedPos - 2), adjustedPos);
+      const bAfter = newLine.substring(adjustedPos + id.length, adjustedPos + id.length + 2);
+      if (bBefore === '**' && bAfter === '**') continue;
 
       const link = buildLink(id, currentFile);
       issues.push({
@@ -125,7 +189,8 @@ function processFile(filepath, fix) {
       });
 
       if (fix) {
-        newLine = newLine.substring(0, adjustedIndex) + link + newLine.substring(adjustedIndex + id.length);
+        newLine =
+          newLine.substring(0, adjustedPos) + link + newLine.substring(adjustedPos + id.length);
         offset += link.length - id.length;
       }
     }
@@ -134,7 +199,13 @@ function processFile(filepath, fix) {
   });
 
   if (fix && issues.length > 0) {
-    fs.writeFileSync(filepath, newLines.join('\n'), 'utf-8');
+    let output = newLines.join('\n');
+    if (hasCRLF) output = output.replace(/\n/g, '\r\n');
+
+    // Atomic write: temp file then rename
+    const tmpPath = filepath + '.tmp';
+    fs.writeFileSync(tmpPath, output, 'utf-8');
+    fs.renameSync(tmpPath, filepath);
   }
 
   return issues;
@@ -144,29 +215,28 @@ function processFile(filepath, fix) {
 const args = process.argv.slice(2);
 const fix = args.includes('--fix');
 const dirArg = args.find((a) => a !== '--fix') || 'designs';
-const designsDir = path.resolve(dirArg);
+const targetPath = path.resolve(dirArg);
 
-if (!fs.existsSync(designsDir)) {
-  console.error(`Error: ${designsDir} not found`);
+if (!fs.existsSync(targetPath)) {
+  console.error(`Error: ${targetPath} not found`);
   process.exit(1);
 }
 
-// Support both directory and single file input
 let mdFiles;
-if (fs.statSync(designsDir).isDirectory()) {
+if (fs.statSync(targetPath).isDirectory()) {
   mdFiles = fs
-    .readdirSync(designsDir)
+    .readdirSync(targetPath)
     .filter((f) => f.endsWith('.md') && !f.startsWith('.'))
-    .map((f) => path.join(designsDir, f));
-} else if (designsDir.endsWith('.md')) {
-  mdFiles = [designsDir];
+    .map((f) => path.join(targetPath, f));
+} else if (targetPath.endsWith('.md')) {
+  mdFiles = [targetPath];
 } else {
-  console.error(`Error: ${designsDir} is not a directory or .md file`);
+  console.error(`Error: ${targetPath} is not a directory or .md file`);
   process.exit(1);
 }
 
 if (mdFiles.length === 0) {
-  console.error(`Error: No .md files found in ${designsDir}`);
+  console.error(`Error: No .md files found`);
   process.exit(1);
 }
 
@@ -176,21 +246,21 @@ for (const filepath of mdFiles) {
   const issues = processFile(filepath, fix);
   if (issues.length > 0) {
     const filename = path.basename(filepath);
-    console.log(`\n${fix ? '🔧' : '⚠️'}  ${filename}: ${issues.length} unlinked ID(s)`);
+    console.log(`\n${fix ? 'FIX' : 'WARN'}  ${filename}: ${issues.length} unlinked ID(s)`);
     for (const issue of issues) {
-      console.log(`  L${issue.line}: ${issue.id} — ${issue.context}`);
+      console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
     }
     totalIssues += issues.length;
   }
 }
 
 if (totalIssues === 0) {
-  console.log('✅ All ID references are properly linked.');
+  console.log('OK: All ID references are properly linked.');
   process.exit(0);
 } else if (fix) {
-  console.log(`\n🔧 Fixed ${totalIssues} unlinked ID(s).`);
+  console.log(`\nFIX: Fixed ${totalIssues} unlinked ID(s).`);
   process.exit(0);
 } else {
-  console.log(`\n❌ Found ${totalIssues} unlinked ID(s). Run with --fix to auto-link.`);
+  console.log(`\nFAIL: Found ${totalIssues} unlinked ID(s). Run with --fix to auto-link.`);
   process.exit(1);
 }
