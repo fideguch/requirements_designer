@@ -21,6 +21,10 @@
       "eslint --fix",
       "prettier --write"
     ],
+    "designs/**/*.md": [
+      "node scripts/linkify-ids.js",
+      "prettier --write"
+    ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"
     ]
