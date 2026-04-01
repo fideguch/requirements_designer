@@ -151,10 +151,19 @@ if (!fs.existsSync(designsDir)) {
   process.exit(1);
 }
 
-const mdFiles = fs
-  .readdirSync(designsDir)
-  .filter((f) => f.endsWith('.md') && !f.startsWith('.'))
-  .map((f) => path.join(designsDir, f));
+// Support both directory and single file input
+let mdFiles;
+if (fs.statSync(designsDir).isDirectory()) {
+  mdFiles = fs
+    .readdirSync(designsDir)
+    .filter((f) => f.endsWith('.md') && !f.startsWith('.'))
+    .map((f) => path.join(designsDir, f));
+} else if (designsDir.endsWith('.md')) {
+  mdFiles = [designsDir];
+} else {
+  console.error(`Error: ${designsDir} is not a directory or .md file`);
+  process.exit(1);
+}
 
 if (mdFiles.length === 0) {
   console.error(`Error: No .md files found in ${designsDir}`);
