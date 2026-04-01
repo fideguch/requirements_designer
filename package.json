@@ -12,6 +12,8 @@
     "quality": "npm run lint && npm run typecheck && npm run format:check",
     "test": "playwright test",
     "preview": "node scripts/generate-preview.js designs",
+    "lint:links": "node scripts/linkify-ids.js designs",
+    "fix:links": "node scripts/linkify-ids.js --fix designs",
     "prepare": "husky"
   },
   "lint-staged": {

@@ -322,10 +322,15 @@ FRカテゴリ確定後に画面一覧（SC-001〜）を導出する。
 #### 品質ゲート（HARD-GATE）
 Phase 4A の出力品質チェックで以下を実行し、0件であることを確認:
 ```bash
-# 未リンクID検出（アンカー定義・HTMLコメント行を除外）
-grep -Pn '(?<!\[)(?:FR|NFR|US|SC|UL)-\d{3}(?![\w-])' designs/*.md | grep -v '<a id=' | grep -v '<!--'
+# 検出モード（exit 1 = 未リンクあり、exit 0 = 全リンク済み）
+node scripts/linkify-ids.js designs/
+
+# 未リンクがある場合は自動修正
+node scripts/linkify-ids.js --fix designs/
 ```
-結果が0件でなければ、該当箇所を全てリンク化してから出力する。
+`linkify-ids.js` は `scripts/` に配置されたバリデーション＆自動修正ツール。
+HTMLコメント・コードブロック・見出し・既存リンク・アンカー定義を正確にスキップし、
+テーブルセル内を含む全ID参照をリンク化する。
 
 ### ドリフト防止
 
