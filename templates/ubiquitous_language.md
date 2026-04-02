@@ -7,6 +7,7 @@
 ---
 
 ## このドキュメントについて
+
 本ページはプロジェクトの**ユビキタス言語定義**（Ubiquitous Language）です。FR・NFR・USから自動抽出した用語をベースに、対話Q&Aで精緻化しています。
 
 ---
@@ -17,13 +18,14 @@
 
 <a id="ul-001"></a>
 
-| ID | 用語 | UIラベル | 定義 | ソース | 備考 |
-| -- | ---- | -------- | ---- | ------ | ---- |
-| UL-001 | [用語] | [UIラベル] | [定義] | [FR-001](./functional_requirements.md#fr-001), [US-001](./user_stories.md#us-001) | [備考] |
+| ID     | 用語   | UIラベル   | 定義   | ソース                                                                            | 画面(SC)                                      | 備考   |
+| ------ | ------ | ---------- | ------ | --------------------------------------------------------------------------------- | --------------------------------------------- | ------ |
+| UL-001 | [用語] | [UIラベル] | [定義] | [FR-001](./functional_requirements.md#fr-001), [US-001](./user_stories.md#us-001) | [SC-001](./functional_requirements.md#sc-001) | [備考] |
 
 <details><summary>コード表現の詳細</summary>
 
 #### UL-001: [用語]
+
 - **コード表現**: Class: `PascalCase` / Variable: `camelCase` / DB: `snake_case` / API: `/kebab-case`
 - **エイリアス**: [許容される同義語]
 - **アンチパターン**: [避けるべき表現と理由]
@@ -33,11 +35,12 @@
 
 ---
 
-## 2. Anti-Pattern Registry / アンチパターン一覧
+## 2. アンチパターン一覧
 
 > 技術用語がそのままユーザー向け名称になっている等、避けるべき命名パターンを記録する。
 >
 > **原則:**
+>
 > - 実装技術はコード内部に留め、UIには「何ができるか」で表現する
 > - ユーザーの語彙レベルに合わせて名称を選ぶ
 > - 1つの概念に複数の名前をつけない
@@ -58,7 +61,7 @@
 
 ---
 
-## 3. Naming Convention Rules / 命名規則
+## 3. 命名規則
 
 ### 一般ルール
 
@@ -67,7 +70,7 @@
 3. **1概念 = 1用語** — コード・UI・会話で同じ用語を使う（同義語を増やさない）
 4. **曖昧な汎用語を避ける** — 「データ」「アイテム」「オブジェクト」等の具体性のない語は使わない
 
-### Language-Specific Conventions / プログラミング言語別規約
+### プログラミング言語別規約
 
 <!-- 実装で使用するプログラミング言語に応じてカスタマイズ -->
 
@@ -88,29 +91,12 @@
 | Environment variable           | SCREAMING_SNAKE_CASE  | `VARIABLE_NAME`      |
 | Constants                      | SCREAMING_SNAKE_CASE  | `MAX_VALUE`          |
 
-### Target Stack / 使用技術スタック
+### 使用技術スタック
 
 - **Programming Language(s)**: [TypeScript / Python / Go / etc.]
 - **Framework(s)**: [Next.js / Django / Echo / etc.]
 - **Database**: [PostgreSQL / MySQL / MongoDB / etc.]
 - **Existing Style Guide**: [URL or "None"]
-
----
-
-## 4. Traceability Matrix / 追跡マトリクス
-
-| UL-ID  | Term | User Label | Source FR | Source NFR | Source US | Used in UI (SC) |
-| ------ | ---- | ---------- | --------- | ---------- | --------- | --------------- |
-| UL-001 |      |            |           |            |           |                 |
-
----
-
-## 5. Summary / サマリー
-
-| カテゴリ | 用語数 |
-| -------- | ------ |
-| [カテゴリ名] | |
-| **合計** | |
 
 ---
 
@@ -120,9 +106,8 @@
   ==========================================
   内部マッピング（処理用 / ユーザーは無視してOK）
   ==========================================
-  Section 1 (用語集)          → Phase 5D/5E UIラベル、実装コード命名
-  Section 2 (Anti-Patterns)   → Phase 4A 一貫性チェック補強
-  Section 3 (Naming Rules)    → 実装フェーズのコード規約
-  Section 4 (Traceability)    → Phase 5 画面-用語マッピング
+  Section 1 (用語集, 画面SC列含む) → Phase 5D/5E UIラベル、実装コード命名
+  Section 2 (Anti-Patterns)        → Phase 4A 一貫性チェック補強
+  Section 3 (Naming Rules)         → 実装フェーズのコード規約
   ==========================================
 -->

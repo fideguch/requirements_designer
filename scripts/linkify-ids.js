@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports, no-undef, no-console */
 // linkify-ids.js — Detect and fix unlinked ID references in designs/*.md
 //
 // Usage:
@@ -13,7 +14,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const ID_PATTERN = /(?:FR|NFR|US|SC|UL)-\d{3}/g;
+const ID_PATTERN = /(?:FR|NFR|US|SC|UL|KPI)-\d{3}/g;
+
+// Range notation patterns: FR-001〜008, FR-001～008, FR-001~008
+const RANGE_PATTERN = /(?:FR|NFR|US|SC|UL|KPI)-\d{3}[\u301C\uFF5E~]\d{3}/g;
 
 // Map ID prefix to the file where its anchors are defined
 const FILE_MAP = {
@@ -22,6 +26,7 @@ const FILE_MAP = {
   US: 'user_stories.md',
   UL: 'ubiquitous_language.md',
   SC: 'functional_requirements.md',
+  KPI: 'functional_requirements.md',
 };
 
 function buildLink(id, currentFile) {
@@ -137,6 +142,68 @@ function processFile(filepath, fix) {
   let inCodeBlock = false;
   let inHtmlComment = false;
 
+  // First pass: detect range notation (cannot be auto-fixed)
+  let inCodeBlockRange = false;
+  let inHtmlCommentRange = false;
+  lines.forEach((line, idx) => {
+    const lineNum = idx + 1;
+    if (/^(`{3,}|~{3,})/.test(line.trim())) {
+      inCodeBlockRange = !inCodeBlockRange;
+      return;
+    }
+    if (inCodeBlockRange) return;
+    const { text: uncommentedRange, inComment: stillRange } = stripComments(
+      line,
+      inHtmlCommentRange
+    );
+    inHtmlCommentRange = stillRange;
+    if (uncommentedRange.trim() === '') return;
+    // Skip heading lines
+    if (/^#{1,6}\s/.test(line.trim())) return;
+    const rangeMatches = [...uncommentedRange.matchAll(RANGE_PATTERN)];
+    for (const rm of rangeMatches) {
+      issues.push({
+        file: currentFile,
+        line: lineNum,
+        id: rm[0],
+        context: line.trim().substring(0, 100),
+        type: 'RANGE',
+      });
+    }
+  });
+
+  // Second pass: detect plain-text comma-separated IDs (2+ unlinked IDs on same line)
+  let inCodeBlockComma = false;
+  let inHtmlCommentComma = false;
+  lines.forEach((line, idx) => {
+    const lineNum = idx + 1;
+    if (/^(`{3,}|~{3,})/.test(line.trim())) {
+      inCodeBlockComma = !inCodeBlockComma;
+      return;
+    }
+    if (inCodeBlockComma) return;
+    const { text: uncommentedComma, inComment: stillComma } = stripComments(
+      line,
+      inHtmlCommentComma
+    );
+    inHtmlCommentComma = stillComma;
+    if (uncommentedComma.trim() === '') return;
+    if (/^#{1,6}\s/.test(line.trim())) return;
+    if (line.trim().match(/^<a id="[^"]+"><\/a>$/)) return;
+    // Find all ID matches that are NOT inside [...] (plain text IDs)
+    const allIds = [...uncommentedComma.matchAll(ID_PATTERN)];
+    const plainIds = allIds.filter((m) => !isInsideLink(line, m.index, m[0].length));
+    if (plainIds.length >= 2) {
+      issues.push({
+        file: currentFile,
+        line: lineNum,
+        id: `${plainIds.length} unlinked IDs`,
+        context: line.trim().substring(0, 100),
+        type: 'MULTI_PLAIN',
+      });
+    }
+  });
+
   const newLines = lines.map((line, idx) => {
     const lineNum = idx + 1;
 
@@ -246,9 +313,33 @@ for (const filepath of mdFiles) {
   const issues = processFile(filepath, fix);
   if (issues.length > 0) {
     const filename = path.basename(filepath);
-    console.log(`\n${fix ? 'FIX' : 'WARN'}  ${filename}: ${issues.length} unlinked ID(s)`);
-    for (const issue of issues) {
-      console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
+    const rangeIssues = issues.filter((i) => i.type === 'RANGE');
+    const multiPlainIssues = issues.filter((i) => i.type === 'MULTI_PLAIN');
+    const linkIssues = issues.filter((i) => !i.type);
+    if (linkIssues.length > 0) {
+      console.log(`\n${fix ? 'FIX' : 'WARN'}  ${filename}: ${linkIssues.length} unlinked ID(s)`);
+      for (const issue of linkIssues) {
+        console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
+      }
+    }
+    if (rangeIssues.length > 0) {
+      console.log(
+        `\nRANGE  ${filename}: ${rangeIssues.length} range notation(s) — manual fix required`
+      );
+      for (const issue of rangeIssues) {
+        console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
+      }
+      console.log(
+        `  → Replace range notation with individual linked IDs (e.g., [FR-001](#fr-001), [FR-002](#fr-002), ...)`
+      );
+    }
+    if (multiPlainIssues.length > 0) {
+      console.log(
+        `\nMULTI  ${filename}: ${multiPlainIssues.length} line(s) with multiple unlinked IDs`
+      );
+      for (const issue of multiPlainIssues) {
+        console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
+      }
     }
     totalIssues += issues.length;
   }

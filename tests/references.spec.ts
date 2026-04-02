@@ -397,23 +397,20 @@ test.describe('Ubiquitous Language Template', () => {
   });
 
   test('has Anti-Pattern Registry', () => {
-    expect(content).toContain('Anti-Pattern Registry');
     expect(content).toContain('アンチパターン一覧');
   });
 
   test('has Naming Convention Rules', () => {
-    expect(content).toContain('Naming Convention Rules');
     expect(content).toContain('命名規則');
   });
 
-  test('has Traceability Matrix with UL-ID', () => {
-    expect(content).toContain('UL-ID');
-    expect(content).toContain('Traceability Matrix');
+  test('has SC column in glossary table', () => {
+    expect(content).toContain('画面(SC)');
   });
 
-  test('has source FR/NFR/US fields', () => {
-    expect(content).toContain('Source FR');
-    expect(content).toContain('Source NFR');
-    expect(content).toContain('Source US');
+  test('has source FR/US fields in glossary', () => {
+    expect(content).toContain('ソース');
+    expect(content).toContain('FR-001');
+    expect(content).toContain('US-001');
   });
 });
