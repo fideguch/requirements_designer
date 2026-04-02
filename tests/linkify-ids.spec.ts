@@ -257,6 +257,126 @@ test.describe('linkify-ids: All linked', () => {
 });
 
 // ============================================================
+// linkify-ids.js — README reference detection & fix
+// ============================================================
+test.describe('linkify-ids: README references', () => {
+  test('detects plain "README §3" reference', () => {
+    const dir = createTempDir();
+    try {
+      writeMd(
+        dir,
+        'ubiquitous_language.md',
+        '| UL-001 | 用語 | UIラベル | 定義 | README §3 | SC-001 | 備考 |\n'
+      );
+      const result = run(dir);
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('README');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('detects plain "README KPI" reference', () => {
+    const dir = createTempDir();
+    try {
+      writeMd(
+        dir,
+        'ubiquitous_language.md',
+        '| UL-002 | 指標 | KPI | 定義 | README KPI | SC-002 | 備考 |\n'
+      );
+      const result = run(dir);
+      expect(result.exitCode).toBe(1);
+      expect(result.stdout).toContain('README');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('skips already-linked README reference', () => {
+    const dir = createTempDir();
+    try {
+      writeMd(dir, 'test.md', 'See [README](./README.md) for details.\n');
+      const result = run(dir);
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('OK');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('skips README in file path context (./README.md)', () => {
+    const dir = createTempDir();
+    try {
+      writeMd(dir, 'test.md', 'Defined in ./README.md section 3.\n');
+      const result = run(dir);
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('OK');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('--fix converts "README §3" to markdown link', () => {
+    const dir = createTempDir();
+    try {
+      const fp = writeMd(dir, 'ubiquitous_language.md', '| UL-001 | 用語 | 定義 | README §3 |\n');
+      run(`--fix ${dir}`);
+      const content = fs.readFileSync(fp, 'utf-8');
+      expect(content).toContain('[README](./README.md)');
+      expect(content).not.toContain('README §3');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('--fix converts standalone "README" in table cell', () => {
+    const dir = createTempDir();
+    try {
+      const fp = writeMd(dir, 'test.md', '| ソース | README |\n');
+      run(`--fix ${dir}`);
+      const content = fs.readFileSync(fp, 'utf-8');
+      expect(content).toContain('[README](./README.md)');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('--fix handles mixed ID + README on same line', () => {
+    const dir = createTempDir();
+    try {
+      const fp = writeMd(
+        dir,
+        'ubiquitous_language.md',
+        '| UL-001 | 用語 | 定義 | FR-001, README §3 | SC-001 |\n'
+      );
+      run(`--fix ${dir}`);
+      const content = fs.readFileSync(fp, 'utf-8');
+      expect(content).toContain('[FR-001](./functional_requirements.md#fr-001)');
+      expect(content).toContain('[README](./README.md)');
+      expect(content).toContain('[SC-001]');
+      expect(content).not.toContain('README §3');
+    } finally {
+      cleanup(dir);
+    }
+  });
+
+  test('--fix is idempotent for README references', () => {
+    const dir = createTempDir();
+    try {
+      writeMd(dir, 'test.md', '| ソース | README §3 |\n');
+      const fp = path.join(dir, 'test.md');
+      run(`--fix ${dir}`);
+      const afterFirst = fs.readFileSync(fp, 'utf-8');
+      run(`--fix ${dir}`);
+      const afterSecond = fs.readFileSync(fp, 'utf-8');
+      expect(afterSecond).toBe(afterFirst);
+    } finally {
+      cleanup(dir);
+    }
+  });
+});
+
+// ============================================================
 // linkify-ids.js — Error cases
 // ============================================================
 test.describe('linkify-ids: Error cases', () => {

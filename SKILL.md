@@ -432,6 +432,9 @@ USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + 
 1. 既存の `designs/` ドキュメントを全て読み込み、ドメイン用語を自動抽出
 2. `references/ubiquitous_language_questions.md` に基づき、3ラウンドのQ&Aで精緻化（用語確認→ユーザー視点→コード命名）
 3. `templates/ubiquitous_language.md` をベースに `designs/ubiquitous_language.md` を生成
+4. ソース列の全参照をMarkdownリンク形式で記載する:
+   - FR/NFR/US/SC/KPI → `[FR-001](./functional_requirements.md#fr-001)` 形式
+   - README → `[README](./README.md)` 形式（`README §N` や `README KPI` のようなプレーンテキスト禁止 — `§` 文字化けおよびリンク形式不統一の原因となる）
 
 > 精緻化ルール・UL記録形式の詳細は `references/ubiquitous_language_questions.md` および `templates/ubiquitous_language.md` を参照。
 

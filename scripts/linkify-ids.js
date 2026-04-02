@@ -19,6 +19,12 @@ const ID_PATTERN = /(?:FR|NFR|US|SC|UL|KPI)-\d{3}/g;
 // Range notation patterns: FR-001〜008, FR-001～008, FR-001~008
 const RANGE_PATTERN = /(?:FR|NFR|US|SC|UL|KPI)-\d{3}[\u301C\uFF5E~]\d{3}/g;
 
+// Plain-text README references: "README §3", "README §3.1", "README KPI", standalone "README"
+// Negative lookbehind: skip if already inside a link [README]
+// Negative lookahead: skip if followed by ] or ( or .md (file path context)
+const README_PATTERN =
+  /(?<!\[)README(?:\s*[§\u00A7]\s*\d+(?:\.\d+)*|\s+[A-Z][A-Za-z]+)?(?!\]|\(|\.md)/g;
+
 // Map ID prefix to the file where its anchors are defined
 const FILE_MAP = {
   FR: 'functional_requirements.md',
@@ -228,7 +234,6 @@ function processFile(filepath, fix) {
 
     // Find all ID matches in the uncommented text
     const matches = [...uncommented.matchAll(ID_PATTERN)];
-    if (matches.length === 0) return line;
 
     // Process matches on the ORIGINAL line, using positions from uncommented text
     let newLine = line;
@@ -259,6 +264,33 @@ function processFile(filepath, fix) {
         newLine =
           newLine.substring(0, adjustedPos) + link + newLine.substring(adjustedPos + id.length);
         offset += link.length - id.length;
+      }
+    }
+
+    // After ID processing, detect plain-text README references
+    const readmeSource = fix ? newLine : uncommented;
+    const readmeMatches = [...readmeSource.matchAll(README_PATTERN)];
+    for (const rm of readmeMatches) {
+      const text = rm[0];
+      const posInSource = rm.index;
+      const adjustedPos = fix ? posInSource : posInSource + offset;
+
+      // Skip if already inside a markdown link
+      if (isInsideLink(newLine, adjustedPos, text.length)) continue;
+
+      const link = '[README](./README.md)';
+      issues.push({
+        file: currentFile,
+        line: lineNum,
+        id: text,
+        context: line.trim().substring(0, 100),
+        type: 'README',
+      });
+
+      if (fix) {
+        newLine =
+          newLine.substring(0, adjustedPos) + link + newLine.substring(adjustedPos + text.length);
+        offset += link.length - text.length;
       }
     }
 
@@ -338,6 +370,15 @@ for (const filepath of mdFiles) {
         `\nMULTI  ${filename}: ${multiPlainIssues.length} line(s) with multiple unlinked IDs`
       );
       for (const issue of multiPlainIssues) {
+        console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
+      }
+    }
+    const readmeIssues = issues.filter((i) => i.type === 'README');
+    if (readmeIssues.length > 0) {
+      console.log(
+        `\n${fix ? 'FIX' : 'WARN'}  ${filename}: ${readmeIssues.length} plain README ref(s)`
+      );
+      for (const issue of readmeIssues) {
         console.log(`  L${issue.line}: ${issue.id} -- ${issue.context}`);
       }
     }
