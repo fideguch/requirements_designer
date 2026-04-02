@@ -569,7 +569,7 @@ function verifyNodeTree(page, expectedRootPrefixes) {
 
   return issues;
 }
-// Usage: const issues = verifyNodeTree(figma.currentPage, ['WF-', 'MK-', 'DS-']);
+// Usage: const issues = verifyNodeTree(figma.currentPage, ['WF-', 'MK-', 'DS-', 'SC-']);
 ```
 
 ### コントラスト比自動チェック
@@ -665,7 +665,7 @@ function fixOrphans(page, validPrefixes) {
   }
   return { pattern: 'F-002', removed };
 }
-// Usage: fixOrphans(figma.currentPage, ['WF-', 'MK-', 'DS-', 'Design System']);
+// Usage: fixOrphans(figma.currentPage, ['WF-', 'MK-', 'DS-', 'SC-', 'Design System']);
 ```
 
 ### F-003: Auto-Layout 修復

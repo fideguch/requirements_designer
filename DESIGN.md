@@ -238,10 +238,16 @@ await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
 await figma.loadFontAsync({ family: 'Inter', style: 'Medium' });
 await figma.loadFontAsync({ family: 'Inter', style: 'Bold' });
 await figma.loadFontAsync({ family: 'Inter', style: 'Semi Bold' });
+// Snapshot page children for error rollback
+const _preChildIds = new Set(figma.currentPage.children.map((n) => n.id));
 try {
   // ... creation code here ...
 } catch (e) {
-  return JSON.stringify({ success: false, error: e.message });
+  // Rollback: remove nodes created during this block (not in pre-snapshot)
+  for (const child of [...figma.currentPage.children]) {
+    if (!_preChildIds.has(child.id)) child.remove();
+  }
+  return JSON.stringify({ success: false, error: e.message, rolledBack: true });
 }
 ```
 
@@ -254,15 +260,17 @@ Every `use_figma` code block MUST end with this verification:
 const _page = figma.currentPage;
 const _allText = _page.findAll((n) => n.type === 'TEXT');
 const _allFrames = _page.findAll((n) => n.type === 'FRAME');
+const _validPrefixes = ['WF-', 'MK-', 'DS-', 'SC-'];
+const _pageOrphans = _page.children.filter(
+  (n) => !_validPrefixes.some((p) => n.name.startsWith(p))
+);
 const _v = {
   success: true,
-  pageChildCount: _page.children.length,
+  expectedPageChildren: 1, // Only the master frame
+  actualPageChildren: _page.children.length,
+  pageOrphans: _pageOrphans.map((n) => ({ name: n.name, type: n.type, id: n.id })),
+  orphanCount: _pageOrphans.length,
   emptyTextNodes: _allText.filter((n) => n.characters.length === 0).map((n) => n.name),
-  orphanCount: _page.children.filter(
-    (n) =>
-      n.type !== 'FRAME' ||
-      (!n.name.startsWith('WF-') && !n.name.startsWith('MK-') && !n.name.startsWith('DS-'))
-  ).length,
   gridViolations: _allFrames
     .filter(
       (n) =>
@@ -281,12 +289,13 @@ return JSON.stringify(_v);
 
 ### Verification Response Handling
 
-| Field                   | Expected | Action if violated                          |
-| ----------------------- | -------- | ------------------------------------------- |
-| `emptyTextNodes`        | `[]`     | Fix F-001: reload fonts + re-set characters |
-| `orphanCount`           | `0`      | Fix F-002: remove orphan nodes              |
-| `gridViolations`        | `[]`     | Fix F-004: snap to nearest 4px multiple     |
-| `fillWithoutAutoLayout` | `[]`     | Fix F-003: set parent layoutMode first      |
+| Field                   | Expected | Action if violated                                      |
+| ----------------------- | -------- | ------------------------------------------------------- |
+| `actualPageChildren`    | `1`      | Check `pageOrphans` for details, apply F-002            |
+| `orphanCount`           | `0`      | Fix F-002: remove orphan nodes listed in `pageOrphans`  |
+| `emptyTextNodes`        | `[]`     | Fix F-001: reload fonts + re-set characters             |
+| `gridViolations`        | `[]`     | Fix F-004: snap to nearest 4px multiple                 |
+| `fillWithoutAutoLayout` | `[]`     | Fix F-003: set parent layoutMode first                  |
 
 ### Post-Verification Screenshot
 
