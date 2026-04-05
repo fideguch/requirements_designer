@@ -8,6 +8,7 @@ node_modules/
 
 # Session artifacts
 HANDOFF.md
+handoff*.md
 CHANGELOG.md
 
 # OS
