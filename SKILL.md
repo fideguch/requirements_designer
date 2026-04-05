@@ -469,6 +469,11 @@ USは `templates/user_stories.md` の US-001 形式（As a / I want / so that + 
 
 > **詳細手順は `references/phase5_ui_design.md` を参照。** 以下は概要と開始条件のみ。
 
+> **HARD-GATE（Phase 5 信頼設計コンテキスト）:**
+> Phase 5 の各サブフェーズに進む前に、`references/ux_trust_design.md` を **必ず Read** すること。
+> Tier 1 パターン（P1-P7）は全プロジェクト必須。Tier 2（P8-P13）は AI 機能検出時に追加適用。
+> このファイルを Read せずに 5A 以降に進むことは禁止。
+
 ### Phase 5 の開始条件
 
 - Phase 4 完了（user_stories.md が存在し、US-001以上のストーリーあり）
@@ -507,7 +512,8 @@ Phase 5 開始時、designs/ の内容を分析して以下を提案:
 ### 共通ルール
 
 - 全サブフェーズでバッチ処理後に `get_screenshot` → HEAL検証 → スキル起動 → ユーザーフィードバック → 即修正
-- 5D-5E: 信頼UIパターン（トースト/確認ダイアログ/Undo）を `references/ux_trust_design.md` Section 9 に基づき配置。AI機能時はインライン推論/信頼度インジケータも追加
+- 5A: `references/ux_trust_design.md` を Read し、Tier 1 全パターン（P1-P7）を `designs/ui_design_brief.md` Section 3.5 に反映。AI機能がある場合は Tier 2（P8-P13）も反映
+- 5D-5E: 信頼UIパターンを `references/ux_trust_design.md` Section 9（UIパターンライブラリ）+ 該当する P1-P7 パターン定義に基づき配置。AI機能時は Tier 2 UIパターン（インライン推論/信頼度インジケータ/判断境界表示）も追加
 - `ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用
 - 命名規則: WF-[US-XXX], MK-[US-XXX] 形式
 

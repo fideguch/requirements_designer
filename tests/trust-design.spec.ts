@@ -216,13 +216,35 @@ test.describe('Skill Orchestration Trust Integration', () => {
 // ============================================================
 test.describe('Phase 5 Trust Design Integration', () => {
   let content: string;
+  let skillContent: string;
 
   test.beforeAll(() => {
     content = readFile('references/phase5_ui_design.md');
+    skillContent = readFile('SKILL.md');
   });
 
   test('references trust design patterns', () => {
     expect(content).toMatch(/信頼設計|trust design/i);
+  });
+
+  test('SKILL.md has HARD-GATE requiring Read of ux_trust_design.md before Phase 5', () => {
+    expect(skillContent).toMatch(/HARD-GATE.*Phase 5.*信頼設計/s);
+    expect(skillContent).toMatch(/ux_trust_design\.md.*必ず Read/s);
+  });
+
+  test('phase5_ui_design.md has prerequisite HARD-GATE for ux_trust_design.md', () => {
+    expect(content).toMatch(/前提条件.*HARD-GATE/);
+    expect(content).toMatch(/ux_trust_design\.md.*全文/);
+  });
+
+  test('5A instructs populating Section 3.5 from ux_trust_design.md', () => {
+    expect(content).toMatch(/ux_trust_design\.md.*Section 3\.5.*具体化/s);
+    expect(content).toMatch(/Tier 1.*P1-P7.*設計メモ/s);
+  });
+
+  test('5E has separate Tier 1 (unconditional) and Tier 2 (AI conditional) trust checks', () => {
+    expect(content).toMatch(/信頼設計チェック（全プロジェクト）/);
+    expect(content).toMatch(/信頼設計チェック（AI機能時）/);
   });
 });
 

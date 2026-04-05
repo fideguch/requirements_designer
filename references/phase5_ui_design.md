@@ -2,6 +2,11 @@
 
 > このファイルは SKILL.md Phase 5 の詳細実装手順です。
 > Phase 5 開始時に自動的に参照されます。
+>
+> **前提条件（HARD-GATE）:** このファイルの手順を実行する前に、以下を Read 済みであること:
+>
+> - `references/ux_trust_design.md`（全文 — Tier 1: P1-P7 + Tier 2: P8-P13 の信頼設計パターン定義）
+> - 未読の場合は今すぐ Read してから続行すること
 
 ---
 
@@ -13,10 +18,14 @@
 
 1. `mcp__claude_ai_Figma__whoami` でFigma認証確認・planKey取得
 2. `templates/ui_design_brief.md` のテンプレートをベースに `designs/ui_design_brief.md` を生成
-3. `references/ui_design_questions.md` の Phase 5A セクションから3〜5問をバッチ出題
-4. 回答に基づき `designs/ui_design_brief.md` を段階的に更新
-5. 既存デザインシステムがあるか `mcp__claude_ai_Figma__search_design_system` で探索
-6. `designs/ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用する
+3. `references/ux_trust_design.md` のパターン定義を参照し、以下を `designs/ui_design_brief.md` Section 3.5 に具体化:
+   - Tier 1（P1-P7）: 各パターンの適用方法・設計メモを記入（テンプレートの `[___]` プレースホルダーを埋める）
+   - Tier 2（P8-P13）: AI機能が検出された場合のみ適用判定・設計メモを記入
+   - 信頼キャリブレーション4段階（Pre-interaction / Early usage / Ongoing / Error recovery）を記入
+4. `references/ui_design_questions.md` の Phase 5A セクションから3〜5問をバッチ出題
+5. 回答に基づき `designs/ui_design_brief.md` を段階的に更新
+6. 既存デザインシステムがあるか `mcp__claude_ai_Figma__search_design_system` で探索
+7. `designs/ubiquitous_language.md` が存在する場合、UIラベルにはULの「ユーザー向けラベル」を優先使用する
 
 ### スキル自動起動（5A）
 
@@ -33,7 +42,7 @@
 - タイポグラフィ方針
 - アクセシビリティ目標レベル
 - デザインスタイルの方向性
-- Section 3.5 信頼設計原則（Tier 1: 7パターン必須 / Tier 2: AI機能時）が記入済み
+- Section 3.5 信頼設計原則: Tier 1 全7パターン（P1-P7）の設計メモが `references/ux_trust_design.md` の定義に基づき具体化済み。AI機能がある場合は Tier 2（P8-P13）も記入済み。信頼キャリブレーション4段階が記入済み
 
 ---
 
@@ -185,7 +194,7 @@ get_screenshot でプレビュー表示
 
 - **ui-ux-pro-max ルール2「1ヒーロー/セクション」**: 各画面で最も目立つ要素を1つ決定
 - **ui-ux-pro-max ルール3「70点の均一を避ける」**: 要素の強弱に差をつける
-- **信頼設計パターン（Tier 1）**: トースト通知・確認ダイアログ・Undoボタン・操作ログを`references/ux_trust_design.md` Section 9 に基づき配置
+- **信頼設計パターン（Tier 1）**: `references/ux_trust_design.md` を参照し、`designs/ui_design_brief.md` Section 3.5 で適用と判定した P1-P7 パターンに対応する UI コンポーネント（Section 9 UIパターンライブラリ）をワイヤーフレームに配置。最低限: トースト通知（P1+P6）・確認ダイアログ（P3+P5）・Undoボタン（P2+P6）・操作ログパネル（P6）
 
 ---
 
@@ -254,7 +263,8 @@ get_screenshot でプレビュー表示
   - [ ] cursor-pointer on clickables
   - [ ] レスポンシブデザイン
 
-- **信頼設計チェック**: AI機能がある場合は反擬人化ルール（`references/ux_trust_design.md` P13）を適用し、AI応答テキストに禁止語彙がないか確認
+- **信頼設計チェック（全プロジェクト）**: `designs/ui_design_brief.md` Section 3.5 で定義した Tier 1 パターン（P1-P7）が全てモックアップに反映されていることを確認。欠落パターンがある場合は追加配置
+- **信頼設計チェック（AI機能時）**: Tier 2 パターン適用確認 + 反擬人化ルール（`references/ux_trust_design.md` P13 / Section 10）を適用し、AI応答テキストに禁止語彙（「理解する」「考える」「感じる」）がないか確認
 
 - **ui-ux-pro-max 禁止パターン**:
   自動チェックで以下を検出した場合は警告:
