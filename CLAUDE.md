@@ -24,13 +24,13 @@ user stories, ubiquitous language, and UI designs via Figma MCP.
 
 ### Skill source (`~/.claude/skills/requirements_designer/`)
 
-- `SKILL.md` — main skill definition (589 lines)
+- `SKILL.md` — main skill definition (611 lines)
 - `templates/` — 7 document templates
 - `references/` — 11 reference files (including enhance_mode.md, skill_orchestration.md, ux_trust_design.md)
 - `scripts/scaffold-requirements.sh` — designs/ scaffolding (`--with-ul`, `--with-ui`, `--light`, `--enhance`)
 - `scripts/preview-designs.sh` — designs/ browser preview
 - `scripts/generate-preview.js` — preview HTML generator
-- `tests/` — regression test suite (692 tests, 16 files)
+- `tests/` — regression test suite (704 tests, 18 files)
 
 ## Tech Stack
 

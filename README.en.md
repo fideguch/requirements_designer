@@ -1,6 +1,6 @@
 # Requirements Designer
 
-**692 tests passing** | **Figma MCP integrated**
+**704 tests passing** | **Figma MCP integrated**
 
 A Claude Code skill for interactive Q&A-based requirements definition.
 Simply say "I want to define requirements for X" and it will progressively generate a project charter, functional requirements, non-functional requirements, and user stories, presenting quality scores with improvement suggestions. With Figma MCP integration, you can generate design systems, wireframes, and mockups end-to-end from requirements.
@@ -32,7 +32,7 @@ cd requirements_designer && npm install && npm test
 - **Figma MCP Integration** — Generate design systems, wireframes, and mockups directly in Figma from requirements
 - **Ubiquitous Language (DDD)** — Automatic domain term extraction + unified UI/code naming conventions
 - **Drift Prevention** — Automatic detection of goal/scope contradictions in Phase 2, with rejected scope items recorded with rationale
-- **692 Regression Tests** — Playwright + TypeScript, full CI/CD
+- **704 Regression Tests** — Playwright + TypeScript, full CI/CD
 - **Markdown Preview** — Render designs/ in browser. No external dependencies, inter-file navigation
 
 ---
@@ -130,7 +130,7 @@ designs/
 | `Generate quality score`                                            | Run Phase 4A quality scoring               |
 | `Generate user stories`                                             | Run Phase 4B user story generation         |
 | `Help`                                                              | Show quick guide                           |
-| `Preview` or `プレビューして`                      | Preview designs/ in browser         |
+| `Preview` or `プレビューして`                                       | Preview designs/ in browser                |
 
 ### Trigger Words
 
@@ -156,7 +156,7 @@ designs/
 
 ```
 requirements_designer/
-├── SKILL.md                           # Skill definition (589 lines)
+├── SKILL.md                           # Skill definition (611 lines)
 ├── README.md                          # Japanese documentation
 ├── README.en.md                       # This file
 ├── templates/                         # Templates copied to designs/ (7 files)
@@ -183,7 +183,7 @@ requirements_designer/
 │   ├── scaffold-requirements.sh       #   designs/ initial setup
 │   ├── preview-designs.sh             #   designs/ browser preview
 │   └── generate-preview.js            #   Preview HTML generator
-└── tests/                             # Regression tests (692 tests, 18 files)
+└── tests/                             # Regression tests (704 tests, 18 files)
     ├── structure.spec.ts              #   Structure test entry
     ├── content.spec.ts                #   Content test entry
     ├── phases.spec.ts                 #   Phase tests
